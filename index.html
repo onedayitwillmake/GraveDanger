@@ -16,13 +16,24 @@
 <!doctype html>
 <html>
 <head>
-	<title>CirclePacking JS</title>
+	<title>CAAT - onedayitwillmake</title>
+
+	<!-- No Cache -->
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="-1">
+
 	<!-- IPHONE WEB APP META/LINK TAGS -->
 	<meta name="apple-mobile-web-app-capable" content="yes"/>
 	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
 	<meta name="viewport" content="user-scalable=no, width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
 	<!--<link rel="apple-touch-icon" href="./images/apple-touch-icon.png"/> -->
 
+
+	<!-- APP -->
+	<script data-main="main" src="js/requireplugins-jquery-1.4.4.js"></script>
+
+
+	<!--<link rel="stylesheet" type="text/css" href="css/screen.css" />-->
 	<style>
 		body{ background-color:#dddddd; };
 		.touchArea {
@@ -110,20 +121,6 @@
 
 //			console.log($(canvasArea).width)
 		}
-
-
-		/**
-		 * Stats
-		 * Create stats module, and attach to top left
-		 */
-		var stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.left = '0px';
-		stats.domElement.style.top = '0px';
-		$(stats.domElement).appendTo( $('body') );
-		setInterval( function () {
-			stats.update();
-		}, 1000 / 30 );
 
 		// Force resize canvas for first time
 		resizeCanvas();
