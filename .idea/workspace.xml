@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/caat.js" afterPath="$PROJECT_DIR$/js/lib/caat.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
     </list>
     <ignored path="CAAT.iws" />
@@ -74,7 +73,7 @@
       <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="47" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.62285715">
+            <state line="82" column="85" selection-start="2783" selection-end="2783" vertical-scroll-proportion="0.017142856">
               <folding />
             </state>
           </provider>
@@ -438,7 +437,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="47" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.62285715">
+        <state line="82" column="85" selection-start="2783" selection-end="2783" vertical-scroll-proportion="0.017142856">
           <folding />
         </state>
       </provider>

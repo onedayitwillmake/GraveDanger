@@ -34,7 +34,7 @@ require(['lib/caat', 'lib/Stats'], function()
 
 		initDirector: function(director)
 		{
-			this.mousePosition = new CAAT.Point(0, 0);
+			this.mousePosition = new CAAT.Point(director.canvas.width/2, director.canvas.height/2);
 			this.director = director;
 			this.scene = new CAAT.Scene().
 				create();
@@ -79,6 +79,8 @@ require(['lib/caat', 'lib/Stats'], function()
 
 				// disable mouse on specific circle
 				packedCircle.mouseEnabled = false;
+
+				this.animateInUsingScale(circleActor, director.time+Math.random() * 3000, 500, 0.1, 1);
 
 				// Add to the collision simulation
 				this.packedCirleManager.addCircle(packedCircle);
@@ -135,8 +137,6 @@ require(['lib/caat', 'lib/Stats'], function()
 				if(Math.random() < 0.2)
 					packedCircle.setTargetChaseSpeed(packedCircle.targetChaseSpeed + Math.random() * 0.004 - 0.002);
 			}
-
-			console.log(this.sineOffset)
 		},
 
 		initMouseEvents: function()
@@ -206,7 +206,7 @@ require(['lib/caat', 'lib/Stats'], function()
 			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
 			actor.scaleX = actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
 			scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
-			scaleBehavior.setFrameTime( starTime, endTime );
+			scaleBehavior.setFrameTime( starTime, starTime+endTime );
 			scaleBehavior.setCycle(false);
 			scaleBehavior.setInterpolator( new CAAT.Interpolator().createBounceOutInterpolator(false) );
 			actor.addBehavior(scaleBehavior);
