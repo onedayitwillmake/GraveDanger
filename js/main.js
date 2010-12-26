@@ -2,20 +2,21 @@ require(['lib/caat', 'lib/Stats'], function()
 {
 	require.ready(function()
 	{
-		var director = new CAAT.Director().initialize(900, 600);
-		// Insert into HTML
-		$(director.canvas).appendTo(  $('body') );
+		CAAT.GlobalDisableEvents();
+
+		var director = new CAAT.Director().initialize(window.innerWidth - 20, window.innerHeight - 20);
 
 		// Start our scene created below
 		var packedCircleScene = new PackedCircleScene();
-		packedCircleScene.initWithDirector(director);
-		packedCircleScene.start();
+		packedCircleScene.initDirector(director);
+		packedCircleScene.initMouseEvents();
+		packedCircleScene.initTouchEventRouter();
 
-		CAAT.GlobalDisableEvents();
-		// listen for the mouse
-		window.addEventListener("mousemove", function(e) {
-			packedCircleScene.mouseMove(e);
-		}, true);
+		// Insert into HTML
+		$(director.canvas).appendTo(  $('body') );
+
+		// Start it up
+		packedCircleScene.start();
 	})
 });
 
@@ -30,8 +31,9 @@ require(['lib/caat', 'lib/Stats'], function()
 		scene:	null,
 		root:	null,
 		mousePosition: null,
+		sineOffset: 0,
 
-		initWithDirector: function(director)
+		initDirector: function(director)
 		{
 			this.mousePosition = new CAAT.Point(0, 0);
 			this.director = director;
@@ -40,7 +42,6 @@ require(['lib/caat', 'lib/Stats'], function()
 			this.root = new CAAT.ActorContainer().
 				create().
 				setBounds(0,0, director.canvas.width, director.canvas.height);
-
 			this.scene.addChild( this.root );
 
 			// Collision simulation
@@ -52,15 +53,15 @@ require(['lib/caat', 'lib/Stats'], function()
 			// Create a bunch of circles!
 			var colorHelper = new CAAT.Color(),
 				rgb = new CAAT.Color.RGB(0, 0, 0),
-				total = 100;
+				total = 150;
 			for(var i = 0; i < total; i++)
 			{
 				// Size
-				var aRadius = Math.random() * 23 + 10;
+				var aRadius = Math.random() * 23 + 11;
 
 				// color it
-				var	hue = (((i/total) * 90) ), // HSV uses 0 - 360
-					hex = colorHelper.hsvToRgb(hue, 99, 99).toHex(); // Convert to hex value
+				var	hue = (360-((i/total) * 90) ), // HSV uses 0 - 360
+					hex = colorHelper.hsvToRgb(hue, 80, 99).toHex(); // Convert to hex value
 
 				var circleActor = new CAAT.ShapeActor().create();
 				circleActor.setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).
@@ -95,36 +96,100 @@ require(['lib/caat', 'lib/Stats'], function()
 		start: function()
 		{
 			var that = this;
-			this.director.loop(60, function(){
-				that.loop();
+			this.director.loop(60, function(director, delta){
+				that.loop(director, delta);
 			});
 		},
 
-		loop: function()
+		loop: function(director, delta)
 		{
 			this.packedCirleManager.pushAllCirclesTowardTarget();
 			this.packedCirleManager.handleCollisions();
+			this.sineOffset += 0.01;
 			var circleList = this.packedCirleManager.allCircles,
 				len = circleList.length;
 
+			// color it
+			var color = new CAAT.Color();
+			var longestDistance = Math.abs( (Math.sin(this.sineOffset) * 2000)) + 100;
 			while(len--) {
-				var packedCircle = circleList[len],
-					circleActor = packedCircle.delegate;
+				var packedCircle = circleList[len];
+				var circleActor = packedCircle.delegate;
+				var distanceFromTarget = packedCircle.position.getDistanceSquared(packedCircle.targetPosition);
+
+				var amplitude = (distanceFromTarget / longestDistance);
+				if(amplitude < 0) amplitude *= -1;
+				var	hue = (180) - amplitude;
 
 				circleActor.x = packedCircle.position.x-packedCircle.radius;
 				circleActor.y = packedCircle.position.y-packedCircle.radius;
+
+
+			    // color
+//				circleActor.setFillStyle('#' + color.hsvToRgb(hue, 80, 99).toHex() );
 
 				// Here we are doing an interesting trick.
 				// By randomly changing the targetChaseSpeed +/- 0.002 randomly
 				// we introduce a seemingly complex hive behavior whereby certain circles
 				// seem to want to 'leave' sometimes, and others decide to force their way to the center more strongly
 				if(Math.random() < 0.2)
-					packedCircle.setTargetChaseSpeed(packedCircle.targetChaseSpeed + Math.random() * 0.004 - 0.002);
+					packedCircle.setTargetChaseSpeed(packedCircle.targetChaseSpeed + Math.random() * 0.002 - 0.001);
 			}
 		},
 
+		initMouseEvents: function()
+		{
+			var that = this;
+
+			// Listen for resize
+			window.addEventListener("resize", function(e) {
+				var edge = 10;
+				that.director.canvas.width = window.innerWidth - edge*2;
+				that.director.canvas.height = window.innerHeight - edge*2;
+				that.scene.setBounds(0, 0, that.director.canvas.width, that.director.canvas.height);
+			}, true);
+
+			// listen for the mouse
+			window.addEventListener("mousemove", function(e) {
+				that.mouseMove(e);
+			}, true);
+		},
+
+		initTouchEventRouter: function()
+		{
+			// [WebkitMobile] Convert iphone touchevent to mouseevent
+			function touchEventRouter(event)
+			{
+				var touches = event.changedTouches,
+						first = touches[0],
+						type = "";
+
+				switch (event.type)
+				{
+					case "touchstart": type = "mousedown"; break;
+					case "touchmove": type = "mousemove"; break;
+					case "touchend": type = "mouseup"; break;
+					default: return;
+				}
+
+				var fakeMouseEvent = document.createEvent("MouseEvent");
+				fakeMouseEvent.initMouseEvent(type, true, true, window, 1,
+						first.screenX, first.screenY,
+						first.clientX, first.clientY, false,
+						false, false, false, 0/*left*/, null);
+
+				first.target.dispatchEvent(fakeMouseEvent);
+				event.preventDefault(); // Block iOS scrollview
+			}
+
+			// Catch iOS touch events
+			document.addEventListener("touchstart", touchEventRouter, true);
+			document.addEventListener("touchmove", touchEventRouter, true);
+			document.addEventListener("touchend", touchEventRouter, true);
+			document.addEventListener("touchcancel", touchEventRouter, true);
+		},
+
 		mouseMove: function(e) {
-			//var canvasMousePosition = CAAT.getCanvasCoord(CAAT.mousePoint, e);
 			var mouseX = e.clientX;
 			var mouseY = e.clientY;
 			this.mousePosition.set(mouseX, mouseY);
