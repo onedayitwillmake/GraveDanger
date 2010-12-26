@@ -35,10 +35,13 @@
 
 	<!--<link rel="stylesheet" type="text/css" href="css/screen.css" />-->
 	<style>
-		body{ margin-left:0px; margin-top:0px; background-color:#dddddd; };
-		.touchArea {
+		body{
+			margin-top: 5px;
+			margin-left: 5px;
+			background-color:#dddddd; };
+		.container {
 			overflow: hidden;
-			border: 1px solid #eee;
+			border: 0px solid #eee;
 			font: 11px Helvetica, Arial;
 			width: 100%;
 			height: 500px;
@@ -46,89 +49,13 @@
 			/*height: 800px;*/
 		}
 
-		canvas {
+		.aCanvas {
 			overflow: hidden;
 		}
 	</style>
 </head>
 <body>
-
-<script>
-	function onLoadComplete()
-	{
-
-		// NOTE: Where you see, [Browser Name], it means im doing something just for that browser and making a note of it
-		var mouseIsDown = false;
-		var draggedCircle = undefined;
-
-		// [Intelli-J IDEA] Silence IDE warnings
-		var $ = window['$'];
-		var console = window['console'];
-		$(document).mousedown(function(event)
-		{
-//			draggedCircle = circleManager.grabCircleAt(event.clientX,  event.clientY);
-		});
-
-		$(document).mouseup(function(event)
-		{
-		});
-
-//		$(document).mousemove(function(event)
-//		{
-//			console.log(" $(document).mousemove(function(event) ");
-////			event.preventDefault(); // Block iOS scrollview
-//		});
-
-		// [WebkitMobile] Convert iphone touchevent to mouseevent
-		function touchHandler(event)
-		{
-			var touches = event.changedTouches,
-					first = touches[0],
-					type = "";
-
-			switch (event.type)
-			{
-				case "touchstart": type = "mousedown"; break;
-				case "touchmove": type = "mousemove"; break;
-				case "touchend": type = "mouseup"; break;
-				default: return;
-			}
-
-			var fakeMouseEvent = document.createEvent("MouseEvent");
-			fakeMouseEvent.initMouseEvent(type, true, true, window, 1,
-					first.screenX, first.screenY,
-					first.clientX, first.clientY, false,
-					false, false, false, 0/*left*/, null);
-
-			first.target.dispatchEvent(fakeMouseEvent);
-//			event.preventDefault(); // Block iOS scrollview
-		}
-
-		document.addEventListener("touchstart", touchHandler, true);
-		document.addEventListener("touchmove", touchHandler, true);
-		document.addEventListener("touchend", touchHandler, true);
-		document.addEventListener("touchcancel", touchHandler, true);
-		// Resize canvas
-		window.addEventListener('resize', resizeCanvas, false);
-
-		var canvas = document.getElementById('canvasArea');
-		function resizeCanvas(e) {
-
-//			if((window.innerWidth-25 + window.innerHeight-25) < 10)
-//				return; // random error, can happen on load
-//			canvas.width = window.innerWidth-25;
-//			canvas.height = window.innerHeight-25;
-//			circleManager.setTarget(new Vector( $(window).width()/2, $(window).height()/2) );
-
-//			console.log($(canvasArea).width)
-		}
-
-		// Force resize canvas for first time
-		resizeCanvas();
-	}
-	// This will be called by main.js for us - im leaving it here to write this comment!
-	window.addEventListener('load', onLoadComplete, false);
-</script>
-<div id="container"></div>
+<div id="container">
+</div>
 </body>
 </html>
