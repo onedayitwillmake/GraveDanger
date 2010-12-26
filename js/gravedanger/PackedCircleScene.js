@@ -2,11 +2,6 @@
  * PackedCircleScene
  */
 (function() {
-	if(GRAVEDANGER.PackedCircleScene) {
-		console.log("Don't exeest");
-	};
-
-
 	GRAVEDANGER.PackedCircleScene = function() {
 		return this;
 	};
@@ -15,9 +10,16 @@
 		packedCirleManager: null,
 		director:	null,
 		scene:	null,
-		root:	null,
+		circleLayer:	null,
 		mousePosition: null,
-		sineOffset: 1212, // some arbitary number i liked
+		sineOffset: Math.random() * 10, // some arbitary number i liked
+
+		init: function(director)
+		{
+			this.initDirector(director);
+			this.initCircles();
+			this.initMouseEvents();
+		},
 
 		initDirector: function(director)
 		{
@@ -25,10 +27,12 @@
 			this.director = director;
 			this.scene = new CAAT.Scene().
 				create();
-			this.root = new CAAT.ActorContainer().
+
+			// Create a 'layer' for all the circles
+			this.circleLayer = new CAAT.ActorContainer().
 				create().
 				setBounds(0,0, director.canvas.width, director.canvas.height);
-			this.scene.addChild( this.root );
+			this.scene.addChild( this.circleLayer );
 
 			// Collision simulation
 			this.packedCirleManager = new CAAT.modules.CircleManager.PackedCircleManager();
@@ -36,10 +40,19 @@
 			this.packedCirleManager.setNumberOfCollisionPasses(2);
 			this.packedCirleManager.setNumberOfTargetingPasses(1);
 
+			// Add to the director
+			this.circleLayer.mouseEnabled = this.scene.mouseEnabled = false;
+			this.director.addScene(this.scene);
+		},
+
+		initCircles: function()
+		{
 			// Create a bunch of circles!
 			var colorHelper = new CAAT.Color(),
 				rgb = new CAAT.Color.RGB(0, 0, 0),
 				total = 75;
+
+//			var groups
 			for(var i = 0; i < total; i++)
 			{
 				// Size
@@ -51,7 +64,7 @@
 
 				var circleActor = new CAAT.ShapeActor().create()
 					.setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE )
-					.setLocation( Math.random() * director.canvas.width, Math.random() * director.canvas.height)
+					.setLocation( Math.random() * this.director.canvas.width, Math.random() * this.director.canvas.height)
 					.setSize(aRadius*2, aRadius*2) // Size is in diameters
 					.setFillStyle('#' + hex );
 
@@ -67,24 +80,41 @@
 				// disable mouse on specific circle
 				packedCircle.mouseEnabled = false;
 
-				this.animateInUsingScale(circleActor, director.time+Math.random() * 3000, 500, 0.1, 1);
+				GRAVEDANGER.CAATHelper.prototype.animateInUsingScale(circleActor, this.director.time+Math.random() * 3000, 500, 0.1, 1);
 
 				// Add to the collision simulation
 				this.packedCirleManager.addCircle(packedCircle);
 
 				// Add actor to the scene
-				this.root.addChild(circleActor);
+				this.circleLayer.addChild(circleActor);
 			}
-
-			this.root.mouseEnabled = this.scene.mouseEnabled = false;
-			this.director.addScene(this.scene);
-
-			// Force all packedCircles to move to the position of their delegates
-			this.packedCirleManager.forceCirclesToMatchDelegatePositions();
 		},
 
+		initMouseEvents: function()
+		{
+			var that = this;
+			// Listen for resize
+			window.addEventListener("resize", function(e) {
+				var edge = 10;
+				that.director.canvas.width = window.innerWidth - edge*2;
+				that.director.canvas.height = window.innerHeight - edge*2;
+				that.scene.setBounds(0, 0, that.director.canvas.width, that.director.canvas.height);
+			}, true);
+
+			// listen for the mouse
+			window.addEventListener("mousemove", function(e) {
+				that.mouseMove(e);
+			}, true);
+		},
+
+		/**
+		 * Final prep-work and start the game loop
+		 */
 		start: function()
 		{
+			// Force all packedCircles to move to the position of their delegates
+			this.packedCirleManager.forceCirclesToMatchDelegatePositions();
+
 			var that = this;
 			this.director.loop(60, function(director, delta){
 				that.loop(director, delta);
@@ -126,97 +156,16 @@
 			}
 		},
 
-		initMouseEvents: function()
-		{
-			var that = this;
-
-			// Listen for resize
-			window.addEventListener("resize", function(e) {
-				var edge = 10;
-				that.director.canvas.width = window.innerWidth - edge*2;
-				that.director.canvas.height = window.innerHeight - edge*2;
-				that.scene.setBounds(0, 0, that.director.canvas.width, that.director.canvas.height);
-			}, true);
-
-			// listen for the mouse
-			window.addEventListener("mousemove", function(e) {
-				that.mouseMove(e);
-			}, true);
-		},
-
-		initTouchEventRouter: function()
-		{
-			// [WebkitMobile] Convert iphone touchevent to mouseevent
-			function touchEventRouter(event)
-			{
-				var touches = event.changedTouches,
-						first = touches[0],
-						type = "";
-
-				switch (event.type)
-				{
-					case "touchstart": type = "mousedown"; break;
-					case "touchmove": type = "mousemove"; break;
-					case "touchend": type = "mouseup"; break;
-					default: return;
-				}
-
-				var fakeMouseEvent = document.createEvent("MouseEvent");
-				fakeMouseEvent.initMouseEvent(type, true, true, window, 1,
-						first.screenX, first.screenY,
-						first.clientX, first.clientY, false,
-						false, false, false, 0/*left*/, null);
-
-				first.target.dispatchEvent(fakeMouseEvent);
-				event.preventDefault(); // Block iOS scrollview
-			}
-
-			// Catch iOS touch events
-			document.addEventListener("touchstart", touchEventRouter, true);
-			document.addEventListener("touchmove", touchEventRouter, true);
-			document.addEventListener("touchend", touchEventRouter, true);
-			document.addEventListener("touchcancel", touchEventRouter, true);
-		},
-
 		mouseMove: function(e) {
 			var mouseX = e.clientX;
 			var mouseY = e.clientY;
 			this.mousePosition.set(mouseX, mouseY);
 		},
 
-		/**
-		 * Adds a CAAT.ScaleBehavior to the entity, used on animate in
-		 */
-		animateInUsingScale: function(actor, starTime, endTime, startScale, endScale)
-		{
-		   var scaleBehavior = new CAAT.ScaleBehavior();
-			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
-			actor.scaleX = actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
-			scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
-			scaleBehavior.setFrameTime( starTime, starTime+endTime );
-			scaleBehavior.setCycle(false);
-			scaleBehavior.setInterpolator( new CAAT.Interpolator().createBounceOutInterpolator(false) );
-			actor.addBehavior(scaleBehavior);
-
-			return scaleBehavior;
-		},
-
-		/**
-		 * Adds a CAAT.ScaleBehavior to the entity, used on animate in
-		 */
-		animateInUsingAlpha: function(actor, starTime, endTime, startAlpha, endAlpha)
-		{
-			var fadeBehavior = new CAAT.AlphaBehavior();
-
-			fadeBehavior.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
-			actor.alpha = fadeBehavior.startAlpha = startAlpha;
-			fadeBehavior.endAlpha = endAlpha;
-			fadeBehavior.setFrameTime( starTime, endTime );
-			fadeBehavior.setCycle(false);
-			fadeBehavior.setInterpolator( new CAAT.Interpolator().createExponentialOutInterpolator(2, false) );
-			actor.addBehavior(fadeBehavior);
-
-			return fadeBehavior;
+/**
+ * Memory Management
+ */		dealloc: function() {
+//			this.packedCirleManager.dealloc();
 		}
 	}
 })();

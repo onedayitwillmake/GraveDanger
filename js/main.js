@@ -10,6 +10,7 @@
 
 		// Initialize CAAT
 		GRAVEDANGER.director = new CAAT.Director().initialize(window.innerWidth - 20, window.innerHeight - 20);
+		GRAVEDANGER.CAATHelper.prototype.initTouchEventRouter();
 		CAAT.GlobalDisableEvents();
 
 		// Add it to the document
@@ -18,9 +19,8 @@
 
 		// Create the packedCircleScene
 		var packedCircleScene = new GRAVEDANGER.PackedCircleScene();
-		packedCircleScene.initDirector(GRAVEDANGER.director);
-		packedCircleScene.initMouseEvents();
-		packedCircleScene.initTouchEventRouter();
+		packedCircleScene.init(GRAVEDANGER.director);
+
 		// Start it up
 		packedCircleScene.start();
 	}
