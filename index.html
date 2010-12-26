@@ -1,18 +1,3 @@
-
-<!doctype html>
-<html>
-	<head>
-		<title>CAAT - onedayitwillmake</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="expires" content="-1">
-		<!--<link rel="stylesheet" type="text/css" href="css/screen.css" />-->
-        <script data-main="main" src="js/requireplugins-jquery-1.4.4.js"></script>
-	</head>
-	<body>
-	<div id="logger"></div>
-	</body>
-</html>
-
 <!doctype html>
 <html>
 <head>
@@ -28,34 +13,18 @@
 	<meta name="viewport" content="user-scalable=no, width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
 	<!--<link rel="apple-touch-icon" href="./images/apple-touch-icon.png"/> -->
 
+	<!-- JS-DEPENDENCIES -->
+	<script type="text/javascript" src="js/lib/caat.js"></script>
+	<script type="text/javascript" src="js/lib/Stats.js"></script>
+	<!-- JS-APP -->
+	<script type="text/javascript" src="js/gravedanger/namespace.js"></script>
+	<script type="text/javascript" src="js/gravedanger/PackedCircleScene.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 
-	<!-- APP -->
-	<script data-main="main" src="js/requireplugins-jquery-1.4.4.js"></script>
-
-
-	<!--<link rel="stylesheet" type="text/css" href="css/screen.css" />-->
-	<style>
-		body{
-			margin-top: 5px;
-			margin-left: 5px;
-			background-color:#dddddd; };
-		.container {
-			overflow: hidden;
-			border: 0px solid #eee;
-			font: 11px Helvetica, Arial;
-			width: 100%;
-			height: 500px;
-			/*width: 1200px;*/
-			/*height: 800px;*/
-		}
-
-		.aCanvas {
-			overflow: hidden;
-		}
-	</style>
+	<!--<script data-main="main" src="js/requireplugins-jquery-1.4.4.js"></script>-->
+	<link rel="stylesheet" type="text/css" href="css/screen.css" />
 </head>
 <body>
-<div id="container">
-</div>
+	<div id="container"></div>
 </body>
 </html>

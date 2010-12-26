@@ -1,0 +1,19 @@
+body
+{
+	margin-top: 5px;
+	margin-left: 5px;
+	background-color:#dddddd;
+};
+.container
+{
+	overflow: hidden;
+	border: 0px solid #eee;
+	font: 11px Helvetica, Arial;
+	width: 100%;
+	height: 500px;
+}
+
+.aCanvas
+{
+	overflow: hidden;
+}
