@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Circle.js" afterPath="$PROJECT_DIR$/js/gravedanger/Circle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Island.js" afterPath="$PROJECT_DIR$/js/gravedanger/Island.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/SimpleDispatcher.js" afterPath="$PROJECT_DIR$/js/lib/SimpleDispatcher.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
     </list>
     <ignored path="CAAT.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -95,7 +91,7 @@
       <file leaf-file-name="SimpleDispatcher.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/lib/SimpleDispatcher.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="836" selection-end="836" vertical-scroll-proportion="-0.61142856">
+            <state line="26" column="91" selection-start="972" selection-end="972" vertical-scroll-proportion="0.4457143">
               <folding />
             </state>
           </provider>
@@ -586,7 +582,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/SimpleDispatcher.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="836" selection-end="836" vertical-scroll-proportion="-0.61142856">
+        <state line="26" column="91" selection-start="972" selection-end="972" vertical-scroll-proportion="0.4457143">
           <folding />
         </state>
       </provider>
