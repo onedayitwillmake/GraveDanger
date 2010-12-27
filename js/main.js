@@ -17,6 +17,7 @@
 		var base = './images/';
 		var imagesToLoad = [];
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "blue.png"});
+		imagesToLoad.push({id: "island", url: base + "float2.png"});
 
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
 		// Fired when images have been preloaded
@@ -58,7 +59,6 @@
 	{
 		if (!window.console || !console.firebug)
 		{
-//			if(console) return;
 			var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
 			"group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
 

@@ -14,6 +14,7 @@
 		actor: null,
 		packedCircle:  null,
 		radius:	0,
+		fallSpeed: 0,
 
 		create: function(aRadius)
 		{
@@ -31,7 +32,7 @@
 				.setRadius(aRadius)
 				.setCollisionMask(1)	// packedCircle instance - will collide against this group
 				.setCollisionGroup(1) // packedCircle instance - is in this group
-				.setTargetChaseSpeed(Math.random() * 0.02);
+//				.setTargetChaseSpeed(Math.random() * 0.02);
 
 			this.actor.mouseEnabled = false;
 
@@ -51,31 +52,6 @@
 
 			this.actor.spriteIndex = Math.floor(Math.random() * 10);
 		  	this.actor.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
-
-			// Don't create an actorcontainer if its not a character
-//			if(this.controller.entityType == GAMECONFIG.ENTITY_MODEL.ENTITY_MAP.CHARACTER)
-//			{
-//				actor = this.CAATActorContainer = new CAAT.ActorContainer().
-//					create().
-//					setBounds(0, 0, this.CAATSprite.width, this.CAATSprite.height);
-//				actor.addChild(this.CAATSprite);
-//
-//				this.createPowerupSprite();
-//
-//				var that = this;
-//
-//				// This entity is the client character
-//				// We have to do this here to call the create function next event loop, as the prop is set after we've are made
-//				setTimeout(function(){
-//							  that.createClientControlledCharacterHighlight()
-//						  }, 0);
-//			}
-
-//			this.actorWidth = actor.width*0.5;
-//			this.actorHeight = actor.height*0.5;
-//			actor.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
-//			this.CAATSprite.zIndex = actor.zIndex = themeModel.zIndex;
-//			this.CAATSprite.mouseEnabled = actor.mouseEnabled = false;
 
 			return this;
 		},
@@ -98,6 +74,14 @@
 		},
 
 
+		onTick: function() {
+			if(this.packedCircle.position.y > GRAVEDANGER.director.height) {
+				this.packedCircle.position.x = GRAVEDANGER.director.width/2;
+				this.packedCircle.position.y = -40;
+			} else {
+				this.packedCircle.position.y += this.fallSpeed;
+			}
+		},
 
 		/**
 		 * Accessors
@@ -116,6 +100,12 @@
 		setTargetPosition: function(aPosition)
 		{
 			this.packedCircle.setTargetPosition(aPosition);
+			return this;
+		},
+
+		setFallSpeed: function(aFallSpeed)
+		{
+			this.fallSpeed = aFallSpeed;
 			return this;
 		},
 

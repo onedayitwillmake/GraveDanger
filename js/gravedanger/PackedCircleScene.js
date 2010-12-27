@@ -51,7 +51,7 @@
 			// Create a bunch of circles!
 			var colorHelper = new CAAT.Color(),
 				rgb = new CAAT.Color.RGB(0, 0, 0),
-				total = 60;
+				total = 100;
 
 			// temp place groups into array to pull from randomly
 			var groups = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
@@ -60,13 +60,14 @@
 			for(var i = 0; i < total; i++)
 			{
 				// Size
-				var aRadius = Math.random() * 25 + 9;
+				var aRadius = 34;
 				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = new GRAVEDANGER.Circle()
 					.setColor( GRAVEDANGER.CAATHelper.prototype.randomFromArray( groups ) )
 					.create(aRadius)
-					.setLocation( Math.random() * this.director.canvas.width, -10 );
+					.setLocation( Math.random() * this.director.canvas.width, -10 )
+					.setFallSpeed( Math.random() * 4 + 3);
 				circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
 
 				      //Math.random() * this.director.canvas.height
@@ -101,10 +102,13 @@
 		initIslands: function()
 		{
 			// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
-			var circle = new GRAVEDANGER.Circle()
-				.create( 10 )
-				.setLocation( Math.random() * this.director.canvas.width, -10 );
-			circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
+			var island = new GRAVEDANGER.Island()
+				.create( 240 )
+				.setLocation( this.director.canvas.width/2, this.director.canvas.height/2 + 20 );
+
+			this.packedCircleManager.addCircle( island.getPackedCircle() );
+			this.circleLayer.addChild( island.getCAATActor() );
+//			circle.setTargetPosition(  CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
 		},
 
 		/**
@@ -130,14 +134,14 @@
 //			console.log(circleA.color, circleB.color);
 			if(circleA.color === circleB.color)
 			{
-				circleA.actor.alpha = Math.random();
-				circleB.actor.alpha = Math.random();
+//				circleA.actor.alpha = Math.random();
+//				circleB.actor.alpha = Math.random();
 			}
 		},
 
 		loop: function(director, delta)
 		{
-			this.packedCircleManager.pushAllCirclesTowardTarget();
+//			this.packedCircleManager.pushAllCirclesTowardTarget();
 			this.packedCircleManager.handleCollisions();
 			this.sineOffset += 0.01;
 			var circleList = this.packedCircleManager.allCircles,
@@ -150,8 +154,11 @@
 			while(len--)
 			{
 				var packedCircle = circleList[len];
+				var circle = packedCircle.delegate.delegate;
 				var circleActor = packedCircle.delegate;
-				this.packedCircleManager.handleBoundaryForCircle(packedCircle);
+
+				circle.onTick();
+//				this.packedCircleManager.handleBoundaryForCircle(packedCircle);
 
 				circleActor.x = packedCircle.position.x-packedCircle.radius;
 				circleActor.y = packedCircle.position.y-packedCircle.radius;
