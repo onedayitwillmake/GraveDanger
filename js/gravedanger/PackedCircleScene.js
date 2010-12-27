@@ -51,7 +51,7 @@
 			// Create a bunch of circles!
 			var colorHelper = new CAAT.Color(),
 				rgb = new CAAT.Color.RGB(0, 0, 0),
-				total = 125;
+				total = 60;
 
 			// temp place groups into array to pull from randomly
 			var groups = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
@@ -64,8 +64,8 @@
 				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = new GRAVEDANGER.Circle()
-					.create(aRadius)
 					.setColor( GRAVEDANGER.CAATHelper.prototype.randomFromArray( groups ) )
+					.create(aRadius)
 					.setLocation( Math.random() * this.director.canvas.width, -10 );
 				circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
 
@@ -77,7 +77,7 @@
 				this.circleLayer.addChild( circle.getCAATActor() );
 
 				// Animate in
-				GRAVEDANGER.CAATHelper.prototype.animateInUsingScale(circle.getCAATActor(), this.director.time+Math.random() * 3000, 500, 0.1, 1);
+				GRAVEDANGER.CAATHelper.prototype.animateInUsingScale(circle.getCAATActor(), this.director.time+Math.random() * 2000, 500, 0.1, 1);
 			}
 		},
 
@@ -100,7 +100,11 @@
 
 		initIslands: function()
 		{
-			console.log(GRAVEDANGER.Island);
+			// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
+			var circle = new GRAVEDANGER.Circle()
+				.create( 10 )
+				.setLocation( Math.random() * this.director.canvas.width, -10 );
+			circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
 		},
 
 		/**

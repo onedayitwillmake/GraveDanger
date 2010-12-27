@@ -4,7 +4,7 @@
 	};
 
 	GRAVEDANGER.CAATHelper.prototype = {
-
+		imagePreloader: null,
 		/**
 		 * Adds a CAAT.ScaleBehavior to the entity, used on animate in
 		 */
