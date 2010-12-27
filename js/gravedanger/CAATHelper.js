@@ -78,7 +78,7 @@
 		},
 
 		randomFromArray: function(anArray) {
-			var randomIndex = Math.random() * anArray.length;
+			var randomIndex = Math.floor( Math.random() * anArray.length );
 		    return anArray[randomIndex];
 		}
 	};

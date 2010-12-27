@@ -7,7 +7,7 @@
 	};
 
 	GRAVEDANGER.PackedCircleScene.prototype= {
-		packedCirleManager: null,
+		packedCircleManager: null,
 		director:	null,
 		scene:	null,
 		circleLayer:	null,
@@ -19,6 +19,7 @@
 			this.initDirector(director);
 			this.initCircles();
 			this.initMouseEvents();
+			this.initIslands();
 		},
 
 		initDirector: function(director)
@@ -35,10 +36,10 @@
 			this.scene.addChild( this.circleLayer );
 
 			// Collision simulation
-			this.packedCirleManager = new CAAT.modules.CircleManager.PackedCircleManager();
-			this.packedCirleManager.setBounds(0, 0, director.width, director.height);
-			this.packedCirleManager.setNumberOfCollisionPasses(2);
-			this.packedCirleManager.setNumberOfTargetingPasses(1);
+			this.packedCircleManager = new CAAT.modules.CircleManager.PackedCircleManager();
+			this.packedCircleManager.setBounds(0, 0, director.width, director.height);
+			this.packedCircleManager.setNumberOfCollisionPasses(2);
+			this.packedCircleManager.setNumberOfTargetingPasses(1);
 
 			// Add to the director
 			this.circleLayer.mouseEnabled = this.scene.mouseEnabled = false;
@@ -50,43 +51,33 @@
 			// Create a bunch of circles!
 			var colorHelper = new CAAT.Color(),
 				rgb = new CAAT.Color.RGB(0, 0, 0),
-				total = 75;
+				total = 125;
 
-//			var groups
+			// temp place groups into array to pull from randomly
+			var groups = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
+			var combinedGroups = GRAVEDANGER.Circle.prototype.GROUPS.RED | GRAVEDANGER.Circle.prototype.GROUPS.BLUE | GRAVEDANGER.Circle.prototype.GROUPS.GREEN;
+
 			for(var i = 0; i < total; i++)
 			{
 				// Size
 				var aRadius = Math.random() * 25 + 9;
+				                      //circle.getPackedCircle().position.x
+				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
+				var circle = new GRAVEDANGER.Circle()
+					.create(aRadius)
+					.setColor( GRAVEDANGER.CAATHelper.prototype.randomFromArray( groups ) )
+					.setLocation( Math.random() * this.director.canvas.width, -10 );
+				circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
 
-				// color it
-				var	hue = (360-((i/total) * 90) ), // HSV uses 0 - 360
-					hex = colorHelper.hsvToRgb(hue, 80, 99).toHex(); // Convert to hex value
-
-				var circleActor = new CAAT.ShapeActor().create()
-					.setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE )
-					.setLocation( Math.random() * this.director.canvas.width, Math.random() * this.director.canvas.height)
-					.setSize(aRadius*2, aRadius*2) // Size is in diameters
-					.setFillStyle('#' + hex );
-
-				// The 'packedCircle' in the simulation is considered completely separate entity than the circleActor itself
-				var packedCircle = new CAAT.modules.CircleManager.PackedCircle()
-					.setDelegate(circleActor)
-					.setRadius(aRadius)
-					.setCollisionMask(1)	// packedCircle instnace - will collide against this group
-					.setCollisionGroup(1) // packedCircle instance - is in this group
-					.setTargetPosition(this.mousePosition)
-					.setTargetChaseSpeed(Math.random() * 0.02);
-
-				// disable mouse on specific circle
-				packedCircle.mouseEnabled = false;
-
-				GRAVEDANGER.CAATHelper.prototype.animateInUsingScale(circleActor, this.director.time+Math.random() * 3000, 500, 0.1, 1);
-
+				      //Math.random() * this.director.canvas.height
 				// Add to the collision simulation
-				this.packedCirleManager.addCircle(packedCircle);
+				this.packedCircleManager.addCircle( circle.getPackedCircle() );
 
 				// Add actor to the scene
-				this.circleLayer.addChild(circleActor);
+				this.circleLayer.addChild( circle.getCAATActor() );
+
+				// Animate in
+				GRAVEDANGER.CAATHelper.prototype.animateInUsingScale(circle.getCAATActor(), this.director.time+Math.random() * 3000, 500, 0.1, 1);
 			}
 		},
 
@@ -107,52 +98,71 @@
 			}, true);
 		},
 
+		initIslands: function()
+		{
+			console.log(GRAVEDANGER.Island);
+		},
+
 		/**
 		 * Final prep-work and start the game loop
 		 */
 		start: function()
 		{
 			// Force all packedCircles to move to the position of their delegates
-			this.packedCirleManager.forceCirclesToMatchDelegatePositions();
-
+			this.packedCircleManager.forceCirclesToMatchDelegatePositions();
+			this.packedCircleManager.setCallback(this.onCollision, this);
 			var that = this;
 			this.director.loop(60, function(director, delta){
 				that.loop(director, delta);
 			});
 		},
 
+		onCollision: function(ci, cj, v) {
+
+			// TODO: Seems hacky, delegates delegate?
+			var circleA = ci.delegate.delegate,
+				circleB = cj.delegate.delegate;
+
+//			console.log(circleA.color, circleB.color);
+			if(circleA.color === circleB.color)
+			{
+				circleA.actor.alpha = Math.random();
+				circleB.actor.alpha = Math.random();
+			}
+		},
+
 		loop: function(director, delta)
 		{
-			this.packedCirleManager.pushAllCirclesTowardTarget();
-			this.packedCirleManager.handleCollisions();
+			this.packedCircleManager.pushAllCirclesTowardTarget();
+			this.packedCircleManager.handleCollisions();
 			this.sineOffset += 0.01;
-			var circleList = this.packedCirleManager.allCircles,
+			var circleList = this.packedCircleManager.allCircles,
 				len = circleList.length;
 
 			// color it
 			var color = new CAAT.Color();
 			var longestDistance = 40000 + Math.sin(this.sineOffset) * 30000;
 			if(longestDistance < 0) longestDistance *= -1; // abs
-			while(len--) {
+			while(len--)
+			{
 				var packedCircle = circleList[len];
 				var circleActor = packedCircle.delegate;
-				var distanceFromTarget = packedCircle.position.getDistanceSquared(packedCircle.targetPosition);
-				if(distanceFromTarget > longestDistance) distanceFromTarget = longestDistance;
-
-				var amplitude = (distanceFromTarget / longestDistance);
-				var	hue = 360 - (amplitude * 95);
+				this.packedCircleManager.handleBoundaryForCircle(packedCircle);
 
 				circleActor.x = packedCircle.position.x-packedCircle.radius;
 				circleActor.y = packedCircle.position.y-packedCircle.radius;
-			    // color
-				circleActor.setFillStyle('#' + color.hsvToRgb(hue, 95, 99).toHex() );
+
+//				circleActor.x =
+
+			     // color
+//				circleActor.setFillStyle('#' + color.hsvToRgb(hue, 95, 99).toHex() );
 
 				// Here we are doing an interesting trick.
 				// By randomly changing the targetChaseSpeed +/- 0.002 randomly
 				// we introduce a seemingly complex hive behavior whereby certain circles
 				// seem to want to 'leave' sometimes, and others decide to force their way to the center more strongly
-				if(Math.random() < 0.2)
-					packedCircle.setTargetChaseSpeed(packedCircle.targetChaseSpeed + Math.random() * 0.004 - 0.002);
+//				if(Math.random() < 0.2)
+//					packedCircle.setTargetChaseSpeed(packedCircle.targetChaseSpeed + Math.random() * 0.004 - 0.002);
 			}
 		},
 
@@ -165,7 +175,7 @@
 /**
  * Memory Management
  */		dealloc: function() {
-//			this.packedCirleManager.dealloc();
+//			this.packedCircleManager.dealloc();
 		}
 	}
 })();
