@@ -33,6 +33,7 @@
 					setSpriteImage(caatImage);
 
 			this.actor.spriteIndex = 0;
+			this.actor.setScale(0.5, 0.5);
 		  	this.actor.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
 			return this;
 		},

@@ -23,8 +23,10 @@
 		// Fired when images have been preloaded
 		var that = this;
 		GRAVEDANGER.CAATHelper.imagePreloader.loadImages(imagesToLoad,
-			function(counter, images) {
-				if(counter != images.length) return; // Wait until last load
+			function(counter, images)
+			{
+				if(counter != images.length)
+					return; // Wait until last load
 
 				// Images ready!
 				onCAATReady();
@@ -50,6 +52,8 @@
 
 		// Start it up
 		packedCircleScene.start();
+
+//		console.dir(GRAVEDANGER.SimpleDispatcher)
 	}
 
 	/**
@@ -57,15 +61,14 @@
 	 */
 	function initConsoleRouter()
 	{
-		if (!window.console || !console.firebug)
-		{
-			var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+		if(window.console) return;
+
+		var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
 			"group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
 
-			window.console = {};
-			for (var i = 0; i < names.length; ++i)
-				window.console[names[i]] = function() {}
-		}
+		window.console = {};
+		for (var i = 0; i < names.length; ++i)
+			window.console[names[i]] = function() {}
 	}
 
 	// Listen for browser ready

@@ -78,6 +78,8 @@
 			if(this.packedCircle.position.y > GRAVEDANGER.director.height) {
 				this.packedCircle.position.x = GRAVEDANGER.director.width/2;
 				this.packedCircle.position.y = -40;
+
+				GRAVEDANGER.SimpleDispatcher.dispatch('warWereDeclared', {circle: this});
 			} else {
 				this.packedCircle.position.y += this.fallSpeed;
 			}

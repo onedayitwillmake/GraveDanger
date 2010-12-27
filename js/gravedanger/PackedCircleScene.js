@@ -20,6 +20,12 @@
 			this.initCircles();
 			this.initMouseEvents();
 			this.initIslands();
+
+			GRAVEDANGER.SimpleDispatcher.addListener("warWereDeclared", this.onWarWereDeclared, this)
+		},
+
+		onWarWereDeclared: function(event, data) {
+//		   console.log("(PackedCircleScene)::onWarWereDeclared - Event: '", event, "' | Data :"+ data.circle + " | this:", this);
 		},
 
 		initDirector: function(director)
@@ -103,7 +109,7 @@
 		{
 			// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 			var island = new GRAVEDANGER.Island()
-				.create( 240 )
+				.create( 240  )
 				.setLocation( this.director.canvas.width/2, this.director.canvas.height/2 + 20 );
 
 			this.packedCircleManager.addCircle( island.getPackedCircle() );
@@ -160,8 +166,8 @@
 				circle.onTick();
 //				this.packedCircleManager.handleBoundaryForCircle(packedCircle);
 
-				circleActor.x = packedCircle.position.x-packedCircle.radius;
-				circleActor.y = packedCircle.position.y-packedCircle.radius;
+				circleActor.x = packedCircle.position.x-circle.radius;
+				circleActor.y = packedCircle.position.y-circle.radius;
 
 //				circleActor.x =
 
