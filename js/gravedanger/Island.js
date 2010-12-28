@@ -17,26 +17,17 @@
 		{
 			GRAVEDANGER.Island.superclass.create.call(this, aRadius);
 			this.packedCircle.isFixed = true;
-
 //			this.actor.setScale(0.33, 0.33);
 			return this;
 		},
 
-		createSpriteActor: function()
+		getImage: function()
 		{
-			console.log(GRAVEDANGER.CAATHelper.imagePreloader.images);
-			var imageRef = GRAVEDANGER.director.getImage("island");
-			var caatImage = new CAAT.CompoundImage().
-					initialize(imageRef, 1, 1);
+			var imageName = "island";// + this.color;
+			var imageRef = GRAVEDANGER.director.getImage(imageName);
+			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
 
-			this.actor = new CAAT.SpriteActor().
-					create().
-					setSpriteImage(caatImage);
-
-			this.actor.spriteIndex = 0;
-		  	this.actor.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
-
-			return this;
+			return this.conpoundImage;
 		},
 
 		setLocation: function(x, y)

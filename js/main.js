@@ -56,9 +56,11 @@
 	function onCAATReady()
 	{
 		// Don't use CANVAS if iOS
-		GRAVEDANGER.CAATHelper.prototype.setUseCanvas( !GRAVEDANGER.CAATHelper.prototype.getIsIOS() );
-		var useCanvas = GRAVEDANGER.CAATHelper.prototype.getUseCanvas();
-		useCanvas = false; // dev
+		var useCanvas = !GRAVEDANGER.CAATHelper.prototype.getIsIOS();
+//		useCanvas = false; // dev
+
+		// Store
+		GRAVEDANGER.CAATHelper.prototype.setUseCanvas( useCanvas );
 
 		// Pointer to container
 		var container = document.getElementById('container');

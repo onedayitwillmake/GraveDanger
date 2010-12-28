@@ -20,10 +20,8 @@ body
 
 .actor {
 	-webkit-transition: transform3d 0s linear;
-	-webkit-background-size: 100%;
 	/*background-color:#dddddd;*/
-	background-image: url("../images/circle-9.png");
-	background-size: 100%;
+	/*background-image: url("../images/circle-9.png");*/
 	width: 75px;
 	height: 75px;
 	position: absolute;

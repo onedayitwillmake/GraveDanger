@@ -66,15 +66,18 @@
 			for(var i = 0; i < total; i++)
 			{
 				// Size
-				var aRadius = 34;
+				var aRadius = 36;
 				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = new GRAVEDANGER.Circle()
 					.setColor( GRAVEDANGER.CAATHelper.prototype.randomFromArray( groups ) )
 					.create(aRadius)
-					.setLocation( Math.random() * this.director.width, -10 )
-					.setFallSpeed( Math.random() * 4 + 3);
-				circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.height + 250) );
+					.setFallSpeed( Math.random() * 2 + 1)
+					.setLocation( Math.random() * this.director.width,200 );
+
+				// Random mask
+				var totalImages = circle.conpoundImage.cols * circle.conpoundImage.rows;
+				circle.setSpriteIndex( Math.floor( Math.random() * totalImages ) );
 
 				      //Math.random() * this.director.height
 				// Add to the collision simulation
@@ -109,7 +112,7 @@
 		{
 			// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 			var island = new GRAVEDANGER.Island()
-				.create( 120  )
+				.create( 240  )
 				.setLocation( this.director.width/2, this.director.height - 250 );
 
 			this.packedCircleManager.addCircle( island.getPackedCircle() );
