@@ -68,7 +68,7 @@
 
 		// Check it found
 		if (!arrayOfListeners) {
-			console.log("(Dispatcher)::removeEventListener No such event defined!", event);
+			console.error("(Dispatcher)::removeEventListener No such event defined!", event);
 		}
 
 		// remove that listener
@@ -77,7 +77,7 @@
 		{
 			if(arrayOfListeners[i].scope === scope)
 			{
-				console.log("(Dispatcher)::removeEventListener - Removing event listener'"+event+"' for object", scope);
+				console.info("(Dispatcher)::removeEventListener - Removing event listener'"+event+"' for object", scope);
 				aListenerWasRemoved = true;
 				arrayOfListeners.splice(i, 1)
 			}
@@ -85,7 +85,7 @@
 
 		// Tell the user no listener was removed so they can debug superflous calls
 		if(!aListenerWasRemoved) {
-			console.log("(Dispatcher)::removeEventListener - '" + event +"' did not have any listeners. Avoid superflous calls to removeEventListener if possible.");
+			console.error("(Dispatcher)::removeEventListener - '" + event +"' did not have any listeners. Avoid superflous calls to removeEventListener if possible.");
 		}
 	};
 
@@ -99,7 +99,7 @@
 		// get all listeners
 		var eventRef = events.objectForKey(event);
 		if(!eventRef) {
-			console.log("(Dispatcher) No such event defined!", event);
+			console.warn("(Dispatcher) No such event defined!", event);
 			return;
 		}
 

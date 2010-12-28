@@ -5,6 +5,9 @@
 
 	GRAVEDANGER.CAATHelper.prototype = {
 		imagePreloader: null,
+		containerDiv: null,
+		useCanvas: false,
+
 		/**
 		 * Adds a CAAT.ScaleBehavior to the entity, used on animate in
 		 */
@@ -80,6 +83,41 @@
 		randomFromArray: function(anArray) {
 			var randomIndex = Math.floor( Math.random() * anArray.length );
 		    return anArray[randomIndex];
+		},
+
+/**
+ * ACCESSORS
+ */
+		setContainerDiv: function(aContainer)
+		{
+			// TODO: Make sure object is valid
+			this.containerDiv = aContainer;
+		},
+
+		getContainerDiv: function()
+		{
+			return this.containerDiv;
+		},
+
+		setUseCanvas: function(aValue)
+		{
+			this.useCanvas = aValue;
+		},
+
+		getUseCanvas: function()
+		{
+			return this.useCanvas;
+		},
+
+		getIsIOS: function()
+		{
+			if(this.hasCheckedForIOS)
+				return this.isIOS;
+
+			// TODO: Probably a superfluous optimization
+			this.hasCheckedForIOS = true;
+			this.isIOS = !!((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) || (navigator.userAgent.match(/iPad/i)) ) ;
+			return this.isIOS
 		}
 	};
 })();

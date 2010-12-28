@@ -7,15 +7,35 @@
 	{
 		// Always be a good neighbor, remove event listeners, even when superflous
 		window.removeEventListener('load', onDocumentReady, false);
+
 		initConsoleRouter();
 
+		initStats();
 		preloadImages();
+	}
+
+	/**
+	* Stats
+	* Create stats module, and attach to top left
+	*/
+	function initStats()
+	{
+		var stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.left = '0px';
+		stats.domElement.style.top = '0px';
+		document.body.appendChild( stats.domElement );
+		setInterval( function () {
+			stats.update();
+		}, 1000 / 30 );
 	}
 
 	function preloadImages()
 	{
 		var base = './images/';
 		var imagesToLoad = [];
+		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "red.png"});
+		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "yellow.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "blue.png"});
 		imagesToLoad.push({id: "island", url: base + "float2.png"});
 
@@ -35,16 +55,40 @@
 
 	function onCAATReady()
 	{
-		// Initialize CAAT
-		GRAVEDANGER.director = new CAAT.Director().initialize(window.innerWidth - 20, window.innerHeight - 20);
-		GRAVEDANGER.director.imagesCache = GRAVEDANGER.CAATHelper.imagePreloader.images;
+		// Don't use CANVAS if iOS
+		GRAVEDANGER.CAATHelper.prototype.setUseCanvas( !GRAVEDANGER.CAATHelper.prototype.getIsIOS() );
+		var useCanvas = GRAVEDANGER.CAATHelper.prototype.getUseCanvas();
+		useCanvas = false; // dev
 
+		// Pointer to container
+		var container = document.getElementById('container');
+
+		// Initialize CAAT
+		GRAVEDANGER.director = new CAAT.Director();
+
+		// Game size - focus on iphone
+		var gameWidth = 320*2,
+			gameHeight = 356*2;
+
+		// If we aren't using canvas, i believe CAAT is still needs one, so create a canvas that is 1 pixel in size
+		if(useCanvas)
+		{
+			GRAVEDANGER.director.initialize(gameWidth, gameHeight);
+
+			// Add it to the document
+			container.appendChild( GRAVEDANGER.director.canvas );
+		}
+		else
+		{
+			GRAVEDANGER.director.initializeNoCanvas(gameWidth, gameHeight);
+		}
+
+		GRAVEDANGER.director.imagesCache = GRAVEDANGER.CAATHelper.imagePreloader.images;
 		GRAVEDANGER.CAATHelper.prototype.initTouchEventRouter();
 		CAAT.GlobalDisableEvents();
 
-		// Add it to the document
-		var container = document.getElementById('container');
-		container.appendChild( GRAVEDANGER.director.canvas );
+		// Store reference
+		GRAVEDANGER.CAATHelper.prototype.setContainerDiv(container);
 
 		// Create the packedCircleScene
 		var packedCircleScene = new GRAVEDANGER.PackedCircleScene();
@@ -52,8 +96,6 @@
 
 		// Start it up
 		packedCircleScene.start();
-
-//		console.dir(GRAVEDANGER.SimpleDispatcher)
 	}
 
 	/**

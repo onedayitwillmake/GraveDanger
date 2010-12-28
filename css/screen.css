@@ -1,19 +1,33 @@
 body
 {
-	margin-top: 5px;
-	margin-left: 5px;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin: 0px;
 	background-color:#dddddd;
-};
-.container
-{
+	background-image: url("../images/page/moleskine.gif");
+}
+.container {
 	overflow: hidden;
-	border: 0px solid #eee;
+	border: 1px solid #eee;
 	font: 11px Helvetica, Arial;
 	width: 100%;
 	height: 500px;
+	/*width: 1200px;*/
+	/*height: 800px;*/
 }
 
-.aCanvas
-{
-	overflow: hidden;
+.actor {
+	-webkit-transition: transform3d 0s linear;
+	-webkit-background-size: 100%;
+	/*background-color:#dddddd;*/
+	background-image: url("../images/circle-9.png");
+	background-size: 100%;
+	width: 75px;
+	height: 75px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	/*border: 1px solid #eee;*/
 }

@@ -30,7 +30,7 @@
 
 		initDirector: function(director)
 		{
-			this.mousePosition = new CAAT.Point(director.canvas.width/2, director.canvas.height/2);
+			this.mousePosition = new CAAT.Point(director.width/2, director.height/2);
 			this.director = director;
 			this.scene = new CAAT.Scene().
 				create();
@@ -38,14 +38,14 @@
 			// Create a 'layer' for all the circles
 			this.circleLayer = new CAAT.ActorContainer().
 				create().
-				setBounds(0,0, director.canvas.width, director.canvas.height);
+				setBounds(0,0, director.width, director.height);
 			this.scene.addChild( this.circleLayer );
 
 			// Collision simulation
 			this.packedCircleManager = new CAAT.modules.CircleManager.PackedCircleManager();
 			this.packedCircleManager.setBounds(0, 0, director.width, director.height);
-			this.packedCircleManager.setNumberOfCollisionPasses(2);
-			this.packedCircleManager.setNumberOfTargetingPasses(1);
+			this.packedCircleManager.setNumberOfCollisionPasses(1);
+			this.packedCircleManager.setNumberOfTargetingPasses(0);
 
 			// Add to the director
 			this.circleLayer.mouseEnabled = this.scene.mouseEnabled = false;
@@ -57,7 +57,7 @@
 			// Create a bunch of circles!
 			var colorHelper = new CAAT.Color(),
 				rgb = new CAAT.Color.RGB(0, 0, 0),
-				total = 100;
+				total = 30;
 
 			// temp place groups into array to pull from randomly
 			var groups = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
@@ -72,11 +72,11 @@
 				var circle = new GRAVEDANGER.Circle()
 					.setColor( GRAVEDANGER.CAATHelper.prototype.randomFromArray( groups ) )
 					.create(aRadius)
-					.setLocation( Math.random() * this.director.canvas.width, -10 )
+					.setLocation( Math.random() * this.director.width, -10 )
 					.setFallSpeed( Math.random() * 4 + 3);
-				circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
+				circle.setTargetPosition( new CAAT.Point(circle.getCAATActor().x, this.director.height + 250) );
 
-				      //Math.random() * this.director.canvas.height
+				      //Math.random() * this.director.height
 				// Add to the collision simulation
 				this.packedCircleManager.addCircle( circle.getPackedCircle() );
 
@@ -84,20 +84,20 @@
 				this.circleLayer.addChild( circle.getCAATActor() );
 
 				// Animate in
-				GRAVEDANGER.CAATHelper.prototype.animateInUsingScale(circle.getCAATActor(), this.director.time+Math.random() * 2000, 500, 0.1, 1);
+				GRAVEDANGER.CAATHelper.prototype.animateInUsingScale(circle.getCAATActor(), this.director.time+Math.random() * 2000, 500, 0.1, circle.getCAATActor().scaleX );
 			}
 		},
 
 		initMouseEvents: function()
 		{
 			var that = this;
-			// Listen for resize
-			window.addEventListener("resize", function(e) {
-				var edge = 10;
-				that.director.canvas.width = window.innerWidth - edge*2;
-				that.director.canvas.height = window.innerHeight - edge*2;
-				that.scene.setBounds(0, 0, that.director.canvas.width, that.director.canvas.height);
-			}, true);
+//			// Listen for resize
+//			window.addEventListener("resize", function(e) {
+//				var edge = 10;
+//				that.director.width = window.innerWidth - edge*2;
+//				that.director.height = window.innerHeight - edge*2;
+//				that.scene.setBounds(0, 0, that.director.width, that.director.height);
+//			}, true);
 
 			// listen for the mouse
 			window.addEventListener("mousemove", function(e) {
@@ -109,12 +109,11 @@
 		{
 			// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 			var island = new GRAVEDANGER.Island()
-				.create( 240  )
-				.setLocation( this.director.canvas.width/2, this.director.canvas.height/2 + 20 );
+				.create( 120  )
+				.setLocation( this.director.width/2, this.director.height - 250 );
 
 			this.packedCircleManager.addCircle( island.getPackedCircle() );
 			this.circleLayer.addChild( island.getCAATActor() );
-//			circle.setTargetPosition(  CAAT.Point(circle.getCAATActor().x, this.director.canvas.height + 250) );
 		},
 
 		/**
@@ -125,8 +124,9 @@
 			// Force all packedCircles to move to the position of their delegates
 			this.packedCircleManager.forceCirclesToMatchDelegatePositions();
 			this.packedCircleManager.setCallback(this.onCollision, this);
+
 			var that = this;
-			this.director.loop(60, function(director, delta){
+			this.director.loop(30, function(director, delta){
 				that.loop(director, delta);
 			});
 		},
@@ -137,7 +137,6 @@
 			var circleA = ci.delegate.delegate,
 				circleB = cj.delegate.delegate;
 
-//			console.log(circleA.color, circleB.color);
 			if(circleA.color === circleB.color)
 			{
 //				circleA.actor.alpha = Math.random();
@@ -147,7 +146,6 @@
 
 		loop: function(director, delta)
 		{
-//			this.packedCircleManager.pushAllCirclesTowardTarget();
 			this.packedCircleManager.handleCollisions();
 			this.sineOffset += 0.01;
 			var circleList = this.packedCircleManager.allCircles,
@@ -166,20 +164,8 @@
 				circle.onTick();
 //				this.packedCircleManager.handleBoundaryForCircle(packedCircle);
 
-				circleActor.x = packedCircle.position.x-circle.radius;
-				circleActor.y = packedCircle.position.y-circle.radius;
-
-//				circleActor.x =
-
-			     // color
-//				circleActor.setFillStyle('#' + color.hsvToRgb(hue, 95, 99).toHex() );
-
-				// Here we are doing an interesting trick.
-				// By randomly changing the targetChaseSpeed +/- 0.002 randomly
-				// we introduce a seemingly complex hive behavior whereby certain circles
-				// seem to want to 'leave' sometimes, and others decide to force their way to the center more strongly
-//				if(Math.random() < 0.2)
-//					packedCircle.setTargetChaseSpeed(packedCircle.targetChaseSpeed + Math.random() * 0.004 - 0.002);
+				circleActor.x = packedCircle.position.x-circleActor.width*0.5;
+				circleActor.y = packedCircle.position.y-circleActor.width*0.5;
 			}
 		},
 
