@@ -11,12 +11,15 @@
 		director:	null,
 		scene:	null,
 		circleLayer:	null,
+
 		mousePosition: null,
-		sineOffset: Math.random() * 10, // some arbitary number i liked
+		draggedCircle: undefined,
+		isDragging: false,
 
 		init: function(director)
 		{
 			this.initDirector(director);
+			this.initLayers();
 			this.initCircles();
 			this.initMouseEvents();
 			this.initIslands();
@@ -28,18 +31,16 @@
 //		   console.log("(PackedCircleScene)::onWarWereDeclared - Event: '", event, "' | Data :"+ data.circle + " | this:", this);
 		},
 
+		/**
+		 * Main initilization, creates the packed circle manager
+		 * @param director
+		 */
 		initDirector: function(director)
 		{
 			this.mousePosition = new CAAT.Point(director.width/2, director.height/2);
 			this.director = director;
 			this.scene = new CAAT.Scene().
 				create();
-
-			// Create a 'layer' for all the circles
-			this.circleLayer = new CAAT.ActorContainer().
-				create().
-				setBounds(0,0, director.width, director.height);
-			this.scene.addChild( this.circleLayer );
 
 			// Collision simulation
 			this.packedCircleManager = new CAAT.modules.CircleManager.PackedCircleManager();
@@ -48,10 +49,34 @@
 			this.packedCircleManager.setNumberOfTargetingPasses(0);
 
 			// Add to the director
-			this.circleLayer.mouseEnabled = this.scene.mouseEnabled = false;
+			this.scene.mouseEnabled = false;
 			this.director.addScene(this.scene);
 		},
 
+		/**
+		 * Creates the layers where objects live
+		 * For now the layers are created manually for more fine grained control
+		 */
+		initLayers: function()
+		{
+			// Create a 'layer' for all the circles
+			this.circleLayer = new CAAT.ActorContainer().
+				create().
+				setBounds(0,0, GRAVEDANGER.director.width, GRAVEDANGER.director.height);
+			this.scene.addChild( this.circleLayer );
+			this.scene.fillStyle = "#2a2a2a";
+
+			GRAVEDANGER.otherScene = new CAAT.ActorContainer().
+				create().
+				setBounds(0,0, GRAVEDANGER.director.width, GRAVEDANGER.director.height);
+			this.scene.addChild( GRAVEDANGER.otherScene );
+
+			GRAVEDANGER.otherScene.mouseEnabled = this.circleLayer.mouseEnabled = false;
+		},
+
+		/**
+		 * Creates the circles which will be used in the scene
+		 */
 		initCircles: function()
 		{
 			// Create a bunch of circles!
@@ -70,7 +95,7 @@
 				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = new GRAVEDANGER.Circle()
-					.setColor( GRAVEDANGER.CAATHelper.prototype.randomFromArray( groups ) )
+					.setColor( GRAVEDANGER.UTILS.randomFromArray( groups ) )
 					.create(aRadius)
 					.setFallSpeed( Math.random() * 2 + 1)
 					.setLocation( Math.random() * this.director.width,200 );
@@ -91,32 +116,46 @@
 			}
 		},
 
+		/**
+		 * Creates the floating islands where 'circles' are placed
+		 */
+		initIslands: function()
+		{
+			var totalIslands = 2;
+			var padding = 150;
+			for(var i = 0; i < totalIslands; i++) {
+				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
+				var island = new GRAVEDANGER.Island()
+					.create( 120  )
+					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 250);
+
+				this.packedCircleManager.addCircle( island.getPackedCircle() );
+				this.circleLayer.addChild( island.getCAATActor() );
+
+				// The debris must be added after the island is in the scene
+				island.createDebrisPieces();
+			}
+		},
+
+		/**
+		 * Creates MouseEvent listeners
+		 */
 		initMouseEvents: function()
 		{
 			var that = this;
-//			// Listen for resize
-//			window.addEventListener("resize", function(e) {
-//				var edge = 10;
-//				that.director.width = window.innerWidth - edge*2;
-//				that.director.height = window.innerHeight - edge*2;
-//				that.scene.setBounds(0, 0, that.director.width, that.director.height);
-//			}, true);
 
 			// listen for the mouse
-			window.addEventListener("mousemove", function(e) {
+			GRAVEDANGER.director.canvas.addEventListener("mousemove", function(e) {
 				that.mouseMove(e);
 			}, true);
-		},
 
-		initIslands: function()
-		{
-			// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
-			var island = new GRAVEDANGER.Island()
-				.create( 240  )
-				.setLocation( this.director.width/2, this.director.height - 250 );
+			GRAVEDANGER.director.canvas.addEventListener("mousedown", function(e) {
+				that.mouseDown(e);
+			}, true);
 
-			this.packedCircleManager.addCircle( island.getPackedCircle() );
-			this.circleLayer.addChild( island.getCAATActor() );
+			GRAVEDANGER.director.canvas.addEventListener("mouseup", function(e) {
+				that.mouseUp(e);
+			}, true);
 		},
 
 		/**
@@ -140,48 +179,95 @@
 			var circleA = ci.delegate.delegate,
 				circleB = cj.delegate.delegate;
 
-			if(circleA.color === circleB.color)
-			{
-//				circleA.actor.alpha = Math.random();
-//				circleB.actor.alpha = Math.random();
-			}
+//			if(circleA.color === circleB.color)
+//			{
+////				circleA.actor.alpha = Math.random();
+////				circleB.actor.alpha = Math.random();
+//			}
 		},
 
 		loop: function(director, delta)
 		{
 			this.packedCircleManager.handleCollisions();
-			this.sineOffset += 0.01;
+
+			if(this.draggedCircle) {
+				this.draggedCircle.delegate.delegate.chaseTarget(this.mousePosition);
+			}
 			var circleList = this.packedCircleManager.allCircles,
 				len = circleList.length;
 
 			// color it
 			var color = new CAAT.Color();
-			var longestDistance = 40000 + Math.sin(this.sineOffset) * 30000;
-			if(longestDistance < 0) longestDistance *= -1; // abs
+
 			while(len--)
 			{
 				var packedCircle = circleList[len];
 				var circle = packedCircle.delegate.delegate;
 				var circleActor = packedCircle.delegate;
-
 				circle.onTick();
-//				this.packedCircleManager.handleBoundaryForCircle(packedCircle);
 
+				// position
 				circleActor.x = packedCircle.position.x-circleActor.width*0.5;
-				circleActor.y = packedCircle.position.y-circleActor.width*0.5;
+				circleActor.y = packedCircle.position.y-circleActor.height*0.5;
 			}
 		},
 
+/**
+ * User Interaction
+ */
 		mouseMove: function(e) {
-			var mouseX = e.clientX;
-			var mouseY = e.clientY;
+
+			if(!this.isDragging || !this.draggedCircle) return;
+
+//			debugger;
+			var mouseX = e.offsetX;
+			var mouseY = e.offsetY;
+			console.log('MousePosition', mouseX, mouseY);
 			this.mousePosition.set(mouseX, mouseY);
+
+//			CAAT.getCanvasCoord(this.mousePosition, e);
+
+//			this.draggedCircle |= this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
+
+			if(this.draggedCircle) {
+				this.draggedCircle.delegate.scaleX = this.draggedCircle.delegate.scaleY = 1;
+				this.draggedCircle.isFixed = true;
+			}
+
+//			console.log(grabbedCircle);
+//			this.packedCircleManager.get
+//			if(this.isDragging)
+//				console.log(this.mousePosition.toString())
+//			console.log("(PackedCircleScene)::mouseMove", this.draggedCircle);
+		},
+
+		mouseUp: function(e) {
+			this.isDragging = false;
+			if(this.draggedCircle) {
+//				this.draggedCircle.isFixed = false;
+				console.log("(PackedCircleScene)::mouseUp");
+				this.draggedCircle = null;
+			}
+		},
+
+		mouseDown: function(e) {
+
+			var mouseX = e.offsetX;
+			var mouseY = e.offsetY;
+			this.draggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
+			this.isDragging = this.draggedCircle != null;
+
+			console.log("(PackedCircleScene)::mouseDown");
 		},
 
 /**
  * Memory Management
  */		dealloc: function() {
-//			this.packedCircleManager.dealloc();
+			this.packedCircleManager.dealloc();
+
+			this.packedCircleManager = null, delete this.mousePosition;
+			this.mousePosition = null, delete this.mousePosition;
+
 		}
 	}
 })();

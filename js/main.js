@@ -57,7 +57,9 @@
 	{
 		// Don't use CANVAS if iOS
 		var useCanvas = !GRAVEDANGER.CAATHelper.prototype.getIsIOS();
-//		useCanvas = false; // dev
+
+		if(window.QueryStringManager.getValue('useCanvas') === "false")
+			useCanvas = false; // dev
 
 		// Store
 		GRAVEDANGER.CAATHelper.prototype.setUseCanvas( useCanvas );

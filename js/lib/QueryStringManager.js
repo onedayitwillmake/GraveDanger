@@ -38,17 +38,27 @@
 				}
 			}
 
-			console.log("(QueryStringManager) - QueryStringObject:", _queryString);
+//			console.log("(QueryStringManager) - QueryStringObject:", _queryString);
 		},
 
-		getQueryString: function( name )
+		getValue: function( name )
 		{
 			return _queryString[ name ];
 		},
 
-		hasQueryString: function( name )
+		hasValue: function( name )
 		{
 			return name in _queryString;
+		},
+
+		/**
+		 * Output all values to console.
+		 */
+		dump: function()
+		{
+			for(var val in _queryString) {
+				console.log('(QueryStringManager):: name:' + val + " value:" + _queryString[val]);
+			}
 		}
 	};
 

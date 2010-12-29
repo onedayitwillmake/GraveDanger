@@ -80,11 +80,6 @@
 			document.addEventListener("touchcancel", touchEventRouter, true);
 		},
 
-		randomFromArray: function(anArray) {
-			var randomIndex = Math.floor( Math.random() * anArray.length );
-		    return anArray[randomIndex];
-		},
-
 /**
  * ACCESSORS
  */

@@ -8,12 +8,14 @@ body
 	background-color:#dddddd;
 	background-image: url("../images/page/moleskine.gif");
 }
-.container {
+#container {
 	overflow: hidden;
-	border: 1px solid #eee;
+	margin-top:15px;
+	border: 0px solid #eee;
 	font: 11px Helvetica, Arial;
 	width: 100%;
-	height: 500px;
+	/*height: 500px;*/
+	text-align:center;
 	/*width: 1200px;*/
 	/*height: 800px;*/
 }

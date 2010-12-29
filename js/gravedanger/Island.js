@@ -1,12 +1,14 @@
 (function() {
 	GRAVEDANGER.Island = function() {
 		GRAVEDANGER.Island.superclass.constructor.call(this);
+		this.debris = [];
 		return this;
 	};
 
 	extend( GRAVEDANGER.Island, GRAVEDANGER.Circle, {
 		sineOffset: 0,
 		floatRadius: 35,
+		debris: null,
 
 		onTick: function() {
 			this.sineOffset += 0.03 + Math.random() * 0.01;
@@ -16,10 +18,29 @@
 		create: function(aRadius)
 		{
 			GRAVEDANGER.Island.superclass.create.call(this, aRadius);
+
 			this.packedCircle.isFixed = true;
-//			this.actor.setScale(0.33, 0.33);
+			this.sineOffset = Math.random() * Math.PI * 2;
 			return this;
 		},
+
+		/**
+		 * Creates the debris that falls off the island
+		 */
+		createDebrisPieces: function()
+		{
+			// only show debris on canvas
+			if( !GRAVEDANGER.CAATHelper.prototype.getUseCanvas() )
+				return;
+
+			for(var i = 0; i < 3; i++)
+			{
+				var rectangleDebris = GRAVEDANGER.EffectsDebris.create(this.actor);
+				this.debris.push(rectangleDebris);
+				GRAVEDANGER.otherScene.addChild(rectangleDebris);
+			}
+		},
+
 
 		getImage: function()
 		{
@@ -36,6 +57,16 @@
 			this.targetLocation = new CAAT.Point(x,y);
 
 			return this;
+		},
+
+		dealloc: function()
+		{
+			for(var i = 0; i < this.debris.length; i++) {
+				this.debris[i].dealloc();
+			}
+
+			this.debris = null;
+			GRAVEDANGER.Island.superclass.dealloc.call(this);
 		}
 	});
 })();
