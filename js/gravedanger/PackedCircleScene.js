@@ -13,11 +13,12 @@
 		circleLayer:	null,
 
 		mousePosition: null,
-		draggedCircle: undefined,
+		currentChain: null,
 		isDragging: false,
 
 		init: function(director)
 		{
+			this.tick = 0;
 			this.initDirector(director);
 			this.initLayers();
 			this.initCircles();
@@ -42,10 +43,13 @@
 			this.scene = new CAAT.Scene().
 				create();
 
+			// store pointer
+			GRAVEDANGER.scene = this.scene;
+
 			// Collision simulation
 			this.packedCircleManager = new CAAT.modules.CircleManager.PackedCircleManager();
 			this.packedCircleManager.setBounds(0, 0, director.width, director.height);
-			this.packedCircleManager.setNumberOfCollisionPasses(1);
+			this.packedCircleManager.setNumberOfCollisionPasses(2);
 			this.packedCircleManager.setNumberOfTargetingPasses(0);
 
 			// Add to the director
@@ -82,7 +86,7 @@
 			// Create a bunch of circles!
 			var colorHelper = new CAAT.Color(),
 				rgb = new CAAT.Color.RGB(0, 0, 0),
-				total = 30;
+				total = 20;
 
 			// temp place groups into array to pull from randomly
 			var groups = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
@@ -91,20 +95,15 @@
 			for(var i = 0; i < total; i++)
 			{
 				// Size
-				var aRadius = 36;
+				var aRadius = 17;
 				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = new GRAVEDANGER.Circle()
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( groups ) )
 					.create(aRadius)
 					.setFallSpeed( Math.random() * 2 + 1)
-					.setLocation( Math.random() * this.director.width,200 );
-
-				// Random mask
-				var totalImages = circle.conpoundImage.cols * circle.conpoundImage.rows;
-				circle.setSpriteIndex( Math.floor( Math.random() * totalImages ) );
-
-				      //Math.random() * this.director.height
+					.setLocation( Math.random() * this.director.width,200 )
+					.colorRandomly();
 				// Add to the collision simulation
 				this.packedCircleManager.addCircle( circle.getPackedCircle() );
 
@@ -144,16 +143,17 @@
 		{
 			var that = this;
 
+//			console.log(GRAVEDANGER.director.canvas)
 			// listen for the mouse
-			GRAVEDANGER.director.canvas.addEventListener("mousemove", function(e) {
+			GRAVEDANGER.CAATHelper.prototype.getContainerDiv().addEventListener("mousemove", function(e) {
 				that.mouseMove(e);
 			}, true);
 
-			GRAVEDANGER.director.canvas.addEventListener("mousedown", function(e) {
+			GRAVEDANGER.CAATHelper.prototype.getContainerDiv().addEventListener("mousedown", function(e) {
 				that.mouseDown(e);
 			}, true);
 
-			GRAVEDANGER.director.canvas.addEventListener("mouseup", function(e) {
+			GRAVEDANGER.CAATHelper.prototype.getContainerDiv().addEventListener("mouseup", function(e) {
 				that.mouseUp(e);
 			}, true);
 		},
@@ -173,26 +173,40 @@
 			});
 		},
 
-		onCollision: function(ci, cj, v) {
+		onCollision: function(ci, cj, v)
+		{
+			if(!this.currentChain)
+				return;
 
-			// TODO: Seems hacky, delegates delegate?
+			// TODO: Seems hacky, delegate.delegate?
 			var circleA = ci.delegate.delegate,
 				circleB = cj.delegate.delegate;
 
-//			if(circleA.color === circleB.color)
-//			{
-////				circleA.actor.alpha = Math.random();
-////				circleB.actor.alpha = Math.random();
-//			}
+			var head = this.currentChain.returnHeadInSet(circleA, circleB);
+
+			// Neither is the chain head - no good.
+			if(!head) return;
+
+			this.currentChain.shouldAddLink(circleA);
+			this.currentChain.shouldAddLink(circleB);
+
+//			console.log(this.currentChain.color, circleA.color, circleB.color);
+			if(circleA.color === circleB.color)
+			{
+//				console.log(circleA.uuid, circleB.uuid)
+				circleA.actor.alpha = Math.random();
+				circleB.actor.alpha = Math.random();
+			}
 		},
 
 		loop: function(director, delta)
 		{
 			this.packedCircleManager.handleCollisions();
 
-			if(this.draggedCircle) {
-				this.draggedCircle.delegate.delegate.chaseTarget(this.mousePosition);
+			if(this.currentChain) {
+				this.currentChain.chaseTarget(this.mousePosition);
 			}
+
 			var circleList = this.packedCircleManager.allCircles,
 				len = circleList.length;
 
@@ -210,6 +224,8 @@
 				circleActor.x = packedCircle.position.x-circleActor.width*0.5;
 				circleActor.y = packedCircle.position.y-circleActor.height*0.5;
 			}
+
+			this.tick++;
 		},
 
 /**
@@ -217,47 +233,41 @@
  */
 		mouseMove: function(e) {
 
-			if(!this.isDragging || !this.draggedCircle) return;
+			if(!this.isDragging) return;
 
-//			debugger;
-			var mouseX = e.offsetX;
-			var mouseY = e.offsetY;
-			console.log('MousePosition', mouseX, mouseY);
+			var mouseX = e.clientX - GRAVEDANGER.director.canvas.offsetLeft;
+			var mouseY = e.clientY - GRAVEDANGER.director.canvas.offsetTop;
 			this.mousePosition.set(mouseX, mouseY);
-
-//			CAAT.getCanvasCoord(this.mousePosition, e);
-
-//			this.draggedCircle |= this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
-
-			if(this.draggedCircle) {
-				this.draggedCircle.delegate.scaleX = this.draggedCircle.delegate.scaleY = 1;
-				this.draggedCircle.isFixed = true;
-			}
-
-//			console.log(grabbedCircle);
-//			this.packedCircleManager.get
-//			if(this.isDragging)
-//				console.log(this.mousePosition.toString())
-//			console.log("(PackedCircleScene)::mouseMove", this.draggedCircle);
 		},
 
-		mouseUp: function(e) {
+		mouseUp: function(e)
+		{
 			this.isDragging = false;
-			if(this.draggedCircle) {
-//				this.draggedCircle.isFixed = false;
-				console.log("(PackedCircleScene)::mouseUp");
-				this.draggedCircle = null;
+			if(this.currentChain) {
+				this.currentChain.releaseAll();
+				this.currentChain.dealloc();
+				this.currentChain = null;
 			}
 		},
 
 		mouseDown: function(e) {
+			var mouseX = e.clientX - GRAVEDANGER.director.canvas.offsetLeft;
+			var mouseY = e.clientY - GRAVEDANGER.director.canvas.offsetTop;
+			this.mousePosition.set(mouseX, mouseY);
 
-			var mouseX = e.offsetX;
-			var mouseY = e.offsetY;
-			this.draggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
-			this.isDragging = this.draggedCircle != null;
+			// Store old one to compare if new
+			var newDraggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
 
-			console.log("(PackedCircleScene)::mouseDown");
+			// Nothing to see here
+			if(!newDraggedCircle)
+				return;
+
+			// Create a new Chain
+			this.currentChain = new GRAVEDANGER.Chain();
+
+			// Looks weird but the "PackedCircle's CircleActor's Circle"!!
+			this.currentChain.shouldAddLink(newDraggedCircle.delegate.delegate);
+			this.isDragging = true
 		},
 
 /**

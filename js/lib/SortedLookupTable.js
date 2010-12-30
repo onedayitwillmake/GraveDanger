@@ -16,6 +16,85 @@ Basic Usage:
 
 	http://blog.jcoglan.com/2010/10/18/i-am-a-fast-loop/
 */
+// @getify's solution
+var Set = (function()
+{
+	var indexOf = Array.prototype.indexOf;
+
+	if (typeof indexOf !== 'function')
+	{
+		indexOf = function(value)
+		{
+			for (var index = 0, length = this.length; index < length; index++)
+			{
+				if (this[index] === value)
+				{
+					return index;
+				}
+			}
+			return -1;
+		};
+	}
+
+	function Set()
+	{
+		this.set = [];
+	}
+
+	Set.prototype = {
+		'constructor': Set,
+		'put': function(value, key)
+		{
+			var index = indexOf.call(this.set, key);
+			if (index !== -1 && index % 2 === 0)
+			{
+				this.set.splice(index, 2);
+			}
+			this.set.push(key, value);
+		},
+		'get': function(key)
+		{
+			var index = indexOf.call(this.set, key);
+			return (index !== -1 && index % 2 === 0) ? this.set[++index] : null;
+		},
+		'containsKey': function(key)
+		{
+			var index = indexOf.call(this.set, key);
+			return (index !== -1 && index % 2 === 0);
+		},
+		'containsValue': function(value)
+		{
+			var index = indexOf.call(this.set, value);
+			return (index !== -1 && index % 2 !== 0);
+		},
+		'remove': function(key)
+		{
+			var index = indexOf.call(this.set, key),
+					value = null;
+			if (index !== -1 && index % 2 === 0)
+			{
+				value = this.set.splice(index, 2)[1];
+			}
+			return value;
+		},
+
+		'forEach': function(block, context)
+		{
+			var set = this.set,
+				i = this.set.length-1,
+				key;
+
+			while (i > 0)
+			{
+				block.call(context, set[i - 1], set[key]);
+				i-=2;
+			}
+		}
+	};
+
+	return Set;
+}());
+
 (function() {
 	/**
 	 *	LookupTable

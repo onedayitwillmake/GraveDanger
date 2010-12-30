@@ -38,6 +38,7 @@
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "yellow.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "blue.png"});
 		imagesToLoad.push({id: "island", url: base + "float2.png"});
+		imagesToLoad.push({id: "chain", url: base + "chain.png"});
 
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
 		// Fired when images have been preloaded
@@ -65,7 +66,7 @@
 		GRAVEDANGER.CAATHelper.prototype.setUseCanvas( useCanvas );
 
 		// Pointer to container
-		var container = document.getElementById('container');
+		var container = document.getElementById('gameArea');
 
 		// Initialize CAAT
 		GRAVEDANGER.director = new CAAT.Director();
@@ -86,6 +87,9 @@
 		{
 			GRAVEDANGER.director.initializeNoCanvas(gameWidth, gameHeight);
 		}
+
+		container.style['width'] = gameWidth + "px";
+		container.style['height'] = gameHeight + "px";
 
 		GRAVEDANGER.director.imagesCache = GRAVEDANGER.CAATHelper.imagePreloader.images;
 		GRAVEDANGER.CAATHelper.prototype.initTouchEventRouter();
