@@ -157,7 +157,8 @@
 			return this;
 		},
 
-		colorRandomly: function() {
+		colorRandomly: function()
+		{
 			// Random mask
 			if(this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE) return;
 

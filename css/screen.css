@@ -5,7 +5,7 @@ body
 	margin-bottom: 0px;
 	margin-right: 0px;
 	margin: 0px;
-	background-color:#dddddd;
+	background-color:#000000;
 	background-image: url("../images/page/moleskine.gif");
 }
 #container {
@@ -14,24 +14,29 @@ body
 }
 #gameArea {
 	overflow: hidden;
-	margin: 0px;
-	/*position: relative;*/
+	-webkit-border-radius: 8px;
 	background-color:#000000;
 	/*border: 0 solid #eee;*/
 	/*font: 11px Helvetica, Arial;*/
 	/*height: 500px;*/
 	 margin-left: auto ;
 	 margin-right: auto ;
+
 	/*height: 800px;*/
 }
 
 .actor {
-	-webkit-transition: transform3d 0s linear;
+
 	/*background-image: url("../images/circle-9.png");*/
 	width: 75px;
 	height: 75px;
 	position: absolute;
 	left: 0;
 	top: 0;
+	-webkit-transition: transform3d 0s linear;
+	/*-webkit-transition-property:-webkit-transform;*/
+	/*-webkit-transition-timing-function:linear;*/
+	/*-webkit-transition-duration:0;*/
+	/*-webkit-transform:translate3d(0,0,0);*/
 	/*border: 1px solid #eee;*/
 }

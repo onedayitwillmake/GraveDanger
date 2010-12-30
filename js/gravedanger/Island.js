@@ -44,7 +44,7 @@
 
 		getImage: function()
 		{
-			var imageName = "island";// + this.color;
+			var imageName = "island_" + this.color;
 			var imageRef = GRAVEDANGER.director.getImage(imageName);
 			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
 
