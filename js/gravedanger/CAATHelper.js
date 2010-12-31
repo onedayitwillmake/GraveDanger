@@ -16,15 +16,15 @@
 		/**
 		 * Adds a CAAT.ScaleBehavior to the entity, used on animate in
 		 */
-		animateInUsingScale: function(actor, starTime, endTime, startScale, endScale)
+		animateScale: function(actor, starTime, endTime, startScale, endScale, interp)
 		{
 		   var scaleBehavior = new CAAT.ScaleBehavior();
 			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
 			actor.scaleX = actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
 			scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
-			scaleBehavior.setFrameTime( starTime, starTime+endTime );
+			scaleBehavior.setFrameTime( starTime, endTime );
 			scaleBehavior.setCycle(false);
-			scaleBehavior.setInterpolator( new CAAT.Interpolator().createBounceOutInterpolator(false) );
+			scaleBehavior.setInterpolator( interp || new CAAT.Interpolator().createLinearInterpolator(false, false) );
 			actor.addBehavior(scaleBehavior);
 
 			return scaleBehavior;

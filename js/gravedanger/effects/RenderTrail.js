@@ -78,7 +78,7 @@
 
 				prevPoint = point;
 
-				ctx.lineWidth = i / 1.4;
+				ctx.lineWidth = i / 1.3;
 				ctx.strokeStyle = this.colorRGBAString;
 				ctx.stroke();
 			}

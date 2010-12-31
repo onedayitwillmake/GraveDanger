@@ -18,8 +18,8 @@
 				.setSpriteImage(this.getImage());
 			actor.spriteIndex = chainCount;
 
-			var startX = anActor.x + anActor.width*0.5;// + GRAVEDANGER.UTILS.randomInt(20, 15),
-				startY = anActor.y-5;
+			var startX = anActor.x;// + anActor.width*0.5;// + GRAVEDANGER.UTILS.randomInt(20, 15),
+				startY = anActor.y-10;
 			actor.setLocation(startX, startY);
 
 			var behaviorContainer = new CAAT.ContainerBehavior();
@@ -27,7 +27,7 @@
 
 			// Alpha behavior
 			var ab= new CAAT.AlphaBehavior();
-			ab.setFrameTime( 400, 200 );
+			ab.setFrameTime( 400, 300 );
 			ab.startAlpha= 1;
 			ab.endAlpha= 0;
 			behaviorContainer.addBehavior(ab);
@@ -37,13 +37,13 @@
 			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
 			actor.scaleX = actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = 0;  // Fall from the 'sky' !
 			scaleBehavior.endScaleX = scaleBehavior.endScaleY = 0.75;
-			scaleBehavior.setFrameTime( 0, 400);
+			scaleBehavior.setFrameTime( 0, 500);
 			scaleBehavior.setCycle(false);
 			scaleBehavior.setInterpolator( new CAAT.Interpolator().createExponentialOutInterpolator(2, false));
 			behaviorContainer.addBehavior(scaleBehavior);
 
 			var tb= new CAAT.PathBehavior();
-			tb.setFrameTime( 0, 600 );
+			tb.setFrameTime( 0, 700 );
 			tb.setPath(
 					new CAAT.Path().setLinear(
 							startX, startY,

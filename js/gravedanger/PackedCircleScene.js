@@ -15,6 +15,7 @@
 		mousePosition: null,
 		currentChain: null,
 		isDragging: false,
+		noTickCount: 0,
 
 		init: function(director)
 		{
@@ -94,7 +95,7 @@
 			for(var i = 0; i < total; i++)
 			{
 				// Size
-				var aRadius = 30;
+				var aRadius = 26;
 				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = new GRAVEDANGER.Circle()
@@ -113,7 +114,7 @@
 				GRAVEDANGER.CAATHelper.currentSceneLayers[1].addChild( circle.getCAATActor() );
 
 				// Animate in
-				GRAVEDANGER.CAATHelper.animateInUsingScale(circle.getCAATActor(), this.director.time+Math.random() * 2000, 500, 0.1, circle.getCAATActor().scaleX );
+				GRAVEDANGER.CAATHelper.animateScale(circle.getCAATActor(), this.director.time+Math.random() * 2000, 500, 0.1, circle.getCAATActor().scaleX );
 			}
 		},
 
@@ -161,7 +162,7 @@
 				that.mouseDown(e);
 			}, true);
 
-			GRAVEDANGER.CAATHelper.getContainerDiv().addEventListener("mouseup", function(e) {
+			window.addEventListener("mouseup", function(e) {
 				that.mouseUp(e);
 			}, true);
 		},
@@ -205,18 +206,22 @@
 
 			// do something!
 			if(atLeastOneAdded)
-				this.onLinkAdded();
+				this.onLinkAdded(atLeastOneAdded);
 		},
 
 		loop: function(director, delta)
 		{
-			this.packedCircleManager.handleCollisions();
+			this.tick++;
 
 			// Handle current chain
 			if(this.currentChain) {
 				this.currentChain.chaseTarget(this.mousePosition);
 			}
 
+			if(--this.noTickCount > 0)
+				return;
+
+			this.packedCircleManager.handleCollisions();
 
 			var circleList = this.packedCircleManager.allCircles,
 				len = circleList.length;
@@ -224,10 +229,9 @@
 			{
 				var packedCircle = circleList[len];
 				var circle = packedCircle.delegate.delegate;
+
 				circle.onTick();
 			}
-
-			this.tick++;
 		},
 
 /**
@@ -272,12 +276,14 @@
 			this.currentChain.shouldAddLink(newDraggedCircle.delegate.delegate);
 			this.isDragging = true;
 
-			this.onLinkAdded();
+//			this.onLinkAdded();
 		},
 
-		onLinkAdded: function() {
-
-//			this.stutterDirector(90); // ~2 frames
+		onLinkAdded: function(aCircle) {
+			var duration = 200,
+				scaleBy = 3;
+			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.director.time, duration, aCircle.defaultScale, aCircle.defaultScale*scaleBy);
+			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.director.time+duration, duration, aCircle.defaultScale*scaleBy, aCircle.defaultScale);
 		},
 
 		/**
