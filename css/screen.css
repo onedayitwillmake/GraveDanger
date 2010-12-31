@@ -14,15 +14,10 @@ body
 }
 #gameArea {
 	overflow: hidden;
-	-webkit-border-radius: 8px;
-	background-color:#000000;
-	/*border: 0 solid #eee;*/
-	/*font: 11px Helvetica, Arial;*/
-	/*height: 500px;*/
+	-webkit-border-radius: 5px;
+	background-color:#111111;
 	 margin-left: auto ;
 	 margin-right: auto ;
-
-	/*height: 800px;*/
 }
 
 .actor {

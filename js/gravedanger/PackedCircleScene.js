@@ -101,8 +101,8 @@
 				var circle = new GRAVEDANGER.Circle()
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( groups ) )
 					.create(aRadius)
-					.setFallSpeed( Math.random() * 2 + 1)
-					.setLocation( Math.random() * this.director.width,200 )
+					.setFallSpeed( Math.random() * 3 + 1.5)
+					.setLocation( Math.random() * this.director.width, -aRadius )
 					.colorRandomly();
 				// Add to the collision simulation
 				this.packedCircleManager.addCircle( circle.getPackedCircle() );
@@ -120,13 +120,17 @@
 		 */
 		initIslands: function()
 		{
+			// DRY:
+			var allColors = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
+
 			var totalIslands = 2;
 			var padding = 150;
 			for(var i = 0; i < totalIslands; i++) {
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var island = new GRAVEDANGER.Island()
+					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create( 120  )
-					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 250);
+					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175);
 
 				this.packedCircleManager.addCircle( island.getPackedCircle() );
 				this.circleLayer.addChild( island.getCAATActor() );

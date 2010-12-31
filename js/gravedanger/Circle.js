@@ -58,7 +58,7 @@
 				.setCollisionGroup(1); // packedCircle instance - is in this group
 
 			this.actor.mouseEnabled = false;
-			this.actor.setScale(0.75, 0.75);
+			this.actor.setScale(0.6, 0.6);
 
 			return this;
 		},
@@ -115,6 +115,7 @@
 
 		getImage: function()
 		{
+
 			var imageName = "heads" + this.color;
 			var imageRef = GRAVEDANGER.director.getImage(imageName);
 			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 3, 4);
@@ -126,7 +127,7 @@
 		{
 			if(this.packedCircle.position.y > GRAVEDANGER.director.height)
 			{
-				this.packedCircle.position.x = GRAVEDANGER.director.width/2 + Math.random();
+				this.packedCircle.position.x = GRAVEDANGER.UTILS.randomFloat(0, GRAVEDANGER.director.width);
 				this.packedCircle.position.y = -this.actor.height*2;
 			} else {
 				this.packedCircle.position.y += this.fallSpeed;
@@ -164,8 +165,6 @@
 
 			var totalImages = this.conpoundImage.cols * this.conpoundImage.rows,
 				index = GRAVEDANGER.UTILS.randomInt(0, totalImages-1);
-
-			console.log(index);
 
 			this.actor.spriteIndex = index;
 

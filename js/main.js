@@ -30,6 +30,10 @@
 		}, 1000 / 30 );
 	}
 
+	/**
+	 * Loads all game assets
+	 * TODO: Move to own class
+	 */
 	function preloadImages()
 	{
 		var base = './images/';
@@ -37,7 +41,11 @@
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "red.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "yellow.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "blue.png"});
-		imagesToLoad.push({id: "island", url: base + "float2.png"});
+
+		// ALL HEADS ARE RED
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "island_red.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "island_red.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "island_red.png"});
 		imagesToLoad.push({id: "chain", url: base + "chain.png"});
 
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
@@ -56,14 +64,25 @@
 
 	function onCAATReady()
 	{
+		// DEV:
+		console.log(GRAVEDANGER.CAATHelper.imagePreloader);
+
+
 		// Don't use CANVAS if iOS
 		var useCanvas = !GRAVEDANGER.CAATHelper.prototype.getIsIOS();
 
-		if(window.QueryStringManager.getValue('useCanvas') === "false")
-			useCanvas = false; // dev
 
-		// Store
+
+		// Override above if query string provided
+		if( window.QueryStringManager.getValue('useCanvas') )
+			useCanvas = Boolean(window.QueryStringManager.getValue('useCanvas')); // dev
+
+		// Store the final result
 		GRAVEDANGER.CAATHelper.prototype.setUseCanvas( useCanvas );
+
+		if(window.QueryStringManager.getValue('useCanvas')) {
+			console.log("UseCanvas:", useCanvas)
+		}
 
 		// Pointer to container
 		var container = document.getElementById('gameArea');

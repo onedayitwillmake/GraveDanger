@@ -7,7 +7,7 @@
 
 	extend( GRAVEDANGER.Island, GRAVEDANGER.Circle, {
 		sineOffset: 0,
-		floatRadius: 35,
+		floatRadius: 30,
 		debris: null,
 
 		onTick: function() {
@@ -21,6 +21,8 @@
 
 			this.packedCircle.isFixed = true;
 			this.sineOffset = Math.random() * Math.PI * 2;
+
+			this.actor.setScale(1, 1);
 			return this;
 		},
 
@@ -44,7 +46,7 @@
 
 		getImage: function()
 		{
-			var imageName = "island_" + this.color;
+			var imageName = "island" + this.color;
 			var imageRef = GRAVEDANGER.director.getImage(imageName);
 			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
 

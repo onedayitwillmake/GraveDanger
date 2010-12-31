@@ -7,7 +7,7 @@
 						.setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE )
 						.setLocation( this.x + Math.random() * this.width, this.y)
 						.setSize(5, 5)
-						.setFillStyle('#ff0000');
+						.setFillStyle('#6699ff');
 
 				// path
 				var path = new CAAT.LinearPath();
@@ -15,7 +15,7 @@
 				path.setFinalPosition(ownerActor.x, ownerActor.y + 350);
 
 				var startTime = GRAVEDANGER.director.time + Math.random() * 2000,
-					endTime = Math.random() * 2000;
+					endTime = 1;
 				var startScale = 1,
 					endScale = 0;
 
@@ -23,7 +23,7 @@
 				var gravityBehavior = new CAAT.PathBehavior();
 					gravityBehavior.setPath( path );
 					gravityBehavior.setFrameTime(startTime, startTime);
-					gravityBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator() );
+					gravityBehavior.setInterpolator( new CAAT.Interpolator().createExponentialOutInterpolator(1, false) );
 				rectangleActor.addBehavior( gravityBehavior );
 
 				// scale to zero as falling
@@ -31,10 +31,12 @@
 					rectangleActor.scaleX = rectangleActor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
 					scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
 					scaleBehavior.setFrameTime( startTime, endTime );
-					scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator() );
+					scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false));
 				rectangleActor.addBehavior(scaleBehavior);
 
 
+			 	// Hide at first
+//			 	rectangleActor.scaleX = rectangleActor.scaleY = 0;
 				// when scale Behavior finishes, start rotation Behavior.
 				var that = this;
 				var randFloat = GRAVEDANGER.UTILS.randomFloat;
@@ -50,17 +52,17 @@
 						var centerX = behavior.ownerActor.x + behavior.ownerActor.width * 0.5,
 							centerY = behavior.ownerActor.y + behavior.ownerActor.height * 0.5 + 75 + Math.random() * 50;
 
-						var startX = randFloat(centerX-75, centerX+75),
-							startY = randFloat(centerY-20, centerY+20);
+						var startX = randFloat(centerX-55, centerX+55),
+							startY = randFloat(centerY-40, centerY+10);
 						var startScale = randFloat(1, 1.5);
 
-						var startTime = time + randFloat(0, 50),
-							endTime = 300 + randFloat(300, 700);
+						var startTime = time;// + randFloat(0, 50),
+							endTime = 200 + randFloat(200, 600);
 
 
 						// Reset
 						behavior.path.setInitialPosition(startX, startY);
-						behavior.path.setFinalPosition(startX, startY + randFloat(75, 150) );
+						behavior.path.setFinalPosition(startX, startY + randFloat(50, 100) );
 						behavior.scaleBehavior.startScaleX = behavior.scaleBehavior.startScaleY = startScale;
 
 
