@@ -1,4 +1,7 @@
 (function() {
+
+	var __CONPOUND_IMAGES = {};
+
 	GRAVEDANGER.Circle = function() {
 	 this.uuid = GRAVEDANGER.Circle.prototype.getNextUUID();
 	 return this;
@@ -12,6 +15,16 @@
 			GREEN: 1 << 1,
 			BLUE: 1 << 2
 		},
+
+		GROUP_COLOR_VALUES: (function() {
+			var obj = {};
+			// TODO: move to enum type!
+			obj[1 << 0] = new CAAT.Color.RGB(255,0,128);
+			obj[1 << 1] = new CAAT.Color.RGB(255,239,153);
+			obj[1 << 2] = new CAAT.Color.RGB(62,210,255);
+
+			return obj;
+		})(),
 
 		// DEV
 		ACTOR_TYPES: {
@@ -27,9 +40,11 @@
 		uuid: 0,
 		actor: null,
 		packedCircle:  null,
-		color: 0,
+		color: 0,				// A color based on GRAVEDANGER.Circle.prototype.GROUPS - not an actual color value
+		colorRGB: '',			// String representing the hex value of this color type
 		conpoundImage: null,
 		radius:	0,
+		defaultScale: 1,
 		fallSpeed: 0,
 
 		create: function(aRadius)
@@ -37,17 +52,15 @@
 			this.radius = aRadius;
 
 			// Use a CSSActor if useCanvas is false
-			if( GRAVEDANGER.CAATHelper.prototype.getUseCanvas() ) {
+			if( GRAVEDANGER.CAATHelper.getUseCanvas() ) {
 				this.createSpriteActor();
 //				this.createShapeActor();
 			} else {
 				this.createCSSActor();
 			}
 
-			// Dev
 
-
-			// TODO: Hack - don't stuff variable in CAAT.shapeActor
+			// TODO: Hack - don't stuff variable in CAAT.Actor
 			this.actor.delegate = this;
 
 			// The 'packedCircle' in the simulation is considered completely separate entity than the circleActor itself
@@ -58,7 +71,7 @@
 				.setCollisionGroup(1); // packedCircle instance - is in this group
 
 			this.actor.mouseEnabled = false;
-			this.actor.setScale(0.6, 0.6);
+//			this.actor.setScale(0.6, 0.6);
 
 			return this;
 		},
@@ -83,28 +96,24 @@
 				.setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE )
 				.setSize(this.radius*2, this.radius*2); // Size is in diameters
 
-			// Color it
-			// TODO: Hack - don't color here
-			var	hue = (359/this.color), // HSV uses 0 - 360
-				hex = CAAT.Color.prototype.hsvToRgb(hue, 60, 99).toHex(); // Convert to hex value
-
-			this.actor.setFillStyle('#' + hex);
-
 			this.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE;
+
+			// Check if color has been set
+			if(this.colorRGB === null) {
+				throw "(Circle)::createShapeActor - creating shape before color has been set!";
+			}
+
+			this.actor.setFillStyle(this.colorRGB.toRGBAString(1.0));
 			return this;
 		},
 
 		createCSSActor: function()
 		{
 
-			/**
-			 * Use conppound image for info
-			 * TODO: Probably inefficient but we don't create actors TOO often
-			 */
 			var caatImage = this.getImage();
 
 			this.actor = new CAAT.CSSActor()
-				.createOneday( GRAVEDANGER.CAATHelper.prototype.getContainerDiv() )
+				.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
 				.setClassName("actor")
 				.setBackground(caatImage.image.src)
 				.setSize(this.radius*2, this.radius*2);
@@ -115,11 +124,16 @@
 
 		getImage: function()
 		{
+			// Reuse one already made
+			if(__CONPOUND_IMAGES[imageName])
+				return __CONPOUND_IMAGES[imageName];
 
 			var imageName = "heads" + this.color;
 			var imageRef = GRAVEDANGER.director.getImage(imageName);
 			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 3, 4);
 
+			// Store for next
+			__CONPOUND_IMAGES[imageName]  = this.conpoundImage;
 			return this.conpoundImage;
 		},
 
@@ -132,6 +146,10 @@
 			} else {
 				this.packedCircle.position.y += this.fallSpeed;
 			}
+
+			// Position actor where packed circle is
+			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
+			this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
 		},
 
 		chaseTarget: function(aTarget, speed) {
@@ -155,13 +173,16 @@
 
 		setColor: function(aColor) {
 			this.color = aColor;
+			this.colorRGB = GRAVEDANGER.Circle.prototype.GROUP_COLOR_VALUES[aColor];
+
 			return this;
 		},
 
-		colorRandomly: function()
+		setToRandomSpriteInSheet: function()
 		{
 			// Random mask
-			if(this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE) return;
+			if(this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE)
+				return this;
 
 			var totalImages = this.conpoundImage.cols * this.conpoundImage.rows,
 				index = GRAVEDANGER.UTILS.randomInt(0, totalImages-1);
@@ -173,7 +194,7 @@
 
 		setSpriteIndex: function(anIndex)
 		{
-			if( GRAVEDANGER.CAATHelper.prototype.getUseCanvas() )
+			if( GRAVEDANGER.CAATHelper.getUseCanvas() )
 			{
 				this.actor.spriteIndex = anIndex;
 				return;
@@ -185,6 +206,21 @@
 
 			this.actor.domElement.style['background-position-x'] = sx0 + "px";
 			this.actor.domElement.style['background-position-y'] = sy0 + "px";
+		},
+
+		setDefaultScale: function(aScale) {
+			this.defaultScale = aScale;
+		  	this.actor.setScale(this.defaultScale, this.defaultScale);
+			return this;
+		},
+
+		getDefaultScale: function() {
+			return this.defaultScale;
+		},
+
+		returnToDefaultScale: function() {
+			this.actor.setScale(this.defaultScale, this.defaultScale);
+			return this;
 		},
 
 		setTargetPosition: function(aPosition)

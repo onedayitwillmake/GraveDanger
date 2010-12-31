@@ -38,15 +38,19 @@
 	{
 		var base = './images/';
 		var imagesToLoad = [];
+
+		// HEADS
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "red.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "yellow.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "blue.png"});
-
-		// ALL HEADS ARE RED
+		// ISLANDS
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "island_red.png"});
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "island_red.png"});
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "island_red.png"});
-		imagesToLoad.push({id: "chain", url: base + "chain.png"});
+		// Chains
+		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "chain_red.png"});
+		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "chain_green.png"});
+		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "chain_blue.png"});
 
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
 		// Fired when images have been preloaded
@@ -69,7 +73,7 @@
 
 
 		// Don't use CANVAS if iOS
-		var useCanvas = !GRAVEDANGER.CAATHelper.prototype.getIsIOS();
+		var useCanvas = !GRAVEDANGER.CAATHelper.getIsIOS();
 
 
 
@@ -78,7 +82,7 @@
 			useCanvas = Boolean(window.QueryStringManager.getValue('useCanvas')); // dev
 
 		// Store the final result
-		GRAVEDANGER.CAATHelper.prototype.setUseCanvas( useCanvas );
+		GRAVEDANGER.CAATHelper.setUseCanvas( useCanvas );
 
 		if(window.QueryStringManager.getValue('useCanvas')) {
 			console.log("UseCanvas:", useCanvas)
@@ -111,11 +115,11 @@
 		container.style['height'] = gameHeight + "px";
 
 		GRAVEDANGER.director.imagesCache = GRAVEDANGER.CAATHelper.imagePreloader.images;
-		GRAVEDANGER.CAATHelper.prototype.initTouchEventRouter();
+		GRAVEDANGER.CAATHelper.initTouchEventRouter();
 		CAAT.GlobalDisableEvents();
 
 		// Store reference
-		GRAVEDANGER.CAATHelper.prototype.setContainerDiv(container);
+		GRAVEDANGER.CAATHelper.setContainerDiv(container);
 
 		// Create the packedCircleScene
 		var packedCircleScene = new GRAVEDANGER.PackedCircleScene();

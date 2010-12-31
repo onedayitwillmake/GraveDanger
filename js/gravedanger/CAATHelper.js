@@ -1,10 +1,15 @@
-(function(){
-	GRAVEDANGER.CAATHelper = function() {
-		return this;
-	};
-
-	GRAVEDANGER.CAATHelper.prototype = {
+(function()
+{
+	/**
+	 * A singleton object which can help with various static functions used by parts of the game.
+	 */
+	GRAVEDANGER.CAATHelper = {
 		imagePreloader: null,
+
+		// Now
+		currentSceneLayers: null,
+		mousePosition: null,
+
 		containerDiv: null,
 		useCanvas: false,
 
@@ -83,9 +88,40 @@
 /**
  * ACCESSORS
  */
+		/**
+		 * Sets the current scene, also resets all the layers
+		 * @param aScene
+		 */
+		setScene: function(aScene)
+		{
+			if(this.currentSceneLayers != null) {
+				console.error("(CAATHelper) Layers is not null!");
+			}
+
+			this.currentSceneLayers = [];
+			this.currentScene = aScene;
+		},
+
+		/**
+		 * Gets the current scene
+		 * @return {CAAT.Scene} A scene
+		 */
+		getScene: function()
+		{
+			return this.scene;
+		},
+
+		setMousePosition: function(aMousePosition) {
+			this.mousePosition = aMousePosition;
+		},
+
+		getSceneLayers: function()
+		{
+			return this.currentSceneLayers;
+		},
+
 		setContainerDiv: function(aContainer)
 		{
-			// TODO: Make sure object is valid
 			this.containerDiv = aContainer;
 		},
 
@@ -109,7 +145,7 @@
 			if(this.hasCheckedForIOS)
 				return this.isIOS;
 
-			// TODO: Probably a superfluous optimization
+			// Prevent reg-ex check next time function is called
 			this.hasCheckedForIOS = true;
 			this.isIOS = !!((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) || (navigator.userAgent.match(/iPad/i)) ) ;
 			return this.isIOS

@@ -6,7 +6,7 @@
 			 var rectangleActor = new CAAT.ShapeActor().create()
 						.setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE )
 						.setLocation( this.x + Math.random() * this.width, this.y)
-						.setSize(5, 5)
+						.setSize(6,6)
 						.setFillStyle('#6699ff');
 
 				// path

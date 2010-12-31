@@ -13,6 +13,10 @@
 		onTick: function() {
 			this.sineOffset += 0.03 + Math.random() * 0.01;
 			this.packedCircle.position.y  = Math.sin(this.sineOffset) * this.floatRadius + this.targetLocation.y;
+
+//			this.positionActor
+			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
+			this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
 		},
 
 		create: function(aRadius)
@@ -32,14 +36,14 @@
 		createDebrisPieces: function()
 		{
 			// only show debris on canvas
-			if( !GRAVEDANGER.CAATHelper.prototype.getUseCanvas() )
+			if( !GRAVEDANGER.CAATHelper.getUseCanvas() )
 				return;
 
 			for(var i = 0; i < 3; i++)
 			{
 				var rectangleDebris = GRAVEDANGER.EffectsDebris.create(this.actor);
 				this.debris.push(rectangleDebris);
-				GRAVEDANGER.otherScene.addChild(rectangleDebris);
+				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(rectangleDebris);
 			}
 		},
 
