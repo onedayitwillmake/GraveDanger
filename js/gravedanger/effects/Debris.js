@@ -59,7 +59,6 @@
 						var startTime = time;// + randFloat(0, 50),
 							endTime = 200 + randFloat(200, 600);
 
-
 						// Reset
 						behavior.path.setInitialPosition(startX, startY);
 						behavior.path.setFinalPosition(startX, startY + randFloat(50, 100) );

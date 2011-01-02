@@ -93,19 +93,28 @@
 		chaseTarget: function(aTarget)
 		{
 			var speed = 0.45,
-				radius = 30;
-				previous = null;
+				radius = 50;
 
 			var len = this.linksArray.length,
-				piLen = __PI_2 / len;
+				piLen = __PI_2 / (len-1),
+				previous = null;
 
-			for(var i = 0; i < len; i++) {
+			for(var i = 0; i < len; i++)
+			{
 				var aCircle = this.linksArray[i];
 				var chaseTarget;
 
 				// make a circle around the head one
-				if(previous) {
-					chaseTarget = previous.packedCircle.position.clone();
+				if(previous)
+				{
+//					if(this.head.packedCircle.position.getDistanceSquared(aTarget) <  this.head.actor.width*this.head.actor.width) {
+//						chaseTarget = aTarget;
+//					} else {
+						chaseTarget = previous.packedCircle.position;
+//					}
+
+					chaseTarget = chaseTarget.clone();
+					//previous.packedCircle.position.getDistanceSquared(aTarget)
 					chaseTarget.x += Math.cos(i * piLen - __chainOffset) * radius;
 					chaseTarget.y += Math.sin(i * piLen- __chainOffset) * -radius;
 				} else {
@@ -160,6 +169,8 @@
 
 			this.effectsRenderTrail.setDiscardable(true);
 			this.effectsRenderTrail.setExpired(true);
+
+			this.effectsRenderTrail = null;
 		}
 	}
 })();

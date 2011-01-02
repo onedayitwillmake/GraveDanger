@@ -111,6 +111,25 @@
 			return this.scene;
 		},
 
+		/**
+		 * Creates a CAAT.Rectangle storing the game dimensions
+		 * @param {Number} gameWidth	A width
+		 * @param {Number} gameHeight	A height
+		 */
+		setGameDimensions: function(gameWidth, gameHeight) {
+			console.dir(CAAT.Rectangle)
+			this.gameDimensions = new CAAT.Rectangle();
+			this.gameDimensions.width = gameWidth;
+			this.gameDimensions.height = gameHeight;
+		},
+
+		/**
+		 * @returns {CAAT.Rectangle} A rectangle containing the game dimensions
+		 */
+		getGameDimensions: function() {
+			return this.gameDimensions;
+		},
+
 		setMousePosition: function(aMousePosition) {
 			this.mousePosition = aMousePosition;
 		},
@@ -130,16 +149,27 @@
 			return this.containerDiv;
 		},
 
+		/**
+		 * Set whether canvas is used or not
+		 * @param {Boolean} aValue
+		 */
 		setUseCanvas: function(aValue)
 		{
 			this.useCanvas = aValue;
 		},
 
+		/**
+		 * @return {Boolean} Whether or not we're using canvas (probably determined by isIOS)
+		 */
 		getUseCanvas: function()
 		{
 			return this.useCanvas;
 		},
 
+		/**
+		 * TODO: Check for mobile safari, not iOS
+		 * @return {Boolean} Whether the game is being run from a iOS
+		 */
 		getIsIOS: function()
 		{
 			if(this.hasCheckedForIOS)

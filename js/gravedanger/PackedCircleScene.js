@@ -22,14 +22,13 @@
 			this.tick = 0;
 			this.initDirector(director);
 			this.initLayers();
+			this.initObjectPools();
 			this.initCircles();
 			this.initMouseEvents();
 			this.initIslands();
 			this.initFinal();
 
 			GRAVEDANGER.SimpleDispatcher.addListener("warWereDeclared", this.onWarWereDeclared, this);
-
-
 		},
 
 		onWarWereDeclared: function(event, data) {
@@ -67,7 +66,7 @@
 		 */
 		initLayers: function()
 		{
-			for(var i = 0; i < 3; i++)
+			for(var i = 0; i <= 2; i++)
 			{
 				var aLayer = new CAAT.ActorContainer().
 					create().
@@ -79,15 +78,20 @@
 			}
 		},
 
+		initObjectPools: function() {
+			this.circlePool = new CAAT.ObjectPool()
+				.create('circles', true)
+				.setPoolConstructor(GRAVEDANGER.Circle)
+				.allocate(32);
+		},
+
 		/**
 		 * Creates the circles which will be used in the scene
 		 */
 		initCircles: function()
 		{
 			// Create a bunch of circles!
-			var colorHelper = new CAAT.Color(),
-				rgb = new CAAT.Color.RGB(0, 0, 0),
-				total = 20;
+			var total = 30;
 
 			// temp place groups into array to pull from randomly
 			var allColors = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.GREEN, GRAVEDANGER.Circle.prototype.GROUPS.BLUE];
@@ -95,10 +99,10 @@
 			for(var i = 0; i < total; i++)
 			{
 				// Size
-				var aRadius = 26;
+				var aRadius = 18;
 				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
-				var circle = new GRAVEDANGER.Circle()
+				var circle = this.circlePool.getObject()
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create(aRadius)
 					.setFallSpeed( Math.random() * 4 + 3)

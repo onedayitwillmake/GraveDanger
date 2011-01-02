@@ -11,7 +11,7 @@
 		debris: null,
 
 		onTick: function() {
-			this.sineOffset += 0.03 + Math.random() * 0.01;
+			this.sineOffset += 0.02 + Math.random() * 0.01;
 			this.packedCircle.position.y  = Math.sin(this.sineOffset) * this.floatRadius + this.targetLocation.y;
 
 //			this.positionActor
