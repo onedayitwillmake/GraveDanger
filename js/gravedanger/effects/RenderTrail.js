@@ -1,12 +1,19 @@
 (function() {
+
+	var __pointPool = new CAAT.ObjectPool()
+	.create('CAAT.Point', false)
+	.setPoolConstructor(CAAT.Point)
+	.allocate(256);
+
 	GRAVEDANGER.EffectsRenderTrail = function() {
 		GRAVEDANGER.EffectsRenderTrail.superclass.constructor.call(this);
+
 		return this;
 	};
 
 	extend(GRAVEDANGER.EffectsRenderTrail, CAAT.Actor, {
 		dep: 0,
-		trailLength: 15,
+		trailLength: 200,
 		dotArray: null,
 		colorRGBAString: null,
 
@@ -30,14 +37,16 @@
 		 */
 		paint: function(director, time)
 		{
-			var positionClone = {x: GRAVEDANGER.CAATHelper.mousePosition.x, y: GRAVEDANGER.CAATHelper.mousePosition.y};
+			var positionClone = __pointPool.getObject()
+				.set(GRAVEDANGER.CAATHelper.mousePosition.x, GRAVEDANGER.CAATHelper.mousePosition.y);
+
 			this.dotArray.push(positionClone);
 
 			var ctx = director.ctx;
 
 			// LIFO
 			if(this.dotArray.length > this.trailLength) {
-				this.dotArray.shift();
+				__pointPool.setObject( this.dotArray.shift() );
 			}
 
 			var dotLength = this.dotArray.length,
@@ -53,10 +62,9 @@
 				var prevObj = this.dotArray[i-1],
 					currentObj = this.dotArray[i];
 
-				// Midpoint
-				var point = {x:prevObj.x + (currentObj.x - prevObj.x) * .5,
-							y: prevObj.y + (currentObj.y - prevObj.y) * .5};
-
+				// Mid point between the two objects
+				var point = __pointPool.getObject()
+						.set(prevObj.x + (currentObj.x - prevObj.x) * .5, prevObj.y + (currentObj.y - prevObj.y) * .5);
 
 				var jitter = 2.5;
 				point.x += GRAVEDANGER.UTILS.randomFloat(-jitter, jitter);
@@ -78,15 +86,23 @@
 
 				prevPoint = point;
 
-				ctx.lineWidth = i / 1.3;
+				ctx.lineWidth = i / 10;
 				ctx.strokeStyle = this.colorRGBAString;
 				ctx.stroke();
+
+				// Place the temp point back in the pool
+				__pointPool.setObject(point)
 			}
 		},
 
 		destroy: function()
 		{
 			GRAVEDANGER.EffectsRenderTrail.superclass.destroy.call(this);
+
+			// Release all the points back to the pool
+			while(this.dotArray.length) {
+				__pointPool.setObject( this.dotArray.shift() );
+			}
 			this.dotArray = null;
 		}
 	});

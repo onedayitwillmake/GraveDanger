@@ -80,7 +80,7 @@
 
 		initObjectPools: function() {
 			this.circlePool = new CAAT.ObjectPool()
-				.create('circles', true)
+				.create('GRAVEDANGER.Circle', false)
 				.setPoolConstructor(GRAVEDANGER.Circle)
 				.allocate(32);
 		},
@@ -105,7 +105,8 @@
 				var circle = this.circlePool.getObject()
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create(aRadius)
-					.setFallSpeed( Math.random() * 4 + 3)
+//					.setFallSpeed( Math.random() * 4 + 3)
+					.setFallSpeed( Math.random() * 1)
 					.setLocation( Math.random() * this.director.width, -aRadius )
 					.setToRandomSpriteInSheet()
 					.setDefaultScale(0.6);

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="Refactored 'super functions' into smaller more managable bits">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" afterPath="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/ObjectPool.js" afterPath="$PROJECT_DIR$/js/lib/ObjectPool.js" />
     </list>
     <ignored path="CAAT.iws" />
@@ -65,28 +66,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PackedCircleScene.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PackedCircleScene.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="0" selection-start="2738" selection-end="2738" vertical-scroll-proportion="0.8245614">
+            <state line="108" column="52" selection-start="2964" selection-end="2964" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectPool.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="RenderTrail.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="108" column="5" selection-start="2675" selection-end="2675" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pooltest.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/lib/pooltest.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="344" column="24" selection-start="7751" selection-end="7771" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="point.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/math/point.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="12" selection-start="184" selection-end="659" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Circle.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="155" column="20" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ObjectPool.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="23" selection-start="2902" selection-end="2903" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="31" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.0">
+            <state line="14" column="9" selection-start="755" selection-end="755" vertical-scroll-proportion="0.27522936">
               <folding />
             </state>
           </provider>
@@ -101,37 +129,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conpoundimage.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/model/conpoundimage.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="166" selection-start="3470" selection-end="3470" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EffectsChainAnnounce.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/EffectsChainAnnounce.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="68" selection-start="543" selection-end="543" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Chain.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/Chain.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="97" column="161" selection-start="2409" selection-end="2409" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SortedLookupTable.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/lib/SortedLookupTable.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="133" column="12" selection-start="2512" selection-end="2589" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -149,7 +150,7 @@
       <file leaf-file-name="Island.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="58" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
+            <state line="62" column="34" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -169,11 +170,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/css/screen.css" />
         <option value="$PROJECT_DIR$/js/gravedanger/BackgroundEffectsLayer.as" />
         <option value="$PROJECT_DIR$/js/gravedanger/BackgroundEffectsLayer.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Circle.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/chainannounce.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/EffectsChainAnnounce.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Chain.js" />
@@ -183,8 +182,10 @@
         <option value="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/gravedanger/Island.js" />
-        <option value="$PROJECT_DIR$/js/lib/ObjectPool.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
+        <option value="$PROJECT_DIR$/js/lib/pooltest.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" />
+        <option value="$PROJECT_DIR$/js/lib/ObjectPool.js" />
       </list>
     </option>
   </component>
@@ -265,6 +266,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CAAT" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GraveDanger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gravedanger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CAAT" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GraveDanger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gravedanger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="effects" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -495,16 +536,16 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13606195" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.07300885" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2391171" sideWeight="0.42035398" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2391171" sideWeight="0.38938054" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2391171" sideWeight="0.5707965" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2391171" sideWeight="0.5287611" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17588496" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964602" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964602" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -549,26 +590,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/lib/QueryStringManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="26" selection-start="161" selection-end="161" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="143" selection-start="5540" selection-end="5540" vertical-scroll-proportion="0.318306" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/SimpleDispatcher.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="7" selection-start="433" selection-end="559" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="39" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/images/game/heads_blue.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -613,28 +634,56 @@
         <state line="60" column="0" selection-start="2456" selection-end="2456" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="58" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/Chain.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="97" column="161" selection-start="2409" selection-end="2409" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="23" selection-start="2902" selection-end="2903" vertical-scroll-proportion="0.0">
+        <state line="155" column="20" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="34" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="0" selection-start="2738" selection-end="2738" vertical-scroll-proportion="0.8245614">
+        <state line="108" column="52" selection-start="2964" selection-end="2964" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/math/point.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="12" selection-start="184" selection-end="659" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/pooltest.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="344" column="24" selection-start="7751" selection-end="7771" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="5" selection-start="2675" selection-end="2675" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="9" selection-start="755" selection-end="755" vertical-scroll-proportion="0.27522936">
           <folding />
         </state>
       </provider>
