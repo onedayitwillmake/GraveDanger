@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="Refactored 'super functions' into smaller more managable bits">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/red.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Chain.js" afterPath="$PROJECT_DIR$/js/gravedanger/Chain.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Circle.js" afterPath="$PROJECT_DIR$/js/gravedanger/Circle.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Island.js" afterPath="$PROJECT_DIR$/js/gravedanger/Island.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" afterPath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" afterPath="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/ObjectPool.js" afterPath="$PROJECT_DIR$/js/lib/ObjectPool.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
     </list>
     <ignored path="CAAT.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,10 +72,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PackedCircleScene.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PackedCircleScene.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="52" selection-start="2964" selection-end="2964" vertical-scroll-proportion="0.0">
+            <state line="291" column="0" selection-start="8126" selection-end="8126" vertical-scroll-proportion="0.8542459">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="108" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -78,16 +93,7 @@
       <file leaf-file-name="RenderTrail.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="5" selection-start="2675" selection-end="2675" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pooltest.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/lib/pooltest.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="344" column="24" selection-start="7751" selection-end="7771" vertical-scroll-proportion="0.0">
+            <state line="26" column="63" selection-start="642" selection-end="659" vertical-scroll-proportion="-14.961538">
               <folding />
             </state>
           </provider>
@@ -105,16 +111,16 @@
       <file leaf-file-name="Circle.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="20" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0">
+            <state line="28" column="14" selection-start="350" selection-end="668" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectPool.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ObjectPool.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="9" selection-start="755" selection-end="755" vertical-scroll-proportion="0.27522936">
+            <state line="16" column="64" selection-start="937" selection-end="937" vertical-scroll-proportion="-9.230769">
               <folding />
             </state>
           </provider>
@@ -132,7 +138,7 @@
       <file leaf-file-name="Chain.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/Chain.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="161" selection-start="2409" selection-end="2409" vertical-scroll-proportion="0.0">
+            <state line="172" column="51" selection-start="4317" selection-end="4317" vertical-scroll-proportion="-23.0">
               <folding />
             </state>
           </provider>
@@ -141,7 +147,7 @@
       <file leaf-file-name="Debris.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/Debris.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="0" selection-start="2456" selection-end="2456" vertical-scroll-proportion="0.0">
+            <state line="11" column="31" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -150,7 +156,7 @@
       <file leaf-file-name="Island.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="34" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0">
+            <state line="13" column="92" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -172,20 +178,20 @@
       <list>
         <option value="$PROJECT_DIR$/js/gravedanger/BackgroundEffectsLayer.as" />
         <option value="$PROJECT_DIR$/js/gravedanger/BackgroundEffectsLayer.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/Circle.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/chainannounce.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/EffectsChainAnnounce.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/Chain.js" />
         <option value="$PROJECT_DIR$/js/lib/caatsrc/model/conpoundimage.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
-        <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/gravedanger/Island.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
+        <option value="$PROJECT_DIR$/js/lib/ObjectPool.js" />
         <option value="$PROJECT_DIR$/js/lib/pooltest.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" />
-        <option value="$PROJECT_DIR$/js/lib/ObjectPool.js" />
+        <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/Circle.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/Island.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/Chain.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
       </list>
     </option>
   </component>
@@ -306,6 +312,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="effects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CAAT" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GraveDanger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CAAT" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GraveDanger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="game" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -617,45 +655,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="31" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="25" selection-start="816" selection-end="816" vertical-scroll-proportion="-8.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/Debris.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="0" selection-start="2456" selection-end="2456" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/Chain.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="161" selection-start="2409" selection-end="2409" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="20" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="34" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="52" selection-start="2964" selection-end="2964" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -667,23 +669,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="64" selection-start="937" selection-end="937" vertical-scroll-proportion="-9.230769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/pooltest.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="344" column="24" selection-start="7751" selection-end="7771" vertical-scroll-proportion="0.0">
+        <state line="366" column="28" selection-start="8301" selection-end="8301" vertical-scroll-proportion="0.1634981">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="14" selection-start="350" selection-end="668" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/Debris.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="31" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="5" selection-start="2675" selection-end="2675" vertical-scroll-proportion="0.0">
+        <state line="26" column="63" selection-start="642" selection-end="659" vertical-scroll-proportion="-14.961538">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="9" selection-start="755" selection-end="755" vertical-scroll-proportion="0.27522936">
+        <state line="13" column="92" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="108" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Chain.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="172" column="51" selection-start="4317" selection-end="4317" vertical-scroll-proportion="-23.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="291" column="0" selection-start="8126" selection-end="8126" vertical-scroll-proportion="0.8542459">
           <folding />
         </state>
       </provider>

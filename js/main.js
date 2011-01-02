@@ -45,8 +45,8 @@
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "heads_blue.png"});
 		// ISLANDS
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "island_red.png"});
-		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "island_red.png"});
-		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "island_red.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "island_green.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "island_blue.png"});
 		// Chains
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "chain_blue.png"});
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "chain_blue.png"});

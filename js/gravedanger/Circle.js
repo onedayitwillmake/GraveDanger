@@ -1,7 +1,11 @@
 (function() {
 
 	var __CONPOUND_IMAGES = {};
-
+	var __colorGroups = {
+			RED: 1 << 0,
+			GREEN: 1 << 1,
+			BLUE: 1 << 2
+		};
 	GRAVEDANGER.Circle = function() {
 	 this.uuid = GRAVEDANGER.Circle.prototype.getNextUUID();
 	 return this;
@@ -10,18 +14,16 @@
 	GRAVEDANGER.Circle.prototype = {
 		NEXT_UUID: 0,
 		// Class props
-		GROUPS: {
-			RED: 1 << 0,
-			GREEN: 1 << 1,
-			BLUE: 1 << 2
-		},
+		GROUPS: __colorGroups,
+
 
 		GROUP_COLOR_VALUES: (function() {
+
 			var obj = {};
-			// TODO: move to enum type!
-			obj[1 << 0] = new CAAT.Color.RGB(255,0,128);
-			obj[1 << 1] = new CAAT.Color.RGB(255,239,153);
-			obj[1 << 2] = new CAAT.Color.RGB(62,210,255);
+			// Can't access own prototype by this pointyet so have to use local version
+			obj[__colorGroups.RED] = new CAAT.Color.RGB(255,0,128);
+			obj[__colorGroups.GREEN] = new CAAT.Color.RGB(255,239,153);
+			obj[__colorGroups.BLUE] = new CAAT.Color.RGB(62,210,255);
 
 			return obj;
 		})(),

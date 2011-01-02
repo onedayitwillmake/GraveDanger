@@ -6,6 +6,15 @@
 	};
 
 	extend( GRAVEDANGER.Island, GRAVEDANGER.Circle, {
+		// Class properties
+		DEBRIS_COLORS:  (function() {
+			var obj = {};
+			obj[GRAVEDANGER.Circle.prototype.GROUPS.RED] = new CAAT.Color.RGB(62,210,255);
+			obj[GRAVEDANGER.Circle.prototype.GROUPS.GREEN] = new CAAT.Color.RGB(255,0,128);
+			obj[GRAVEDANGER.Circle.prototype.GROUPS.BLUE] = new CAAT.Color.RGB(255,239,153);
+			return obj;
+		})(),
+		// Instnace properties
 		sineOffset: 0,
 		floatRadius: 30,
 		debris: null,
@@ -14,7 +23,7 @@
 			this.sineOffset += 0.02 + Math.random() * 0.01;
 			this.packedCircle.position.y  = Math.sin(this.sineOffset) * this.floatRadius + this.targetLocation.y;
 
-//			this.positionActor
+			// this.positionActor
 			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
 			this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
 		},
@@ -39,9 +48,11 @@
 			if( !GRAVEDANGER.CAATHelper.getUseCanvas() )
 				return;
 
+			var rgbColor = GRAVEDANGER.Island.prototype.DEBRIS_COLORS[this.color],
+				colorRGBAString = rgbColor.toRGBAString(0.9);
 			for(var i = 0; i < 3; i++)
 			{
-				var rectangleDebris = GRAVEDANGER.EffectsDebris.create(this.actor);
+				var rectangleDebris = GRAVEDANGER.EffectsDebris.create(this.actor, colorRGBAString);
 				this.debris.push(rectangleDebris);
 				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(rectangleDebris);
 			}

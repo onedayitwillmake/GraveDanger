@@ -105,8 +105,7 @@
 				var circle = this.circlePool.getObject()
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create(aRadius)
-//					.setFallSpeed( Math.random() * 4 + 3)
-					.setFallSpeed( Math.random() * 1)
+					.setFallSpeed( Math.random() * 4 + 3)
 					.setLocation( Math.random() * this.director.width, -aRadius )
 					.setToRandomSpriteInSheet()
 					.setDefaultScale(0.6);
@@ -255,11 +254,16 @@
 		mouseUp: function(e)
 		{
 			this.isDragging = false;
+
 			if(this.currentChain) {
-				this.currentChain.releaseAll();
-				this.currentChain.dealloc();
+				this.destroyChain(this.currentChain);
 				this.currentChain = null;
 			}
+		},
+
+		destroyChain: function(aChain) {
+			aChain.releaseAll();
+			aChain.dealloc();
 		},
 
 		mouseDown: function(e) {
@@ -274,14 +278,19 @@
 			if(!newDraggedCircle)
 				return;
 
-			// Create a new Chain
-			this.currentChain = new GRAVEDANGER.Chain();
+			// Create a new Chain - we'll let the chain decide if it is valid or not (for example cannot drag
+			var possibleChainStart = new GRAVEDANGER.Chain();
 
 			// Looks weird but the "PackedCircle's CircleActor's Circle"!!
-			this.currentChain.shouldAddLink(newDraggedCircle.delegate.delegate);
-			this.isDragging = true;
+			possibleChainStart.shouldAddLink(newDraggedCircle.delegate.delegate);
 
-//			this.onLinkAdded();
+			// Add the chain if it was considered valid
+			if( possibleChainStart.getHead() ) {
+				this.currentChain = possibleChainStart;
+				this.isDragging = true;
+			} else { // Link was considered invalid by the chain, ignore chain instance
+				this.destroyChain(possibleChainStart);
+			}
 		},
 
 		onLinkAdded: function(aCircle) {

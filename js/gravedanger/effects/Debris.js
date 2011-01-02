@@ -1,14 +1,15 @@
 (function() {
 
 	 GRAVEDANGER.EffectsDebris = {
-		 create: function(ownerActor)
+		 create: function(ownerActor, aColor)
 		 {
 			 var rectangleActor = new CAAT.ShapeActor().create()
 						.setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE )
 						.setLocation( this.x + Math.random() * this.width, this.y)
 						.setSize(6,6)
-						.setFillStyle('#6699ff');
+						.setFillStyle(aColor);
 
+			 console.log(aColor)
 				// path
 				var path = new CAAT.LinearPath();
 				path.setInitialPosition(ownerActor.x, ownerActor.y + 50);

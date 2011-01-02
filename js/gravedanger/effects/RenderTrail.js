@@ -3,7 +3,7 @@
 	var __pointPool = new CAAT.ObjectPool()
 	.create('CAAT.Point', false)
 	.setPoolConstructor(CAAT.Point)
-	.allocate(256);
+	.allocate(32);
 
 	GRAVEDANGER.EffectsRenderTrail = function() {
 		GRAVEDANGER.EffectsRenderTrail.superclass.constructor.call(this);
@@ -13,7 +13,7 @@
 
 	extend(GRAVEDANGER.EffectsRenderTrail, CAAT.Actor, {
 		dep: 0,
-		trailLength: 200,
+		trailLength: 20,
 		dotArray: null,
 		colorRGBAString: null,
 
@@ -86,7 +86,7 @@
 
 				prevPoint = point;
 
-				ctx.lineWidth = i / 10;
+				ctx.lineWidth = i / 1.6;
 				ctx.strokeStyle = this.colorRGBAString;
 				ctx.stroke();
 

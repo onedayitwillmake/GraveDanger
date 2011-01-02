@@ -133,6 +133,10 @@
 			return this.links;
 		},
 
+		getHead: function() {
+			return this.head;
+		},
+
 		/**
 		 * Given 2 circles, will return the one which is this Chain's 'head', or null if neither
 		 * @param {GRAVEDANGER.Circle} aCircle1
@@ -150,7 +154,6 @@
 
 		releaseAll: function() {
 			this.links.forEach(function(key, aCircle) {
-				aCircle.packedCircle.isFixed = false;
 				aCircle.packedCircle.collisionGroup = 1;
 				aCircle.returnToDefaultScale();
 				aCircle.actor.alpha = 1;
@@ -166,10 +169,13 @@
 			this.links = null;
 			this.head = null;
 
-
-			this.effectsRenderTrail.setDiscardable(true);
-			this.effectsRenderTrail.setExpired(true);
-
+			// Effects rendertrail is only created on first valid link, so if the first passed possible head is invalid, and no new ones are sent before dealloc
+			// this.effectsrendertrail will be null
+		  	if(this.effectsRenderTrail)
+			{
+				this.effectsRenderTrail.setDiscardable(true);
+				this.effectsRenderTrail.setExpired(true);
+			}
 			this.effectsRenderTrail = null;
 		}
 	}
