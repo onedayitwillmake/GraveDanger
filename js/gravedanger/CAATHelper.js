@@ -7,6 +7,7 @@
 		imagePreloader: null,
 
 		// Now
+		director: null,
 		currentSceneLayers: null,
 		mousePosition: null,
 
@@ -85,6 +86,58 @@
 			document.addEventListener("touchcancel", touchEventRouter, true);
 		},
 
+		/**
+		 * Creates a sprite actor, and sets the "aController's" actorType property accordingly.
+		 * @param {GRAVEDANGER.Circle} aController Controller which will own the sprite created
+		 * @return {CAAT.SpriteActor}	A CAAT.SpriteActor
+		 */
+		createSpriteActor: function(aController)
+		{
+			var anActor = new CAAT.SpriteActor().
+					create().
+					setSpriteImage(aController.getImage());
+
+			aController.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SPRITE;
+			return anActor;
+		},
+
+		/**
+		 * Creates a ShapeActor, and sets the "aController's" actorType property accordingly.
+		 * @param {GRAVEDANGER.Circle} aController Controller which will own the sprite created
+		 * @param {CAAT.ShapeActor.prototype.SHAPE_CIRCLE | CAAT.ShapeActor.prototype.SHAPE_RECTANGLE} aShapeType The shapetype
+		 * @param {String} aColorString A valid CSS color string
+		 * @param {Number} aSize	Radius to create the ShapeActor
+		 * @return {CAAT.ShapeActor}	A CAAT.ShapeActor
+		 */
+		createShapeActor: function(aController, aShapeType, aColorString, aSize)
+		{
+		  var anActor = new CAAT.ShapeActor().create()
+				.setShape( aShapeType )
+				.setSize(aSize, aSize); // Size is in diameters
+
+			anActor.setFillStyle(aColorString);
+			aController.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE;
+			return anActor;
+		},
+
+		/**
+		 * Creates a CSSActor, and sets the "aController's" actorType property accordingly.
+		 * @param {GRAVEDANGER.Circle} aController Controller which will own the sprite created
+		 * @param {Number} aSize	Radius to create the ShapeActor
+		 * @return {CAAT.CSSActor}	A CAAT.CSSActor
+		 */
+		createCSSActor: function(aController, aSize )
+		{
+			var anActor = new CAAT.CSSActor()
+				.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
+				.setClassName("actor")
+				.setBackground( aController.getImage().image.src )
+				.setSize(aSize, aSize);
+
+			aController.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CSS_SPRITE;
+			return this;
+		},
+
 /**
  * ACCESSORS
  */
@@ -117,10 +170,14 @@
 		 * @param {Number} gameHeight	A height
 		 */
 		setGameDimensions: function(gameWidth, gameHeight) {
-			console.dir(CAAT.Rectangle)
 			this.gameDimensions = new CAAT.Rectangle();
 			this.gameDimensions.width = gameWidth;
 			this.gameDimensions.height = gameHeight;
+
+			// Set the div's size
+			var container = this.getContainerDiv();
+			container.style['width'] = gameWidth + "px";
+			container.style['height'] = gameHeight + "px";
 		},
 
 		/**
@@ -147,6 +204,26 @@
 		getContainerDiv: function()
 		{
 			return this.containerDiv;
+		},
+
+		/**
+		 * Stores the CAAT.Director singleton instance
+		 * @param {CAAT.Director} aDirector A director instance
+		 */
+		setDirector: function(aDirector) {
+			this.director = aDirector;
+
+			// Many options have to reference the director, and we want to avoid multilevel deep nested checks
+			// So the lesser of two evens is to store a reference within GRAVEDANGER
+			GRAVEDANGER.director = this.director;
+			return this;
+		},
+
+		/**
+		 * @return The director singleton
+		 */
+		getDirector: function() {
+			return this.director;
 		},
 
 		/**

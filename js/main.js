@@ -51,6 +51,9 @@
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "chain_blue.png"});
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "chain_blue.png"});
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "chain_blue.png"});
+		// HUD
+		imagesToLoad.push({id: "hud_timeleft", url: base + "hud/timeleft.png"});
+		imagesToLoad.push({id: "hud_timeleftMasker", url: base + "hud/timeleft_masker.png"});
 
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
 		// Fired when images have been preloaded
@@ -68,6 +71,10 @@
 
 	function onCAATReady()
 	{
+		// Game size - focus on iphone
+		var gameWidth = 320*2,
+			gameHeight = 356*2;
+
 		// Don't use CANVAS if iOS
 		var useCanvas = !GRAVEDANGER.CAATHelper.getIsIOS();
 
@@ -85,40 +92,31 @@
 		// Pointer to container
 		var container = document.getElementById('gameArea');
 
-		// Game size - focus on iphone
-		var gameWidth = 320*2,
-			gameHeight = 356*2;
-
 		// Initialize CAAT
+		GRAVEDANGER.CAATHelper.setContainerDiv(container);	//	Store reference to container div, used when creating events within a scenes
 		GRAVEDANGER.CAATHelper.setGameDimensions(gameWidth, gameHeight);
 
-		GRAVEDANGER.director = new CAAT.Director();
+		var director = new CAAT.Director();
+		GRAVEDANGER.CAATHelper.setDirector( director );
 
 		// If we aren't using canvas, i believe CAAT is still needs one, so create a canvas that is 1 pixel in size
 		if(useCanvas) {
-			GRAVEDANGER.director.initialize(gameWidth, gameHeight);
-
+			director.initialize(gameWidth, gameHeight);
 			// Add it to the document
-			container.appendChild( GRAVEDANGER.director.canvas );
+			container.appendChild( director.canvas );
 		} else {
-			GRAVEDANGER.director.initializeNoCanvas(gameWidth, gameHeight);
+			director.initializeNoCanvas(gameWidth, gameHeight);
 		}
 
-		container.style['width'] = gameWidth + "px";
-		container.style['height'] = gameHeight + "px";
-
 		// Place image cache back into director
-		GRAVEDANGER.director.imagesCache = GRAVEDANGER.CAATHelper.imagePreloader.images;
-
+		director.imagesCache = GRAVEDANGER.CAATHelper.imagePreloader.images;
 		CAAT.GlobalDisableEvents();
 
-
 		GRAVEDANGER.CAATHelper.initTouchEventRouter();		//	Map touch events to mouse events
-		GRAVEDANGER.CAATHelper.setContainerDiv(container);	//	Store reference to container div, used when creating events within a scenes
 
 		// Create the packedCircleScene
 		var packedCircleScene = new GRAVEDANGER.PackedCircleScene();
-		packedCircleScene.init(GRAVEDANGER.director);
+		packedCircleScene.init();
 
 		// Start it up
 		packedCircleScene.start();

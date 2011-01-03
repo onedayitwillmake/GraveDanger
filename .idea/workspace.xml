@@ -4,17 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="Refactored 'super functions' into smaller more managable bits">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/images/red.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Chain.js" afterPath="$PROJECT_DIR$/js/gravedanger/Chain.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Circle.js" afterPath="$PROJECT_DIR$/js/gravedanger/Circle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Island.js" afterPath="$PROJECT_DIR$/js/gravedanger/Island.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" afterPath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" afterPath="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
-    </list>
+    <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="Refactored 'super functions' into smaller more managable bits" />
     <ignored path="CAAT.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -75,7 +65,7 @@
       <file leaf-file-name="PackedCircleScene.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="291" column="0" selection-start="8126" selection-end="8126" vertical-scroll-proportion="0.8542459">
+            <state line="255" column="76" selection-start="7003" selection-end="7003" vertical-scroll-proportion="0.16983524">
               <folding />
             </state>
           </provider>
@@ -568,7 +558,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1024" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964602" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -727,7 +717,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="291" column="0" selection-start="8126" selection-end="8126" vertical-scroll-proportion="0.8542459">
+        <state line="255" column="76" selection-start="7003" selection-end="7003" vertical-scroll-proportion="0.16983524">
           <folding />
         </state>
       </provider>

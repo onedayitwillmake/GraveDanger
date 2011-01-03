@@ -7,15 +7,26 @@
 	};
 
 	GRAVEDANGER.PackedCircleScene.prototype= {
+		// CAAT Info
 		packedCircleManager: null,
 		director:	null,
 		scene:	null,
-		circleLayer:	null,
 
+		// Mouse information
 		mousePosition: null,
-		currentChain: null,
 		isDragging: false,
-		noTickCount: 0,
+
+		// Current info
+		currentChain: null,
+
+		// HUD
+		hud: null,
+
+		// Scoring
+
+		// GAMEOVER!
+		anchorScale: 1.0,				// Current scale of the anchor
+		anchorDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
 
 		init: function(director)
 		{
@@ -26,6 +37,7 @@
 			this.initCircles();
 			this.initMouseEvents();
 			this.initIslands();
+			this.initHud();
 			this.initFinal();
 
 			GRAVEDANGER.SimpleDispatcher.addListener("warWereDeclared", this.onWarWereDeclared, this);
@@ -39,9 +51,9 @@
 		 * Main initilization, creates the packed circle manager
 		 * @param director
 		 */
-		initDirector: function(director)
+		initDirector: function()
 		{
-			this.director = director;
+			this.director = GRAVEDANGER.CAATHelper.getDirector();
 			this.scene = new CAAT.Scene().
 				create();
 
@@ -50,7 +62,7 @@
 
 			// Collision simulation
 			this.packedCircleManager = new CAAT.modules.CircleManager.PackedCircleManager();
-			this.packedCircleManager.setBounds(0, 0, director.width, director.height);
+			this.packedCircleManager.setBounds(0, 0, this.director.width, this.director.height);
 			this.packedCircleManager.setNumberOfCollisionPasses(1);
 			this.packedCircleManager.setNumberOfTargetingPasses(0);
 
@@ -70,7 +82,7 @@
 			{
 				var aLayer = new CAAT.ActorContainer().
 					create().
-					setBounds(0,0, GRAVEDANGER.director.width, GRAVEDANGER.director.height);
+					setBounds(0,0, this.director.width, this.director.height);
 				this.scene.addChild( aLayer );
 
 				aLayer.mouseEnabled = false;
@@ -91,7 +103,7 @@
 		initCircles: function()
 		{
 			// Create a bunch of circles!
-			var total = 30;
+			var total = 25;
 
 			// temp place groups into array to pull from randomly
 			var allColors = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.GREEN, GRAVEDANGER.Circle.prototype.GROUPS.BLUE];
@@ -105,7 +117,7 @@
 				var circle = this.circlePool.getObject()
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create(aRadius)
-					.setFallSpeed( Math.random() * 4 + 3)
+					.setFallSpeed( Math.random() * 4 + 1)
 					.setLocation( Math.random() * this.director.width, -aRadius )
 					.setToRandomSpriteInSheet()
 					.setDefaultScale(0.6);
@@ -171,6 +183,29 @@
 			}, true);
 		},
 
+
+		/**
+		 * One final place to do any necessary initialization
+		 * It's assumed all other initialization took place and objects exist!
+		 */
+		initHud: function() {
+			this.hud = new GRAVEDANGER.HudController().create();
+
+			var buffer = 15,
+				gameDimensions = GRAVEDANGER.CAATHelper.getGameDimensions(),
+				timeGauge = this.hud.getTimeGauge();
+
+			// Place the gauge and add it to the HUD layer
+			timeGauge.setLocation(gameDimensions.width - timeGauge.getActor().width - buffer, buffer);
+			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( timeGauge.getActor() );
+			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( timeGauge.getMask() );
+
+			// Place and add the score
+			var scoreField = this.hud.getScorefield();
+			scoreField.setLocation(buffer, 7);
+			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( scoreField );
+		},
+
 		/**
 		 * One final place to do any necessary initialization
 		 * It's assumed all other initialization took place and objects exist!
@@ -217,13 +252,15 @@
 		{
 			this.tick++;
 
+			// Handle anchor
+			this.anchorScale -= this.anchorDepleteRate;
+			this.hud.timeGauge.setToScale(this.anchorScale);
+
+
 			// Handle current chain
 			if(this.currentChain) {
 				this.currentChain.chaseTarget(this.mousePosition);
 			}
-
-			if(--this.noTickCount > 0)
-				return;
 
 			this.packedCircleManager.handleCollisions();
 
@@ -245,8 +282,8 @@
 
 			if(!this.isDragging) return;
 
-			var mouseX = e.clientX - GRAVEDANGER.director.canvas.offsetLeft;
-			var mouseY = e.clientY - GRAVEDANGER.director.canvas.offsetTop;
+			var mouseX = e.clientX - this.director.canvas.offsetLeft;
+			var mouseY = e.clientY - this.director.canvas.offsetTop;
 
 			this.mousePosition.set(mouseX, mouseY);
 		},
@@ -256,19 +293,19 @@
 			this.isDragging = false;
 
 			if(this.currentChain) {
+
+				// GHETO TEMPORARY MOTION TEST -
+				var linkCount = this.currentChain.getLinks().count();
+
+				this.anchorScale += (linkCount*1.5) * 8;
 				this.destroyChain(this.currentChain);
 				this.currentChain = null;
 			}
 		},
 
-		destroyChain: function(aChain) {
-			aChain.releaseAll();
-			aChain.dealloc();
-		},
-
 		mouseDown: function(e) {
-			var mouseX = e.clientX - GRAVEDANGER.director.canvas.offsetLeft;
-			var mouseY = e.clientY - GRAVEDANGER.director.canvas.offsetTop;
+			var mouseX = e.clientX - this.director.canvas.offsetLeft;
+			var mouseY = e.clientY - this.director.canvas.offsetTop;
 			this.mousePosition.set(mouseX, mouseY);
 
 			// Store old one to compare if new
@@ -293,11 +330,23 @@
 			}
 		},
 
+		/**
+		 * Called whenever a valid link is created, animates the circle to bring attention to it
+		 * @param {GRAVEDANGER.Circle} aCircle A circle instance
+		 */
 		onLinkAdded: function(aCircle) {
 			var duration = 200,
 				scaleBy = 3;
+
+			// Scale up
 			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.director.time, duration, aCircle.defaultScale, aCircle.defaultScale*scaleBy);
 			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.director.time+duration, duration, aCircle.defaultScale*scaleBy, aCircle.defaultScale);
+		},
+
+		destroyChain: function(aChain) {
+
+			aChain.releaseAll();
+			aChain.dealloc();
 		},
 
 		/**
@@ -306,12 +355,8 @@
 		 */
 		stutterDirector: function(duration)
 		{
-			console.log('stutter!')
-
 			clearTimeout(this.stutterTimeout);
-
 			this.director.stop();
-
 			var that = this;
 			this.stutterTimeout = setTimeout(function(director, delta){
 				that.start();

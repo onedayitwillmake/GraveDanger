@@ -55,10 +55,12 @@
 
 			// Use a CSSActor if useCanvas is false
 			if( GRAVEDANGER.CAATHelper.getUseCanvas() ) {
-				this.createSpriteActor();
-//				this.createShapeActor();
+				this.actor = GRAVEDANGER.CAATHelper.createSpriteActor(this);
+
+				// DEV - Debug
+//				this.actor = GRAVEDANGER.CAATHelper.createShapeActor(this, CAAT.ShapeActor.prototype.SHAPE_CIRCLE, this.colorRGB.toRGBAString(1.0), this.radius*2);
 			} else {
-				this.createCSSActor();
+				this.actor = this.createCSSActor();
 			}
 
 
@@ -75,52 +77,6 @@
 			this.actor.mouseEnabled = false;
 //			this.actor.setScale(0.6, 0.6);
 
-			return this;
-		},
-
-		createSpriteActor: function()
-		{
-			var caatImage = this.getImage();
-			this.actor = new CAAT.SpriteActor().
-					create().
-					setSpriteImage(caatImage);
-
-			this.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SPRITE;
-			return this;
-		},
-
-		/**
-		 * Debug
-		 */
-		createShapeActor: function()
-		{
-		  this.actor = new CAAT.ShapeActor().create()
-				.setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE )
-				.setSize(this.radius*2, this.radius*2); // Size is in diameters
-
-			this.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE;
-
-			// Check if color has been set
-			if(this.colorRGB === null) {
-				throw "(Circle)::createShapeActor - creating shape before color has been set!";
-			}
-
-			this.actor.setFillStyle(this.colorRGB.toRGBAString(1.0));
-			return this;
-		},
-
-		createCSSActor: function()
-		{
-
-			var caatImage = this.getImage();
-
-			this.actor = new CAAT.CSSActor()
-				.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
-				.setClassName("actor")
-				.setBackground(caatImage.image.src)
-				.setSize(this.radius*2, this.radius*2);
-
-			this.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CSS_SPRITE;
 			return this;
 		},
 
