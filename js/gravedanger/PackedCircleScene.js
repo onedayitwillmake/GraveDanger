@@ -111,11 +111,11 @@
 					create().
 					setSpriteImage(conpoundImage)
 			} else {
-				backgroundActor = new CAAT.CSSActor()
-					.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
+				backgroundActor = new CAAT.CSSActor();
+				backgroundActor.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
 					.setClassName("actor")
 					.setBackground( conpoundImage.image.src )
-					.setSize(backgroundActor.width, backgroundActor.height);
+					.setSize(conpoundImage.singleWidth, conpoundImage.singleHeight);
 			}
 
 			GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(backgroundActor)
@@ -223,19 +223,18 @@
 		initHud: function() {
 			this.hud = new GRAVEDANGER.HudController().create();
 
-			var buffer = 5,
-				gameDimensions = GRAVEDANGER.CAATHelper.getGameDimensions(),
-				timeGauge = this.hud.getTimeGauge();
+			var buffer = 20,
+				gameDimensions = GRAVEDANGER.CAATHelper.getGameDimensions();
 
 			// Place the gauge and add it to the HUD layer
-			timeGauge.setLocation(gameDimensions.width - timeGauge.getActor().width - (buffer*2), buffer*2);
-			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( timeGauge.getActor() );
-			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( timeGauge.getMask() );
+			this.hud.setLocation(buffer, buffer-5);
+			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( this.hud.getActor() );
+			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( this.hud.getMask() );
 
 			// Place and add the score
 			var scoreField = this.hud.getScorefield();
-			scoreField.setLocation(buffer*2, buffer+3);
 			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( scoreField );
+			scoreField.setLocation(gameDimensions.width - scoreField.textWidth - 30, buffer-6);
 		},
 
 		/**
@@ -300,7 +299,7 @@
 			} else if (this.timeLeft < 0) {
 //				this.onTimeExpired();
 			}
-			this.hud.timeGauge.setToScale(this.timeLeft/this.timeLeftStart);
+			this.hud.setTimeGaugeScale(this.timeLeft/this.timeLeftStart);
 
 			// Handle current chain
 			if(this.currentChain) {

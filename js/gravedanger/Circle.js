@@ -6,6 +6,7 @@
 			GREEN: 1 << 1,
 			BLUE: 1 << 2
 		};
+	var __STATES = null; // Non tripple nested pointer to GRAVEDANGER.Circle.prototype.STATES
 	GRAVEDANGER.Circle = function() {
 		this.uuid = GRAVEDANGER.Circle.prototype.getNextUUID();
 	    this.state = GRAVEDANGER.Circle.prototype.STATES.UNUSED;
@@ -16,7 +17,6 @@
 		NEXT_UUID: 0,
 		// Class props
 		GROUPS: __colorGroups,
-
 		// The CSS Colors for each of the color groups
 		GROUP_COLOR_VALUES: (function() {
 
@@ -47,16 +47,16 @@
 		   return ++GRAVEDANGER.Circle.prototype.NEXT_UUID;
 		},
 
-		uuid: 0,
-		actor: null,
-		packedCircle:  null,
-		color: 0,				// A color based on GRAVEDANGER.Circle.prototype.GROUPS - not an actual color value
-		colorRGB: '',			// String representing the hex value of this color type
-		conpoundImage: null,
-		radius:	0,
-		state: 0,
-		defaultScale: 1,
-		fallSpeed: 0,
+		uuid			: 0,
+		actor			: null,
+		packedCircle	: null,
+		color			: 0,		// A color based on GRAVEDANGER.Circle.prototype.GROUPS - not an actual color value
+		colorRGB		: '',		// String representing the hex value of this color type
+		conpoundImage	: null,
+		radius			: 0,
+		state			: 0,
+		defaultScale	: 1,
+		fallSpeed		: 0,
 
 		create: function(aRadius)
 		{
@@ -69,7 +69,7 @@
 				// DEV - Debug
 //				this.actor = GRAVEDANGER.CAATHelper.createShapeActor(this, CAAT.ShapeActor.prototype.SHAPE_CIRCLE, this.colorRGB.toRGBAString(1.0), this.radius*2);
 			} else {
-				this.actor = this.createCSSActor();
+				this.actor = GRAVEDANGER.CAATHelper.createCSSActor(this, this.getImage().singleWidth, this.getImage().singleHeight);
 			}
 
 
@@ -106,7 +106,7 @@
 
 		onTick: function()
 		{
-			if(this.packedCircle.position.y > GRAVEDANGER.director.height-25 && this.state === GRAVEDANGER.Circle.prototype.STATES.ACTIVE)
+			if(this.packedCircle.position.y > GRAVEDANGER.director.height-40 && this.state === __STATES.ACTIVE)
 			{
 				this.animateIntoAbyss();
 				/*
@@ -118,40 +118,46 @@
 				// Position actor where packed circle is
 			}
 
-			if(this.state === GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT)
+			if(this.state === __STATES.ANIMATING_OUT) {
+				this.actor.alpha = Math.random();
+				this.packedCircle.position.y = this.actor.y;
 				return;
-				this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
-				this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
+			}
+
+			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
+			this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
 		},
 
 		// TODO: Violating DRY - this is dupped in Debris.js
 		animateIntoAbyss: function()
 		{
 			this.state = GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT;
+			this.packedCircle.collisionGroup = 0;
 			// path
-//				var path = new CAAT.LinearPath();
-//				path.setInitialPosition(this.actor.x, this.actor.y);
-//				path.setFinalPosition(this.actor.x, this.actor.y + 25);
+			var center = GRAVEDANGER.director.width*0.5;
+			var path = new CAAT.LinearPath();
+			path.setInitialPosition(this.actor.x, this.actor.y);
+			path.setFinalPosition(GRAVEDANGER.UTILS.randomFloat(center-100, center+100), this.actor.y + GRAVEDANGER.UTILS.randomFloat(50, 80));
 
-				var startTime = GRAVEDANGER.director.time,
-					endTime = 500;
-				var startScale = this.actor.scaleX,
-					endScale = 0;
+			var startTime = GRAVEDANGER.director.time,
+				endTime = 500 + Math.random() * 100;
+			var startScale = this.actor.scaleX,
+				endScale = 0;
 
 			 // setup up a path traverser for the path.
-//			var gravityBehavior = new CAAT.PathBehavior();
-//				gravityBehavior.setPath( path );
-//				gravityBehavior.setFrameTime(startTime, endTime);
-//				gravityBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false) );
-//			this.actor.addBehavior( gravityBehavior );
+			var gravityBehavior = new CAAT.PathBehavior();
+				gravityBehavior.setPath( path );
+				gravityBehavior.setFrameTime(startTime, endTime);
+				gravityBehavior.setInterpolator(new CAAT.Interpolator().createExponentialInInterpolator(1, false));
+			this.actor.addBehavior( gravityBehavior );
 
 			// scale to zero as falling
-//			var scaleBehavior = new CAAT.ScaleBehavior();
-//				this.actor.scaleX = this.actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
-//				scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
-//				scaleBehavior.setFrameTime( startTime, endTime );
-//				scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false));
-//			this.actor.addBehavior(scaleBehavior);
+			var scaleBehavior = new CAAT.ScaleBehavior();
+				this.actor.scaleX = this.actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
+				scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
+				scaleBehavior.setFrameTime( startTime, endTime );
+				scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false));
+			this.actor.addBehavior(scaleBehavior);
 
 			    return;
 			// Hide at first
@@ -303,8 +309,9 @@
 
 		getUUID: function() {
 			return this.uuid;
-		},
+		}
+	};
 
-
-	}
+	// Point back to prototype
+	__STATES = GRAVEDANGER.Circle.prototype.STATES;
 })();

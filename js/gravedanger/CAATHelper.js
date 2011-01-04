@@ -123,19 +123,20 @@
 		/**
 		 * Creates a CSSActor, and sets the "aController's" actorType property accordingly.
 		 * @param {GRAVEDANGER.Circle} aController Controller which will own the sprite created
-		 * @param {Number} aSize	Radius to create the ShapeActor
+		 * @param {Number} aWidth	Height of the CSSActor background iamge (TODO: Redundant?)
+		 * @param {Number} aHeight	Height of the CSSActor background iamge (TODO: Redundant?)
 		 * @return {CAAT.CSSActor}	A CAAT.CSSActor
 		 */
-		createCSSActor: function(aController, aSize )
+		createCSSActor: function(aController, aWidth, aHeight)
 		{
 			var anActor = new CAAT.CSSActor()
 				.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
 				.setClassName("actor")
 				.setBackground( aController.getImage().image.src )
-				.setSize(aSize, aSize);
+				.setSize(aWidth, aHeight);
 
 			aController.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CSS_SPRITE;
-			return this;
+			return anActor;
 		},
 
 /**

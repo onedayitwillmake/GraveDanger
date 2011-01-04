@@ -52,7 +52,7 @@
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "chain_blue.png"});
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "chain_blue.png"});
 		// HUD
-		imagesToLoad.push({id: "hud_timeleft", url: base + "hud/timeleft.png"});
+		imagesToLoad.push({id: "hud", url: base + "hud/hud.png"});
 		imagesToLoad.push({id: "hud_timeleftMasker", url: base + "hud/timeleft_masker.png"});
 		// Misc
 		imagesToLoad.push({id: "gameBackground", url: base + "gamebackground.png"});
@@ -81,8 +81,8 @@
 		var useCanvas = !GRAVEDANGER.CAATHelper.getIsIOS();
 
 		// Override above if query string provided
-		if( window.QueryStringManager.getValue('useCanvas') )
-			useCanvas = Boolean(window.QueryStringManager.getValue('useCanvas')); // dev
+		if( window.QueryStringManager.getValue('useCanvas') === 'false')
+			useCanvas = false;
 
 		// Store the final result
 		GRAVEDANGER.CAATHelper.setUseCanvas( useCanvas );
