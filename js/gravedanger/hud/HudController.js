@@ -20,14 +20,14 @@
 		{
 			var directorRef = GRAVEDANGER.CAATHelper.getDirector();
 			var aTextfield= new CAAT.TextActor();
-			aTextfield.setFont("28px Impact");
+			aTextfield.setFont("21px Impact");
 			aTextfield.textAlign="left";
 			aTextfield.textBaseline="top";
 			aTextfield.setText("00000000000");
 			aTextfield.calcTextSize( directorRef );
 			aTextfield.setSize( aTextfield.textWidth, aTextfield.textHeight );
 			aTextfield.create();
-			aTextfield.fillStyle='white';
+			aTextfield.fillStyle="rgba(255,255,255,0.9)"
 
 			return aTextfield;
 		},

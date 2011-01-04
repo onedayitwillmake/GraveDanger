@@ -7,8 +7,9 @@
 			BLUE: 1 << 2
 		};
 	GRAVEDANGER.Circle = function() {
-	 this.uuid = GRAVEDANGER.Circle.prototype.getNextUUID();
-	 return this;
+		this.uuid = GRAVEDANGER.Circle.prototype.getNextUUID();
+	    this.state = GRAVEDANGER.Circle.prototype.STATES.UNUSED;
+	 	return this;
 	};
 
 	GRAVEDANGER.Circle.prototype = {
@@ -16,7 +17,7 @@
 		// Class props
 		GROUPS: __colorGroups,
 
-
+		// The CSS Colors for each of the color groups
 		GROUP_COLOR_VALUES: (function() {
 
 			var obj = {};
@@ -27,6 +28,13 @@
 
 			return obj;
 		})(),
+
+		STATES: {
+			ACTIVE: 1 << 0,
+			ANIMATING_OUT: 1 << 1,
+			ANIMATING_IN: 1 << 2,
+			UNUSED: 1 << 3
+		},
 
 		// DEV
 		ACTOR_TYPES: {
@@ -46,6 +54,7 @@
 		colorRGB: '',			// String representing the hex value of this color type
 		conpoundImage: null,
 		radius:	0,
+		state: 0,
 		defaultScale: 1,
 		fallSpeed: 0,
 
@@ -97,17 +106,96 @@
 
 		onTick: function()
 		{
-			if(this.packedCircle.position.y > GRAVEDANGER.director.height)
+			if(this.packedCircle.position.y > GRAVEDANGER.director.height-25 && this.state === GRAVEDANGER.Circle.prototype.STATES.ACTIVE)
 			{
+				this.animateIntoAbyss();
+				/*
 				this.packedCircle.position.x = GRAVEDANGER.UTILS.randomFloat(0, GRAVEDANGER.director.width);
 				this.packedCircle.position.y = -this.actor.height*2;
+				 */
 			} else {
 				this.packedCircle.position.y += this.fallSpeed;
+				// Position actor where packed circle is
 			}
 
-			// Position actor where packed circle is
-			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
-			this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
+			if(this.state === GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT)
+				return;
+				this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
+				this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
+		},
+
+		// TODO: Violating DRY - this is dupped in Debris.js
+		animateIntoAbyss: function()
+		{
+			this.state = GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT;
+			// path
+//				var path = new CAAT.LinearPath();
+//				path.setInitialPosition(this.actor.x, this.actor.y);
+//				path.setFinalPosition(this.actor.x, this.actor.y + 25);
+
+				var startTime = GRAVEDANGER.director.time,
+					endTime = 500;
+				var startScale = this.actor.scaleX,
+					endScale = 0;
+
+			 // setup up a path traverser for the path.
+//			var gravityBehavior = new CAAT.PathBehavior();
+//				gravityBehavior.setPath( path );
+//				gravityBehavior.setFrameTime(startTime, endTime);
+//				gravityBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false) );
+//			this.actor.addBehavior( gravityBehavior );
+
+			// scale to zero as falling
+//			var scaleBehavior = new CAAT.ScaleBehavior();
+//				this.actor.scaleX = this.actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
+//				scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
+//				scaleBehavior.setFrameTime( startTime, endTime );
+//				scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false));
+//			this.actor.addBehavior(scaleBehavior);
+
+			    return;
+			// Hide at first
+//			 	rectangleActor.scaleX = rectangleActor.scaleY = 0;
+			// when scale Behavior finishes, start rotation Behavior.
+			var that = this;
+			var randFloat = GRAVEDANGER.UTILS.randomFloat;
+			var randInt = GRAVEDANGER.UTILS.randomInt;
+
+			// TODO: Hack - storing pointer to scaleBehavior inside grav behavior
+			gravityBehavior.path = path;
+			gravityBehavior.ownerActor = this.actor;
+			gravityBehavior.scaleBehavior = scaleBehavior;
+			gravityBehavior.addListener( {
+				behaviorExpired : function(behavior, time, actor)
+				{
+					console.log('yo!')
+					return;
+					var centerX = behavior.ownerActor.x + behavior.ownerActor.width * 0.5,
+						centerY = behavior.ownerActor.y + behavior.ownerActor.height * 0.5 + 75 + Math.random() * 50;
+
+					var startX = randFloat(centerX-55, centerX+55),
+						startY = randFloat(centerY-40, centerY+10);
+					var startScale = randFloat(1, 1.5);
+
+					var startTime = time;// + randFloat(0, 50),
+						endTime = 200 + randFloat(200, 600);
+
+					// Reset
+					behavior.path.setInitialPosition(startX, startY);
+					behavior.path.setFinalPosition(startX, startY + randFloat(50, 100) );
+					behavior.scaleBehavior.startScaleX = behavior.scaleBehavior.startScaleY = startScale;
+
+
+					// Set rect to initial values
+					actor.scaleX = actor.scaleY = startScale;
+					actor.x = startX;
+					actor.y = startY;
+
+					// Restart the behaviors
+					behavior.scaleBehavior.setFrameTime(startTime, endTime);
+					behavior.setFrameTime(startTime, endTime );
+
+			}});
 		},
 
 		chaseTarget: function(aTarget, speed) {
@@ -193,6 +281,18 @@
 			return this;
 		},
 
+		/**
+		 * Sets the current state of this Circle
+		 * Note: No check is made for the validity of the state!
+		 * It should be one of the valid types
+		 * @param {Number} aState A valid GRAVEDANGER.Circle.prototype.STATES.ACTIVE enum type
+		 */
+		setState: function(aState)
+		{
+			this.state = aState;
+			return this;
+		},
+
 		getCAATActor: function() {
 			return this.actor;
 		},
@@ -203,6 +303,8 @@
 
 		getUUID: function() {
 			return this.uuid;
-		}
+		},
+
+
 	}
 })();

@@ -9,7 +9,6 @@
 						.setSize(6,6)
 						.setFillStyle(aColor);
 
-			 console.log(aColor)
 				// path
 				var path = new CAAT.LinearPath();
 				path.setInitialPosition(ownerActor.x, ownerActor.y + 50);

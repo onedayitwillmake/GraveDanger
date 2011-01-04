@@ -54,6 +54,8 @@
 		// HUD
 		imagesToLoad.push({id: "hud_timeleft", url: base + "hud/timeleft.png"});
 		imagesToLoad.push({id: "hud_timeleftMasker", url: base + "hud/timeleft_masker.png"});
+		// Misc
+		imagesToLoad.push({id: "gameBackground", url: base + "gamebackground.png"});
 
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
 		// Fired when images have been preloaded

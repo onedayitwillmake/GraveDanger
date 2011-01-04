@@ -6,33 +6,41 @@
 		return this;
 	};
 
-	GRAVEDANGER.PackedCircleScene.prototype= {
+	GRAVEDANGER.PackedCircleScene.prototype= {// Meta info
 		// CAAT Info
 		packedCircleManager: null,
 		director:	null,
 		scene:	null,
+		targetDelta: null, // Determined by framerate 16 = 60fps
 
 		// Mouse information
 		mousePosition: null,
 		isDragging: false,
 
 		// Current info
+		gameTick: 0,
+		gameClock: 0,
+		lastFrameDelta: 0,
+		speedFactor: 1, 			// A number where 1.0 means we're running exactly at the desired framerate, 0.5 means half, and of course 2.0 means double
 		currentChain: null,
+		clockActualTime: null,
 
 		// HUD
 		hud: null,
 
-		// Scoring
-
 		// GAMEOVER!
-		anchorScale: 1.0,				// Current scale of the anchor
-		anchorDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
+		timeLeft: 0,
+		timeLeftStart: 45 * 1000,
+		timeLeftDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
+
+		// Difficulty progression
+		currentMaxHeads: 25,
 
 		init: function(director)
 		{
-			this.tick = 0;
 			this.initDirector(director);
 			this.initLayers();
+			this.initBackground();
 			this.initObjectPools();
 			this.initCircles();
 			this.initMouseEvents();
@@ -68,7 +76,7 @@
 
 			// Add to the director
 			this.scene.mouseEnabled = false;
-			this.scene.fillStyle = "#2a2a2a";
+			this.scene.fillStyle = "#000000";
 			this.director.addScene(this.scene);
 		},
 
@@ -88,6 +96,29 @@
 				aLayer.mouseEnabled = false;
 				GRAVEDANGER.CAATHelper.currentSceneLayers.push( aLayer );
 			}
+		},
+
+		initBackground: function()
+		{
+			var imageRef = GRAVEDANGER.director.getImage("gameBackground"),
+				conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1),
+				gameDimensions = GRAVEDANGER.CAATHelper.getGameDimensions(),
+				backgroundActor = null;
+
+			if( GRAVEDANGER.CAATHelper.getUseCanvas() )
+			{
+				backgroundActor = new CAAT.SpriteActor().
+					create().
+					setSpriteImage(conpoundImage)
+			} else {
+				backgroundActor = new CAAT.CSSActor()
+					.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
+					.setClassName("actor")
+					.setBackground( conpoundImage.image.src )
+					.setSize(backgroundActor.width, backgroundActor.height);
+			}
+
+			GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(backgroundActor)
 		},
 
 		initObjectPools: function() {
@@ -119,6 +150,7 @@
 					.create(aRadius)
 					.setFallSpeed( Math.random() * 4 + 1)
 					.setLocation( Math.random() * this.director.width, -aRadius )
+					.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
 					.setToRandomSpriteInSheet()
 					.setDefaultScale(0.6);
 
@@ -130,7 +162,7 @@
 				GRAVEDANGER.CAATHelper.currentSceneLayers[1].addChild( circle.getCAATActor() );
 
 				// Animate in
-				GRAVEDANGER.CAATHelper.animateScale(circle.getCAATActor(), this.director.time+Math.random() * 2000, 500, 0.1, circle.getCAATActor().scaleX );
+				GRAVEDANGER.CAATHelper.animateScale(circle.getCAATActor(), this.director.time+Math.random() * 20, 500, 1.0, circle.defaultScale );
 			}
 		},
 
@@ -191,18 +223,18 @@
 		initHud: function() {
 			this.hud = new GRAVEDANGER.HudController().create();
 
-			var buffer = 15,
+			var buffer = 5,
 				gameDimensions = GRAVEDANGER.CAATHelper.getGameDimensions(),
 				timeGauge = this.hud.getTimeGauge();
 
 			// Place the gauge and add it to the HUD layer
-			timeGauge.setLocation(gameDimensions.width - timeGauge.getActor().width - buffer, buffer);
+			timeGauge.setLocation(gameDimensions.width - timeGauge.getActor().width - (buffer*2), buffer*2);
 			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( timeGauge.getActor() );
 			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( timeGauge.getMask() );
 
 			// Place and add the score
 			var scoreField = this.hud.getScorefield();
-			scoreField.setLocation(buffer, 7);
+			scoreField.setLocation(buffer*2, buffer+3);
 			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( scoreField );
 		},
 
@@ -221,8 +253,16 @@
 		 */
 		start: function()
 		{
+			// Reset temporal info
+			this.clockActualTime = new Date().getTime();
+			this.gameClock = 0; // Our game clock is relative
+			this.gameTick = 0;
+			this.timeLeft = this.timeLeftStart;
+			// framerate
+			this.targetDelta = 30;//Math.round(1000/30);
+
 			var that = this;
-			this.director.loop(30, function(director, delta){
+			this.director.loop(this.targetDelta, function(director, delta){
 				that.loop(director, delta);
 			});
 		},
@@ -250,12 +290,17 @@
 
 		loop: function(director, delta)
 		{
-			this.tick++;
+			this.gameTick++;
+			this.updateGameClock();
 
 			// Handle anchor
-			this.anchorScale -= this.anchorDepleteRate;
-			this.hud.timeGauge.setToScale(this.anchorScale);
-
+			this.timeLeft -= this.lastFrameDelta;
+			if(this.timeLeft > this.timeLeftStart) {
+				this.timeLeft = this.timeLeftStart;
+			} else if (this.timeLeft < 0) {
+//				this.onTimeExpired();
+			}
+			this.hud.timeGauge.setToScale(this.timeLeft/this.timeLeftStart);
 
 			// Handle current chain
 			if(this.currentChain) {
@@ -273,6 +318,30 @@
 
 				circle.onTick();
 			}
+		},
+
+		/**
+		 * Updates the internal game clock
+		 * Also sets 'speedFactor' a number which we use to base our animations and etc, incase the game is running slightly slower or faster than we intended
+		 */
+		updateGameClock: function()
+		{
+			// Store the previous clockTime, then set it to whatever it is no, and compare time
+			var oldTime = this.clockActualTime;
+			var now = this.clockActualTime = new Date().getTime();
+			var delta = ( now - oldTime );			// Note (var framerate = 1000/delta);
+
+			// Our clock is zero based, so if for example it says 10,000 - that means the game started 10 seconds ago
+			this.gameClock += delta;
+
+			// Framerate independent motion
+			// Any movement should take this value into account,
+			// otherwise faster machines which can update themselves more accurately will have an advantage
+			var speedFactor = delta / ( this.targetDelta );
+			if (speedFactor <= 0) speedFactor = 1;
+
+			this.lastFrameDelta = delta;
+			this.speedFactor = speedFactor;
 		},
 
 /**
@@ -297,7 +366,7 @@
 				// GHETO TEMPORARY MOTION TEST -
 				var linkCount = this.currentChain.getLinks().count();
 
-				this.anchorScale += (linkCount*1.5) * 8;
+				this.timeLeft += (linkCount*2) * 2000;
 				this.destroyChain(this.currentChain);
 				this.currentChain = null;
 			}

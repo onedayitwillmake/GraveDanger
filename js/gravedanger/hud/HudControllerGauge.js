@@ -9,7 +9,7 @@
 		actorType: null, // Not used but will be set by CAATHelper.createSpriteActor
 
 		// ease
-		easeingSpeed: 0.33,
+		easeingSpeed: 0.2,
 
 		create: function() {
 			this.actor = GRAVEDANGER.CAATHelper.createSpriteActor(this);
@@ -37,7 +37,7 @@
 		 */
 		setToScale: function(aNormalizedScale) {
 
-			if(aNormalizedScale > 1.01) aNormalizedScale = 0.9;
+			if(aNormalizedScale > 1.0) aNormalizedScale = 0.999;
 			// Since we're right aligned lets invert the number
 			aNormalizedScale = 1.0 - aNormalizedScale;
 
