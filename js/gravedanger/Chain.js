@@ -2,8 +2,8 @@
 
 	// Probably a micro-opt but place these within the closure
 	var __chainOffset = 0,
-		__chainOffsetSpeed = 0.1;
 		__PI_2 = Math.PI * 2;
+
 	GRAVEDANGER.Chain = function() {
 		this.links = new SortedLookupTable();
 		this.linksArray = [];
@@ -14,7 +14,7 @@
 		color: -1,
 		head: null,
 		effectsRenderTrail: null,
-		links: new LookupTable(),
+		links: new SortedLookupTable(),
 		linksArray: [],
 
 		shouldAddLink: function(aCircle)
@@ -107,6 +107,7 @@
 				// make a circle around the head one
 				if(previous)
 				{
+
 //					if(this.head.packedCircle.position.getDistanceSquared(aTarget) <  this.head.actor.width*this.head.actor.width) {
 //						chaseTarget = aTarget;
 //					} else {
@@ -130,7 +131,7 @@
 		},
 
 		getLinks: function() {
-			return this.links;
+			return this.linksArray;
 		},
 
 		getHead: function() {

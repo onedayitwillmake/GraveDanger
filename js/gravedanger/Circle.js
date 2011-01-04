@@ -104,7 +104,7 @@
 			return this.conpoundImage;
 		},
 
-		onTick: function()
+		onTick: function(gameTick, gameClock, speedFactor)
 		{
 			if(this.packedCircle.position.y > GRAVEDANGER.director.height-40 && this.state === __STATES.ACTIVE)
 			{
@@ -119,7 +119,7 @@
 			}
 
 			if(this.state === __STATES.ANIMATING_OUT) {
-				this.actor.alpha = Math.random();
+//				this.actor.alpha = Math.random();
 				this.packedCircle.position.y = this.actor.y;
 				return;
 			}
@@ -202,6 +202,47 @@
 					behavior.setFrameTime(startTime, endTime );
 
 			}});
+		},
+
+		animateIntoIsland:function(island, startTime, duration, isFinal)
+		{
+			// TODO: VIOLATING DRY, create tweenTo in CAATHelper
+			this.state = GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT;
+			this.packedCircle.collisionGroup = 0;
+			this.packedCircle.collisionMask = 0;
+
+			var centerX = island.actor.x+60,
+				centerY = island.actor.y+115;
+
+			console.log(centerX, centerY);
+			// Scale up, then to tiny before animating path
+			var scaleBy = 2;
+			var popDelay = 61;
+			GRAVEDANGER.CAATHelper.animateScale(this.actor, startTime, popDelay, this.actor.scaleX, this.actor.scaleX+scaleBy);
+			GRAVEDANGER.CAATHelper.animateScale(this.actor, startTime+popDelay, duration, this.actor.scaleX+scaleBy, 0.01);
+
+			var path = new CAAT.LinearPath();
+			path.setInitialPosition(this.actor.x, this.actor.y);
+			path.setFinalPosition(GRAVEDANGER.UTILS.randomFloat(centerX-10, centerX+10), centerY);
+
+//			console.dir(path)
+			 // setup up a path traverser for the path.
+			var gravityBehavior = new CAAT.PathBehavior();
+				gravityBehavior.setPath( path );
+				gravityBehavior.setFrameTime(startTime+popDelay, duration);
+				gravityBehavior.setInterpolator(new CAAT.Interpolator().createExponentialOutInterpolator(1, false));
+			this.actor.addBehavior( gravityBehavior );
+
+			gravityBehavior.addListener( {
+				behaviorExpired : function(behavior, time, actor)
+				{
+					if(isFinal) {
+						island.isAbsorbing = false;
+						console.log('A')
+					}
+
+				}
+			});
 		},
 
 		chaseTarget: function(aTarget, speed) {

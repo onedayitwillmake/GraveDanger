@@ -13,9 +13,13 @@
 		scene:	null,
 		targetDelta: null, // Determined by framerate 16 = 60fps
 
+
 		// Mouse information
 		mousePosition: null,
 		isDragging: false,
+
+		// Current game info
+		activeIslands: null,
 
 		// Current info
 		gameTick: 0,
@@ -143,7 +147,6 @@
 			{
 				// Size
 				var aRadius = 18;
-				                      //circle.getPackedCircle().position.x
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = this.circlePool.getObject()
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
@@ -171,6 +174,8 @@
 		 */
 		initIslands: function()
 		{
+			this.activeIslands = new SortedLookupTable();
+
 			// DRY:
 			var allColors = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
 
@@ -184,10 +189,11 @@
 					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175);
 
 				this.packedCircleManager.addCircle( island.getPackedCircle() );
-				GRAVEDANGER.CAATHelper.currentSceneLayers[1].addChild( island.getCAATActor() );
+				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( island.getCAATActor() );
 
 				// The debris must be added after the island is in the scene
 				island.createDebrisPieces();
+				this.activeIslands.setObjectForKey(island, island.uuid)
 			}
 		},
 
@@ -315,7 +321,7 @@
 				var packedCircle = circleList[len];
 				var circle = packedCircle.delegate.delegate;
 
-				circle.onTick();
+				circle.onTick(this.gameTick, this.gameClock, this.speedFactor);
 			}
 		},
 
@@ -361,14 +367,51 @@
 			this.isDragging = false;
 
 			if(this.currentChain) {
-
-				// GHETO TEMPORARY MOTION TEST -
-				var linkCount = this.currentChain.getLinks().count();
-
-				this.timeLeft += (linkCount*2) * 2000;
-				this.destroyChain(this.currentChain);
-				this.currentChain = null;
+				this.onChainRelease();
 			}
+		},
+
+		onChainRelease: function()
+		{
+			var ownerIsland = null;
+
+			// Find the owner if any
+			this.activeIslands.forEach(function(key, anIsland)
+			{
+				if(ownerIsland) return; // Match already found
+				var islandPackedCircle = anIsland.packedCircle;
+
+				// If mouse is over this object, store and stop the loop
+				if(islandPackedCircle.containsPoint( this.mousePosition )) {
+					ownerIsland = anIsland;
+				}
+			},this);
+
+			// Match was found
+			if(ownerIsland)
+			{
+				ownerIsland.isAbsorbing = true;
+				var links = this.currentChain.getLinks(),
+					len = links.length,
+					piLen = (Math.PI*2) / (len),
+					previous = null;
+
+				for(var i = 0; i < len; i++)
+				{
+					var aCircle = links[i];
+					var duration = 300;//+(i*30),
+						delay= 100*i;
+
+					aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i === len-1);
+				}
+
+
+				// Add time to the clock and give points
+				this.timeLeft += (len*2) * 2000;
+			}
+
+			this.destroyChain(this.currentChain);
+			this.currentChain = null;
 		},
 
 		mouseDown: function(e) {

@@ -18,10 +18,19 @@
 		sineOffset: 0,
 		floatRadius: 30,
 		debris: null,
+		isAbsorbing: false,
 
-		onTick: function() {
-			this.sineOffset += 0.02 + Math.random() * 0.01;
-			this.packedCircle.position.y  = Math.sin(this.sineOffset) * this.floatRadius + this.targetLocation.y;
+		onTick: function(gameTick, gameClock, speedFactor) {
+
+			if(!this.isAbsorbing)
+			{
+				this.sineOffset += 0.02 + Math.random() * 0.01;
+				this.packedCircle.position.y  = Math.sin(this.sineOffset) * this.floatRadius + this.targetLocation.y;
+			} else {
+				var sign = (gameTick%2 == 0) ? 1 : -1;
+				this.packedCircle.position.y += sign*1;
+				this.actor.scaleX = this.actor.scaleY = this.defaultScale+(sign*0.01);
+			}
 
 			// this.positionActor
 			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
