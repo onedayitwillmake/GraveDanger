@@ -94,8 +94,10 @@
 					this.allocNode = n.next;
 					return this.getObject();
 				}
- 				else
-					throw "object pool exhausted.";
+ 				else {
+					//throw "object pool exhausted.";
+					return null;
+				}
 			}
 			else
 			{
@@ -158,12 +160,12 @@
 		 * @param {String} func The function's name.
 		 * @param {Array} args The function's arguments.
 		 */
-		applyToAll: function(func, args)
+		callFunctionOnAllObjects: function(functionString, args)
 		{
 			var n = this.head;
 			while (n)
 			{
-				n.data[func].apply(n.data, args);
+				n.data[functionString].apply(n.data, args);
 				if (n == this.tail) break;
 				n = n.next;
 			}

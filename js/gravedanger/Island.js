@@ -1,4 +1,5 @@
 (function() {
+	var __CONPOUND_IMAGES = {};
 	GRAVEDANGER.Island = function() {
 		GRAVEDANGER.Island.superclass.constructor.call(this);
 		this.debris = [];
@@ -28,7 +29,7 @@
 				this.packedCircle.position.y  = Math.sin(this.sineOffset) * this.floatRadius + this.targetLocation.y;
 			} else {
 				var sign = (gameTick%2 == 0) ? 1 : -1;
-				this.packedCircle.position.y += sign*1;
+				this.packedCircle.position.y += sign*1.1;
 				this.actor.scaleX = this.actor.scaleY = this.defaultScale+(sign*0.01);
 			}
 
@@ -43,8 +44,6 @@
 
 			this.packedCircle.isFixed = true;
 			this.sineOffset = Math.random() * Math.PI * 2;
-
-			this.actor.setScale(1, 1);
 			return this;
 		},
 
@@ -70,10 +69,19 @@
 
 		getImage: function()
 		{
-			var imageName = "island" + this.color;
-			var imageRef = GRAVEDANGER.director.getImage(imageName);
-			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
+			var imageName = "island" + this.color,
+				imageRef,
+				aCompoundImage;
 
+			// Reuse one already made
+			if(!__CONPOUND_IMAGES[imageName])  {
+				imageRef = GRAVEDANGER.director.getImage(imageName);
+				aCompoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
+				__CONPOUND_IMAGES[imageName]  = aCompoundImage;
+			}
+
+			// Store for next lookup
+			this.conpoundImage = __CONPOUND_IMAGES[imageName];
 			return this.conpoundImage;
 		},
 

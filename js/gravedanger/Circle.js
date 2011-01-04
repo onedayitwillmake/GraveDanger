@@ -14,18 +14,17 @@
 	};
 
 	GRAVEDANGER.Circle.prototype = {
+		/**
+		 * 'Class' properties
+		 */
 		NEXT_UUID: 0,
-		// Class props
 		GROUPS: __colorGroups,
 		// The CSS Colors for each of the color groups
-		GROUP_COLOR_VALUES: (function() {
-
+		GROUP_COLOR_VALUES: (function() { 		// Can't access own prototype by this pointyet so have to use local version
 			var obj = {};
-			// Can't access own prototype by this pointyet so have to use local version
 			obj[__colorGroups.RED] = new CAAT.Color.RGB(255,0,128);
 			obj[__colorGroups.GREEN] = new CAAT.Color.RGB(255,239,153);
 			obj[__colorGroups.BLUE] = new CAAT.Color.RGB(62,210,255);
-
 			return obj;
 		})(),
 
@@ -42,11 +41,13 @@
 			CANVAS_SHAPE: 1 << 1,
 			CSS_SPRITE: 1 << 2
 		},
-
 		getNextUUID: function() {
 		   return ++GRAVEDANGER.Circle.prototype.NEXT_UUID;
 		},
 
+		/**
+		 * Instance properties
+		 */
 		uuid			: 0,
 		actor			: null,
 		packedCircle	: null,
@@ -60,18 +61,9 @@
 
 		create: function(aRadius)
 		{
-			this.radius = aRadius;
-
-			// Use a CSSActor if useCanvas is false
-			if( GRAVEDANGER.CAATHelper.getUseCanvas() ) {
-				this.actor = GRAVEDANGER.CAATHelper.createSpriteActor(this);
-
-				// DEV - Debug
-//				this.actor = GRAVEDANGER.CAATHelper.createShapeActor(this, CAAT.ShapeActor.prototype.SHAPE_CIRCLE, this.colorRGB.toRGBAString(1.0), this.radius*2);
-			} else {
-				this.actor = GRAVEDANGER.CAATHelper.createCSSActor(this, this.getImage().singleWidth, this.getImage().singleHeight);
+			if(this.actor == null) {
+				throw "(GraveDanger.Circle) create called with no actor! - Call setColor first, which creates the Canvas/CSS Actor!"
 			}
-
 
 			// TODO: Hack - don't stuff variable in CAAT.Actor
 			this.actor.delegate = this;
@@ -84,24 +76,7 @@
 				.setCollisionGroup(1); // packedCircle instance - is in this group
 
 			this.actor.mouseEnabled = false;
-//			this.actor.setScale(0.6, 0.6);
-
 			return this;
-		},
-
-		getImage: function()
-		{
-			// Reuse one already made
-			if(__CONPOUND_IMAGES[imageName])
-				return __CONPOUND_IMAGES[imageName];
-
-			var imageName = "heads" + this.color;
-			var imageRef = GRAVEDANGER.director.getImage(imageName);
-			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 3, 4);
-
-			// Store for next
-			__CONPOUND_IMAGES[imageName]  = this.conpoundImage;
-			return this.conpoundImage;
 		},
 
 		onTick: function(gameTick, gameClock, speedFactor)
@@ -225,7 +200,6 @@
 			path.setInitialPosition(this.actor.x, this.actor.y);
 			path.setFinalPosition(GRAVEDANGER.UTILS.randomFloat(centerX-10, centerX+10), centerY);
 
-//			console.dir(path)
 			 // setup up a path traverser for the path.
 			var gravityBehavior = new CAAT.PathBehavior();
 				gravityBehavior.setPath( path );
@@ -245,7 +219,8 @@
 			});
 		},
 
-		chaseTarget: function(aTarget, speed) {
+		chaseTarget: function(aTarget, speed)
+		{
 			var v = new CAAT.Point(),
 				c = this.packedCircle;
 
@@ -256,19 +231,73 @@
 			c.position.y -= v.y;
 		},
 
-		/**
-		 * Accessors
-		 */
-		setLocation: function(x,y) {
+/**
+ * Accessors
+ */
+		setRadius: function(aRadius)
+		{
+			this.radius = aRadius;
+			return this;
+		},
+
+		setLocation: function(x,y)
+		{
 			this.actor.setLocation(x,y);
 			return this;
 		},
 
-		setColor: function(aColor) {
+		setColor: function(aColor)
+		{
 			this.color = aColor;
 			this.colorRGB = GRAVEDANGER.Circle.prototype.GROUP_COLOR_VALUES[aColor];
 
+			if(this.actor == null)
+			{
+				// CREATE THE ACTOR SPRITE
+				if( GRAVEDANGER.CAATHelper.getUseCanvas() )
+				{
+					this.actor = GRAVEDANGER.CAATHelper.createSpriteActor(this);
+					// DEV - Debug
+					//this.actor = GRAVEDANGER.CAATHelper.createShapeActor(this, CAAT.ShapeActor.prototype.SHAPE_CIRCLE, this.colorRGB.toRGBAString(1.0), this.radius*2);
+				} else {
+					this.actor = GRAVEDANGER.CAATHelper.createCSSActor(this, this.getImage().singleWidth, this.getImage().singleHeight);
+				}
+			} else { // Actor already exist - call get image on our selves to return our correct color
+				this.setImage(this.getImage);
+			}
 			return this;
+		},
+
+		getImage: function()
+		{
+			var imageName = "heads" + this.color,
+				imageRef,
+				aCompoundImage;
+
+			// Reuse one already made
+			if(!__CONPOUND_IMAGES[imageName])  {
+				imageRef = GRAVEDANGER.director.getImage(imageName);
+				aCompoundImage = new CAAT.CompoundImage().initialize(imageRef, 3, 4);
+				__CONPOUND_IMAGES[imageName]  = aCompoundImage;
+			}
+
+			// Store for next lookup
+			this.conpoundImage = __CONPOUND_IMAGES[imageName];
+			return this.conpoundImage;
+		},
+
+		setImage: function(anImage) {
+			if(!this.actor || this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE) {
+				throw "(Circle.Actor) No Actor exist!";
+			}
+
+			// CREATE THE ACTOR SPRITE
+			if(this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SPRITE) {
+				this.actor.setSpriteImage(anImage);
+			} else if(this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CSS_SPRITE) {
+				this.actor.setBackground( anImage.image.src )
+					.setSize(anImage.singleWidth, anImage.singleHeight);
+			}
 		},
 
 		setToRandomSpriteInSheet: function()
@@ -350,6 +379,20 @@
 
 		getUUID: function() {
 			return this.uuid;
+		},
+
+		/**
+		 * Hides or shows the CAAT.Actor
+		 * @param {Boolean} aValue Whether to hide the actor or not
+		 */
+		setVisible: function(aValue) {
+			if(aValue === true) {
+				this.actor.setFrameTime(GRAVEDANGER.currentScene.time, Number.MAX_VALUE)
+			} else {
+				this.actor.setOutOfFrameTime();
+			}
+
+			return this;
 		}
 	};
 

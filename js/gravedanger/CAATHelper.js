@@ -33,6 +33,11 @@
 
 		/**
 		 * Adds a CAAT.ScaleBehavior to the entity, used on animate in
+		 * @param {CAAT.Actor} actor
+		 * @param {Number} starTime
+		 * @param {Number} endTime
+		 * @param {Number} startAlpha
+		 * @param {Number} endAlpha
 		 */
 		animateInUsingAlpha: function(actor, starTime, endTime, startAlpha, endAlpha)
 		{
@@ -93,9 +98,11 @@
 		 */
 		createSpriteActor: function(aController)
 		{
-			var anActor = new CAAT.SpriteActor().
-					create().
-					setSpriteImage(aController.getImage());
+			var anActor = new CAAT.SpriteActor(),
+				anImage = aController.getImage();
+			// broken up for debug
+			anActor.create().
+				setSpriteImage(anImage);
 
 			aController.actorType = GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SPRITE;
 			return anActor;

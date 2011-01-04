@@ -129,7 +129,7 @@
 			this.circlePool = new CAAT.ObjectPool()
 				.create('GRAVEDANGER.Circle', false)
 				.setPoolConstructor(GRAVEDANGER.Circle)
-				.allocate(32);
+				.allocate(25);
 		},
 
 		/**
@@ -143,20 +143,19 @@
 			// temp place groups into array to pull from randomly
 			var allColors = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.GREEN, GRAVEDANGER.Circle.prototype.GROUPS.BLUE];
 
+			var tempArray = [];
 			for(var i = 0; i < total; i++)
 			{
 				// Size
 				var aRadius = 18;
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = this.circlePool.getObject()
+					.setRadius(18)
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
-					.create(aRadius)
-					.setFallSpeed( Math.random() * 4 + 1)
-					.setLocation( Math.random() * this.director.width, -aRadius )
-					.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
-					.setToRandomSpriteInSheet()
+					.create()
+					.setLocation(this.director.width*0.5, -100)
+//					.setVisible(false)
 					.setDefaultScale(0.6);
-
 
 				// Add to the collision simulation
 				this.packedCircleManager.addCircle( circle.getPackedCircle() );
@@ -164,8 +163,14 @@
 				// Add actor to the scene
 				GRAVEDANGER.CAATHelper.currentSceneLayers[1].addChild( circle.getCAATActor() );
 
-				// Animate in
-				GRAVEDANGER.CAATHelper.animateScale(circle.getCAATActor(), this.director.time+Math.random() * 20, 500, 1.0, circle.defaultScale );
+				tempArray.push(circle);
+			}
+
+			// put them all back
+			for(i = 0; i < tempArray.length; i++)
+			{
+
+				this.circlePool.setObject(tempArray[i]);
 			}
 		},
 
@@ -295,10 +300,11 @@
 
 		loop: function(director, delta)
 		{
+
 			this.gameTick++;
 			this.updateGameClock();
 
-			// Handle anchor
+			// HUD
 			this.timeLeft -= this.lastFrameDelta;
 			if(this.timeLeft > this.timeLeftStart) {
 				this.timeLeft = this.timeLeftStart;
@@ -323,6 +329,9 @@
 
 				circle.onTick(this.gameTick, this.gameClock, this.speedFactor);
 			}
+
+			// Add new heads
+			this.dropHead();
 		},
 
 		/**
@@ -347,6 +356,26 @@
 
 			this.lastFrameDelta = delta;
 			this.speedFactor = speedFactor;
+		},
+
+		dropHead: function()
+		{
+			var head = this.circlePool.getObject();
+
+			if(!head) return;
+
+			head.setLocation( Math.random() * this.director.width, -head.radius)
+			.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
+			.setToRandomSpriteInSheet()
+			.setFallSpeed( Math.random() * 4 + 1);
+//			.setVisible(true)
+
+
+			// Animate in
+			GRAVEDANGER.CAATHelper.animateScale(head.getCAATActor(), this.director.time+Math.random() * 20, 500, 1.0, head.defaultScale );
+
+			head.packedCircle.position.x = head.getCAATActor().x;
+			head.packedCircle.position.y = head.getCAATActor().y;
 		},
 
 /**
