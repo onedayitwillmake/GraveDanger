@@ -1,3 +1,32 @@
+/**
+ File:
+ 	HudController
+ Created By:
+	 Mario Gonzalez
+ Project	:
+ 	GraveDanger
+ Abstract:
+ 	Controls the HUD within the game, and its components
+ Basic Usage:
+	initHud: function()
+ 	{
+		gameHud = new GRAVEDANGER.HudController().create();
+
+		var buffer = 20,
+			gameDimensions = GRAVEDANGER.CAATHelper.getGameDimensions();
+
+		// Place the gauge and add it to the HUD layer
+		gameHud.setLocation(buffer, buffer-5);
+		scene.addChild( gameHud.getActor() );
+		scene.addChild( gameHud.getMask() );
+
+		// Place and add the score
+		var scoreField = this.hud.getScorefield();
+		scoreField.setLocation(gameDimensions.width - scoreField.textWidth - 30, buffer-6);
+
+ 		scene.addChild( scoreField );
+	},
+ */
 (function() {
 	GRAVEDANGER.HudController = function() {
 		return this;
@@ -24,6 +53,8 @@
 		getImage: function()
 		{
 			var imageName;
+
+			// Send the HUD on the first call and the hud 'mask' on the second call
 			if(!this.actor) imageName = "hud";
 			else imageName = 'hud_timeleftMasker';
 

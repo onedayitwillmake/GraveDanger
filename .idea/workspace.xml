@@ -18,14 +18,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="Refactored 'super functions' into smaller more managable bits">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/gravedanger/Config.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/js/gravedanger/hud/HudControllerGauge.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" afterPath="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Circle.js" afterPath="$PROJECT_DIR$/js/gravedanger/Circle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Island.js" afterPath="$PROJECT_DIR$/js/gravedanger/Island.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/ObjectPool.js" afterPath="$PROJECT_DIR$/js/lib/ObjectPool.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/caat.js" afterPath="$PROJECT_DIR$/js/lib/caat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" afterPath="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" />
     </list>
     <ignored path="CAAT.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -87,16 +86,34 @@
       <file leaf-file-name="PackedCircleScene.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="377" column="65" selection-start="11079" selection-end="11079" vertical-scroll-proportion="0.624">
+            <state line="363" column="151" selection-start="10578" selection-end="10578" vertical-scroll-proportion="0.33294663">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PackedCircleManager.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js">
+      <file leaf-file-name="HudController.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/gravedanger/hud/HudController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="8" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="697" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Config.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/gravedanger/Config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="44" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/gravedanger/Utils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="217" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -114,7 +131,7 @@
       <file leaf-file-name="Circle.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="371" column="20" selection-start="11453" selection-end="11465" vertical-scroll-proportion="0.0">
+            <state line="392" column="32" selection-start="11928" selection-end="11928" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -123,7 +140,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="148" selection-start="1515" selection-end="1515" vertical-scroll-proportion="-8.333333">
+            <state line="24" column="126" selection-start="969" selection-end="969" vertical-scroll-proportion="-0.625">
               <folding />
             </state>
           </provider>
@@ -161,21 +178,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/gravedanger/effects/EffectsChainAnnounce.js" />
         <option value="$PROJECT_DIR$/js/lib/caatsrc/model/conpoundimage.js" />
         <option value="$PROJECT_DIR$/js/lib/pooltest.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js" />
         <option value="$PROJECT_DIR$/css/screen.css" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/hud/HudControllerGauge.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Chain.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/gravedanger/Island.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" />
         <option value="$PROJECT_DIR$/js/lib/ObjectPool.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Circle.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/Config.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
       </list>
     </option>
@@ -230,27 +247,41 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CAAT" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GraveDanger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Favorites" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="190" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="199" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="199" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="195" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="195" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="202" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="997" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="995" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="997" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="201" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="197" />
     <property name="GoToClass.includeJavaFiles" value="false" />
@@ -322,6 +353,14 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="AirRunConfigurationType" factoryName="AIR" adl_options="" air_descriptor_path="" air_program_params="" air_publisher_id="" air_root_dir_path="" air_run_mode="AppDescriptor" browser_family="FIREFOX" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" module_name="" player_path="/Applications/Flash Player.app/Contents/MacOS/Flash Player" run_mode="HtmlOrSwfFile" run_trusted="false" url_to_launch="http://">
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" />
       <option name="MAIN_CLASS_NAME" />
@@ -342,11 +381,14 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="AirRunConfigurationType" factoryName="AIR" adl_options="" air_descriptor_path="" air_program_params="" air_publisher_id="" air_root_dir_path="" air_run_mode="AppDescriptor" browser_family="FIREFOX" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" module_name="" player_path="/Applications/Flash Player.app/Contents/MacOS/Flash Player" run_mode="HtmlOrSwfFile" run_trusted="false" url_to_launch="http://">
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -373,17 +415,6 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -454,22 +485,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1024" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964602" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13606195" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44800884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25015327" sideWeight="0.48893806" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.253832" sideWeight="0.49336284" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25015327" sideWeight="0.5022124" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.253832" sideWeight="0.49778762" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17588496" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964602" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44800884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -517,44 +548,14 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/images/game/island_blue.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/caat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="373" selection-start="67169" selection-end="67169" vertical-scroll-proportion="0.35866985">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/behaviour/behaviour.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="24" selection-start="6717" selection-end="6733" vertical-scroll-proportion="0.33293125">
-          <folding />
-        </state>
+        <state line="164" column="24" selection-start="6717" selection-end="6733" vertical-scroll-proportion="0.33293125" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/EffectsChainAnnounce.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="49" selection-start="1730" selection-end="1786" vertical-scroll-proportion="0.98245615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/Chain.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="20" selection-start="619" selection-end="624" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="56" column="49" selection-start="1730" selection-end="1786" vertical-scroll-proportion="0.98245615" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript5.js">
@@ -564,65 +565,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="148" selection-start="1515" selection-end="1515" vertical-scroll-proportion="-8.333333">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="83" selection-start="2336" selection-end="2336" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="78" column="83" selection-start="2336" selection-end="2336" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/CAATHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="153" selection-start="3310" selection-end="3310" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="101" column="153" selection-start="3310" selection-end="3310" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/model/actor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="8" selection-start="9420" selection-end="9420" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/hud/HudControllerGauge.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="185" selection-end="319" vertical-scroll-proportion="0.17142858">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="37" selection-start="1820" selection-end="1820" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="249" column="8" selection-start="9420" selection-end="9420" vertical-scroll-proportion="0.33333334" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="8" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="204" column="71" selection-start="5213" selection-end="5213" vertical-scroll-proportion="0.047563806" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/hud/HudController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="697" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="217" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ObjectPool.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="37" selection-start="1820" selection-end="1820" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="371" column="20" selection-start="11453" selection-end="11465" vertical-scroll-proportion="0.0">
+        <state line="392" column="32" selection-start="11928" selection-end="11928" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="126" selection-start="969" selection-end="969" vertical-scroll-proportion="-0.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/RenderTrail.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Chain.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="20" selection-start="619" selection-end="624" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="44" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="377" column="65" selection-start="11079" selection-end="11079" vertical-scroll-proportion="0.624">
+        <state line="363" column="151" selection-start="10578" selection-end="10578" vertical-scroll-proportion="0.33294663">
           <folding />
         </state>
       </provider>

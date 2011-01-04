@@ -6,13 +6,13 @@
 		return this;
 	};
 
-	GRAVEDANGER.PackedCircleScene.prototype= {// Meta info
+	GRAVEDANGER.PackedCircleScene.prototype =
+	{ // Meta info
 		// CAAT Info
 		packedCircleManager: null,
 		director:	null,
 		scene:	null,
 		targetDelta: null, // Determined by framerate 16 = 60fps
-
 
 		// Mouse information
 		mousePosition: null,
@@ -20,20 +20,21 @@
 
 		// Current game info
 		activeIslands: null,
+		timeLeft: 0,
+		score: 0,
 
 		// Current info
-		gameTick: 0,
-		gameClock: 0,
-		lastFrameDelta: 0,
-		speedFactor: 1, 			// A number where 1.0 means we're running exactly at the desired framerate, 0.5 means half, and of course 2.0 means double
-		currentChain: null,
-		clockActualTime: null,
+		gameTick			: 0,
+		gameClock			: 0,
+		clockActualTime		: 0,
+		lastFrameDelta		: 0,
+		speedFactor			: 1, 			// A number where 1.0 means we're running exactly at the desired framerate, 0.5 means half, and of course 2.0 means double
+		currentChain		: null,
 
 		// HUD
 		hud: null,
 
-		// GAMEOVER!
-		timeLeft: 0,
+		// CURRENT GAME
 		timeLeftStart: 45 * 1000,
 		timeLeftDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
 
@@ -154,7 +155,7 @@
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create()
 					.setLocation(this.director.width*0.5, -100)
-//					.setVisible(false)
+					.setVisible(false)
 					.setDefaultScale(0.6);
 
 				// Add to the collision simulation
@@ -167,9 +168,7 @@
 			}
 
 			// put them all back
-			for(i = 0; i < tempArray.length; i++)
-			{
-
+			for(i = 0; i < tempArray.length; i++) {
 				this.circlePool.setObject(tempArray[i]);
 			}
 		},
@@ -189,8 +188,9 @@
 			for(var i = 0; i < totalIslands; i++) {
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var island = new GRAVEDANGER.Island()
+					.setRadius(115)
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
-					.create( 120 )
+					.create()
 					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175);
 
 				this.packedCircleManager.addCircle( island.getPackedCircle() );
@@ -267,7 +267,9 @@
 			this.clockActualTime = new Date().getTime();
 			this.gameClock = 0; // Our game clock is relative
 			this.gameTick = 0;
+			this.score = 0;
 			this.timeLeft = this.timeLeftStart;
+
 			// framerate
 			this.targetDelta = 30;//Math.round(1000/30);
 
@@ -356,10 +358,15 @@
 
 			this.lastFrameDelta = delta;
 			this.speedFactor = speedFactor;
+
 		},
 
 		dropHead: function()
 		{
+			this.totalHeads = this.totalHeads || 0;
+			this.totalHeads++;
+
+			if(this.totalHeads > 25 ) return;
 			var head = this.circlePool.getObject();
 
 			if(!head) return;
@@ -367,8 +374,8 @@
 			head.setLocation( Math.random() * this.director.width, -head.radius)
 			.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
 			.setToRandomSpriteInSheet()
-			.setFallSpeed( Math.random() * 4 + 1);
-//			.setVisible(true)
+			.setFallSpeed( Math.random() * 4 + 1)
+			.setVisible(true);
 
 
 			// Animate in
@@ -421,22 +428,24 @@
 			{
 				ownerIsland.isAbsorbing = true;
 				var links = this.currentChain.getLinks(),
-					len = links.length,
-					piLen = (Math.PI*2) / (len),
+					linkCount = links.length,
+					piLen = (Math.PI*2) / (linkCount),
 					previous = null;
 
-				for(var i = 0; i < len; i++)
+				for(var i = 0; i < linkCount; i++)
 				{
 					var aCircle = links[i];
-					var duration = 300;//+(i*30),
+					var duration = 300,//+(i*30),
 						delay= 100*i;
 
-					aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i === len-1);
+					aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i === linkCount-1);
 				}
 
 
 				// Add time to the clock and give points
-				this.timeLeft += (len*2) * 2000;
+				this.timeLeft += (linkCount*2) * 2000;
+				this.score += GRAVEDANGER.Config.POINT_VALUES[Math.min(linkCount-1, GRAVEDANGER.Config.POINT_VALUES.length)];
+				console.log(this.score)
 			}
 
 			this.destroyChain(this.currentChain);
@@ -451,6 +460,7 @@
 			// Store old one to compare if new
 			var newDraggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
 
+			console.log('NewDraggedCircle', mouseX, mouseY,  this.packedCircleManager.allCircles[0].position.y, newDraggedCircle)
 			// Nothing to see here
 			if(!newDraggedCircle)
 				return;
