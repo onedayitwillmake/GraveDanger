@@ -7,39 +7,46 @@
 	};
 
 	GRAVEDANGER.PackedCircleScene.prototype =
-	{ // Meta info
+	{
+// Meta info
+		targetDelta			: 31, // Determined by framerate 16 = 60fps
+
 		// CAAT Info
-		packedCircleManager: null,
-		director:	null,
-		scene:	null,
-		targetDelta: null, // Determined by framerate 16 = 60fps
+		packedCircleManager	: null,
+		director			: null,
+		scene				: null,
 
 		// Mouse information
-		mousePosition: null,
-		isDragging: false,
+		mousePosition		: null,
+		isDragging			: false,		// True on mouseDown, false on mouse up
 
 		// Current game info
-		activeIslands: null,
-		timeLeft: 0,
-		score: 0,
+		activeIslands		: null,
+		timeLeft			: 0,
+		score				: 0,
 
-		// Current info
-		gameTick			: 0,
-		gameClock			: 0,
-		clockActualTime		: 0,
-		lastFrameDelta		: 0,
+		// Current timing info
+		gameTick			: 0,			// Zero based tick
+		gameClock			: 0,			// Zero based time reset each game
+		clockActualTime		: 0,			// Actual Date.getTime()
+		lastFrameDelta		: 0,			// Deltatime between last frame
 		speedFactor			: 1, 			// A number where 1.0 means we're running exactly at the desired framerate, 0.5 means half, and of course 2.0 means double
-		currentChain		: null,
 
 		// HUD
-		hud: null,
+		hud					: null,
 
 		// CURRENT GAME
-		timeLeftStart: 45 * 1000,
+		timeLeftStart		: 45 * 1000,
 		timeLeftDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
+		// Statistics kept while playing
+		stats				: {
+			dropsAttempts	: 0,
+			dropsMade		: 0,
+			speedLevel		: 0
+		},
 
 		// Difficulty progression
-		currentMaxHeads: 25,
+		currentMaxHeads		: 25,
 
 		init: function(director)
 		{
@@ -52,17 +59,11 @@
 			this.initIslands();
 			this.initHud();
 			this.initFinal();
-
-			GRAVEDANGER.SimpleDispatcher.addListener("warWereDeclared", this.onWarWereDeclared, this);
-		},
-
-		onWarWereDeclared: function(event, data) {
-//		   console.log("(PackedCircleScene)::onWarWereDeclared - Event: '", event, "' | Data :"+ data.circle + " | this:", this);
 		},
 
 		/**
-		 * Main initilization, creates the packed circle manager
-		 * @param director
+		 * Main initialization.
+		 * Creates the packed circle manager
 		 */
 		initDirector: function()
 		{
@@ -70,7 +71,7 @@
 			this.scene = new CAAT.Scene().
 				create();
 
-			// store pointer
+			// store pointer to scene, used to get scene.time in various parts of the game
 			GRAVEDANGER.CAATHelper.setScene(this.scene);
 
 			// Collision simulation
@@ -103,6 +104,9 @@
 			}
 		},
 
+		/**
+		 * Initialize the game background
+		 */
 		initBackground: function()
 		{
 			var imageRef = GRAVEDANGER.director.getImage("gameBackground"),
@@ -126,7 +130,11 @@
 			GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(backgroundActor)
 		},
 
-		initObjectPools: function() {
+		/**
+		 * Initialize the object pools
+		 */
+		initObjectPools: function()
+		{
 			this.circlePool = new CAAT.ObjectPool()
 				.create('GRAVEDANGER.Circle', false)
 				.setPoolConstructor(GRAVEDANGER.Circle)
@@ -212,6 +220,7 @@
 
 			var that = this;
 
+			// TODO: move from anonymous function
 			// listen for the mouse
 			GRAVEDANGER.CAATHelper.getContainerDiv().addEventListener("mousemove", function(e) {
 				that.mouseMove(e);
@@ -231,7 +240,8 @@
 		 * One final place to do any necessary initialization
 		 * It's assumed all other initialization took place and objects exist!
 		 */
-		initHud: function() {
+		initHud: function()
+		{
 			this.hud = new GRAVEDANGER.HudController().create();
 
 			var buffer = 20,
@@ -252,7 +262,8 @@
 		 * One final place to do any necessary initialization
 		 * It's assumed all other initialization took place and objects exist!
 		 */
-		initFinal: function() {
+		initFinal: function()
+		{
 			// Force all packedCircles to move to the position of their delegates
 			this.packedCircleManager.forceCirclesToMatchDelegatePositions();
 			this.packedCircleManager.setCallback(this.onCollision, this);
@@ -271,14 +282,19 @@
 			this.timeLeft = this.timeLeftStart;
 
 			// framerate
-			this.targetDelta = 30;//Math.round(1000/30);
-
 			var that = this;
 			this.director.loop(this.targetDelta, function(director, delta){
 				that.loop(director, delta);
 			});
 		},
 
+		/**
+		 * Collision between two circles has occured.
+		 * Determine if chain should add link
+		 * @param {CAAT.modules.CircleManager.PackedCircle}	ci	CircleA of the collision
+		 * @param {CAAT.modules.CircleManager.PackedCircle}	cj	CircleB of the collision
+		 * @param {CAAT.Point}	v		Inverse normal of the collision
+		 */
 		onCollision: function(ci, cj, v)
 		{
 			if(!this.currentChain)
@@ -300,6 +316,11 @@
 				this.onLinkAdded(atLeastOneAdded);
 		},
 
+		/**
+		 * Main loop
+		 * @param director
+		 * @param delta
+		 */
 		loop: function(director, delta)
 		{
 
@@ -385,12 +406,21 @@
 			head.packedCircle.position.y = head.getCAATActor().y;
 		},
 
-/**
- * User Interaction
- */
-		mouseMove: function(e) {
+///// Difficulty Progression
+		increaseDifficulty: function()
+		{
 
-			if(!this.isDragging) return;
+		},
+
+///// User Interaction
+		/**
+		 * MouseMove function. Ignored if MouseDown did not set this.isDragging to true
+		 * @param e
+		 */
+		mouseMove: function(e)
+		{
+			if(!this.isDragging)
+				return;
 
 			var mouseX = e.clientX - this.director.canvas.offsetLeft;
 			var mouseY = e.clientY - this.director.canvas.offsetTop;
@@ -398,6 +428,10 @@
 			this.mousePosition.set(mouseX, mouseY);
 		},
 
+		/**
+		 * MouseUp event, release chains
+		 * @param e
+		 */
 		mouseUp: function(e)
 		{
 			this.isDragging = false;
@@ -407,6 +441,42 @@
 			}
 		},
 
+		/**
+		 * MouseDown event. Detect new chain
+		 * @param e
+		 */
+		mouseDown: function(e) {
+			var mouseX = e.clientX - this.director.canvas.offsetLeft;
+			var mouseY = e.clientY - this.director.canvas.offsetTop;
+			this.mousePosition.set(mouseX, mouseY);
+
+			// Store old one to compare if new
+			var newDraggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
+
+			console.log('NewDraggedCircle', mouseX, mouseY,  this.packedCircleManager.allCircles[0].position.y, newDraggedCircle)
+			// Nothing to see here
+			if(!newDraggedCircle)
+				return;
+
+			// Create a new Chain - we'll let the chain decide if it is valid or not (for example cannot drag
+			var possibleChainStart = new GRAVEDANGER.Chain();
+
+			// Looks weird but the grab the "PackedCircle's CircleActor's Circle"!!
+			possibleChainStart.shouldAddLink(newDraggedCircle.delegate.delegate);
+
+			// Add the chain if it was considered valid
+			if( possibleChainStart.getHead() ) {
+				this.currentChain = possibleChainStart;
+				this.isDragging = true;
+			} else { // Link was considered invalid by the chain, ignore chain instance
+				this.destroyChain(possibleChainStart);
+			}
+		},
+
+///// Chainlink event
+		/**
+		 * Called when a chain has been released, this happens on mouseUp if the player has a chain
+		 */
 		onChainRelease: function()
 		{
 			var ownerIsland = null;
@@ -452,34 +522,6 @@
 			this.currentChain = null;
 		},
 
-		mouseDown: function(e) {
-			var mouseX = e.clientX - this.director.canvas.offsetLeft;
-			var mouseY = e.clientY - this.director.canvas.offsetTop;
-			this.mousePosition.set(mouseX, mouseY);
-
-			// Store old one to compare if new
-			var newDraggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
-
-			console.log('NewDraggedCircle', mouseX, mouseY,  this.packedCircleManager.allCircles[0].position.y, newDraggedCircle)
-			// Nothing to see here
-			if(!newDraggedCircle)
-				return;
-
-			// Create a new Chain - we'll let the chain decide if it is valid or not (for example cannot drag
-			var possibleChainStart = new GRAVEDANGER.Chain();
-
-			// Looks weird but the "PackedCircle's CircleActor's Circle"!!
-			possibleChainStart.shouldAddLink(newDraggedCircle.delegate.delegate);
-
-			// Add the chain if it was considered valid
-			if( possibleChainStart.getHead() ) {
-				this.currentChain = possibleChainStart;
-				this.isDragging = true;
-			} else { // Link was considered invalid by the chain, ignore chain instance
-				this.destroyChain(possibleChainStart);
-			}
-		},
-
 		/**
 		 * Called whenever a valid link is created, animates the circle to bring attention to it
 		 * @param {GRAVEDANGER.Circle} aCircle A circle instance
@@ -493,6 +535,11 @@
 			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.director.time+duration, duration, aCircle.defaultScale*scaleBy, aCircle.defaultScale);
 		},
 
+/////	Memory Management
+		/**
+		 * Dealocate a chain
+		 * @param {GRAVEDANGER.Chain} aChain A chain to deallocate
+		 */
 		destroyChain: function(aChain) {
 
 			aChain.releaseAll();
@@ -500,22 +547,9 @@
 		},
 
 		/**
-		 * Stops then resumes the director loop for X time
-		 * @param {Number} duration A pause duration in ms
+		 * Deallocate memory
 		 */
-		stutterDirector: function(duration)
-		{
-			clearTimeout(this.stutterTimeout);
-			this.director.stop();
-			var that = this;
-			this.stutterTimeout = setTimeout(function(director, delta){
-				that.start();
-			}, duration);
-		},
-
-/**
- * Memory Management
- */		dealloc: function() {
+		dealloc: function() {
 			this.packedCircleManager.dealloc();
 
 			this.packedCircleManager = null, delete this.mousePosition;

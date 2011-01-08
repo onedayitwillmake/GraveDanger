@@ -8,21 +8,29 @@
 
 	extend( GRAVEDANGER.Island, GRAVEDANGER.Circle, {
 		// Class properties
-		DEBRIS_COLORS:  (function() {
+		DEBRIS_COLORS:  (function()
+		{
 			var obj = {};
 			obj[GRAVEDANGER.Circle.prototype.GROUPS.RED] = new CAAT.Color.RGB(62,210,255);
 			obj[GRAVEDANGER.Circle.prototype.GROUPS.GREEN] = new CAAT.Color.RGB(255,0,128);
 			obj[GRAVEDANGER.Circle.prototype.GROUPS.BLUE] = new CAAT.Color.RGB(255,239,153);
 			return obj;
 		})(),
-		// Instnace properties
-		sineOffset: 0,
-		floatRadius: 30,
-		debris: null,
-		isAbsorbing: false,
 
-		onTick: function(gameTick, gameClock, speedFactor) {
+		// Instance properties
+		sineOffset		: 0,		// Increased each frame, controlls floatRaidus
+		floatRadius		: 30,		// Vertical range from initial position
+		debris			: null,		// An array of debris pieces
+		isAbsorbing		: false,	// Absorbing means it's in the middle of an animation while zombie-heads go into it
 
+		/**
+		 * Called by the game each loop
+		 * @param {Number} gameTick		A zero based value incrimented everyframe by the GameScene
+		 * @param {Number} gameClock	A zero based time value incrimented by the GameScene
+		 * @param {Number} speedFactor	A number
+		 */
+		onTick: function(gameTick, gameClock, speedFactor)
+		{
 			if(!this.isAbsorbing)
 			{
 				this.sineOffset += 0.02 + Math.random() * 0.01;
