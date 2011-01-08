@@ -30,7 +30,7 @@
 			} else {
 				var sign = (gameTick%2 == 0) ? 1 : -1;
 				this.packedCircle.position.y += sign*1.1;
-				this.actor.scaleX = this.actor.scaleY = this.defaultScale+(sign*0.01);
+//				this.actor.scaleX = this.actor.scaleY = this.defaultScale+(sign*0.000001);
 			}
 
 			// this.positionActor
