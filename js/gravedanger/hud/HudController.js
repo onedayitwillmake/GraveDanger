@@ -59,10 +59,10 @@
 			else imageName = 'hud_timeleftMasker';
 
 			var imageRef = GRAVEDANGER.director.getImage(imageName);
-			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
+			this.compoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
 
 			// Store for next
-			return this.conpoundImage;
+			return this.compoundImage;
 		},
 
 

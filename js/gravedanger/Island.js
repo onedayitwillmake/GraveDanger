@@ -89,8 +89,8 @@
 			}
 
 			// Store for next lookup
-			this.conpoundImage = __CONPOUND_IMAGES[imageName];
-			return this.conpoundImage;
+			this.compoundImage = __CONPOUND_IMAGES[imageName];
+			return this.compoundImage;
 		},
 
 		setLocation: function(x, y)

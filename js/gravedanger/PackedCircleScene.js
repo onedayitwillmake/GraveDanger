@@ -41,12 +41,15 @@
 		// Statistics kept while playing
 		stats				: {
 			dropsAttempts	: 0,
+			headsMatched	: 0,
 			dropsMade		: 0,
 			speedLevel		: 0
 		},
 
 		// Difficulty progression
-		currentMaxHeads		: 25,
+		currentMaxHeads			: 25,
+		currentFallspeed		: 2.0,
+		currentFallspeedRange	: 0,
 
 		init: function(director)
 		{
@@ -110,21 +113,20 @@
 		initBackground: function()
 		{
 			var imageRef = GRAVEDANGER.director.getImage("gameBackground"),
-				conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1),
-				gameDimensions = GRAVEDANGER.CAATHelper.getGameDimensions(),
+				compoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1),
 				backgroundActor = null;
 
 			if( GRAVEDANGER.CAATHelper.getUseCanvas() )
 			{
 				backgroundActor = new CAAT.SpriteActor().
 					create().
-					setSpriteImage(conpoundImage)
+					setSpriteImage(compoundImage)
 			} else {
 				backgroundActor = new CAAT.CSSActor();
 				backgroundActor.createOneday( GRAVEDANGER.CAATHelper.getContainerDiv() )
 					.setClassName("actor")
-					.setBackground( conpoundImage.image.src )
-					.setSize(conpoundImage.singleWidth, conpoundImage.singleHeight);
+					.setBackground( compoundImage.image.src )
+					.setSize(compoundImage.singleWidth, compoundImage.singleHeight);
 			}
 
 			GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(backgroundActor)
@@ -159,19 +161,19 @@
 				var aRadius = 18;
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = this.circlePool.getObject()
-					.setRadius(18)
+					.setRadius(aRadius)
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create()
 					.setLocation(this.director.width*0.5, -100)
-					.setVisible(false)
-					.setDefaultScale(0.6);
+//					.setVisible(false)
+					.setDefaultScale(GRAVEDANGER.Config.DEFAULT_SCALE + GRAVEDANGER.UTILS.randomFloat(-0.1, 0.1) );
+
 
 				// Add to the collision simulation
 				this.packedCircleManager.addCircle( circle.getPackedCircle() );
 
 				// Add actor to the scene
 				GRAVEDANGER.CAATHelper.currentSceneLayers[1].addChild( circle.getCAATActor() );
-
 				tempArray.push(circle);
 			}
 
@@ -179,6 +181,9 @@
 			for(i = 0; i < tempArray.length; i++) {
 				this.circlePool.setObject(tempArray[i]);
 			}
+
+			// Listen for circle complete -
+			GRAVEDANGER.SimpleDispatcher.addListener(GRAVEDANGER.Circle.prototype.EVENTS.ON_CIRCLE_COMPLETE, this.onCircleComplete, this)
 		},
 
 		/**
@@ -384,32 +389,45 @@
 
 		dropHead: function()
 		{
-			this.totalHeads = this.totalHeads || 0;
-			this.totalHeads++;
+			// Too soon to release
+			if(this.gameTick % GRAVEDANGER.Config.DROP_EVERY != 0)
+				return;
 
-			if(this.totalHeads > 25 ) return;
+//			this.totalHeads = this.totalHeads || 0;
+//			this.totalHeads++;
+
+//			if(this.totalHeads > 25 ) return;
 			var head = this.circlePool.getObject();
 
 			if(!head) return;
 
-			head.setLocation( Math.random() * this.director.width, -head.radius)
-			.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
-			.setToRandomSpriteInSheet()
-			.setFallSpeed( Math.random() * 4 + 1)
-			.setVisible(true);
+			var fallspeed = (head.defaultScale/GRAVEDANGER.Config.DEFAULT_SCALE) * this.currentFallspeed;
+
+			head.setLocation( Math.random() * this.director.width, -head.radius*3, true)
+				.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
+				.setToRandomSpriteInSheet()
+				.setFallSpeed( fallspeed + GRAVEDANGER.UTILS.randomFloat(-this.currentFallspeedRange, this.currentFallspeedRange) )
+				.setCollisionMaskAndGroup(1, 1);
 
 
 			// Animate in
-			GRAVEDANGER.CAATHelper.animateScale(head.getCAATActor(), this.director.time+Math.random() * 20, 500, 1.0, head.defaultScale );
+			GRAVEDANGER.CAATHelper.animateScale(head.getCAATActor(), this.scene.time, 500, 2.0, head.defaultScale,
+					new CAAT.Interpolator().createPennerEaseOutQuad());
 
-			head.packedCircle.position.x = head.getCAATActor().x;
-			head.packedCircle.position.y = head.getCAATActor().y;
+			GRAVEDANGER.CAATHelper.animateInUsingAlpha(head.getCAATActor(),this.scene.time, 1000, 0, 1.0,
+					new CAAT.Interpolator().createPennerEaseInQuad());
 		},
 
-///// Difficulty Progression
-		increaseDifficulty: function()
+		/**
+		 * Dispatched by GRAVEDANGER.Circle once it has 'completed' which means:
+		 * 	It has dropped and animated into the abyss
+		 * 	It has animated into the island
+		 * @param aCircle
+		 */
+		onCircleComplete: function (eventName, circle)
 		{
-
+			console.log('YO', circle.uuid);
+			this.circlePool.setObject(circle);
 		},
 
 ///// User Interaction
@@ -479,6 +497,8 @@
 		 */
 		onChainRelease: function()
 		{
+			this.stats.dropsAttempts++;
+
 			var ownerIsland = null;
 
 			// Find the owner if any
@@ -494,32 +514,44 @@
 			},this);
 
 			// Match was found
-			if(ownerIsland)
-			{
-				ownerIsland.isAbsorbing = true;
-				var links = this.currentChain.getLinks(),
-					linkCount = links.length,
-					piLen = (Math.PI*2) / (linkCount),
-					previous = null;
-
-				for(var i = 0; i < linkCount; i++)
-				{
-					var aCircle = links[i];
-					var duration = 300,//+(i*30),
-						delay= 100*i;
-
-					aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i === linkCount-1);
-				}
-
-
-				// Add time to the clock and give points
-				this.timeLeft += (linkCount*2) * 2000;
-				this.score += GRAVEDANGER.Config.POINT_VALUES[Math.min(linkCount-1, GRAVEDANGER.Config.POINT_VALUES.length)];
-				console.log(this.score)
+			if(ownerIsland) {
+				this.onDropMade(ownerIsland)
 			}
 
 			this.destroyChain(this.currentChain);
 			this.currentChain = null;
+		},
+
+		onDropMade: function(ownerIsland)
+		{
+			// Increase game statistics
+			this.stats.dropsMade++;
+
+			// Grab the heads that were dropped
+			var links = this.currentChain.getLinks(),
+				linkCount = links.length;
+
+			this.stats.headsMatched += linkCount;
+			for(var i = 0; i < linkCount; i++)
+			{
+				var aCircle = links[i];
+				var duration = 300,//+(i*30),
+					delay= 100*i;
+
+				aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i === linkCount-1);
+			}
+
+
+			// Add time to the clock and give points
+			this.timeLeft += (linkCount*2) * 2000;
+			this.score += GRAVEDANGER.Config.POINT_VALUES[Math.min(linkCount-1, GRAVEDANGER.Config.POINT_VALUES.length)];
+
+			ownerIsland.isAbsorbing = true;
+
+			// Increase difficulty
+			if(this.stats.dropsMade % GRAVEDANGER.Config.LEVEL_UP_EVERY == 0) {
+				this.currentFallspeed += GRAVEDANGER.Config.SPEED_INCREASE;
+			}
 		},
 
 		/**

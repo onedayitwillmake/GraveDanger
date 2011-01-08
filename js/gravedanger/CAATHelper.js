@@ -54,6 +54,21 @@
 			return fadeBehavior;
 		},
 
+		animateABPath:function (actor, startTime, duration, startX, startY, endX, endY, interpolator)
+		{
+			var path = new CAAT.LinearPath();
+			path.setInitialPosition(startX, startY);
+			path.setFinalPosition(endX, endY);
+
+			 // setup up a path traverser for the path.
+			var pathBehavior = new CAAT.PathBehavior();
+				pathBehavior.setPath( path );
+				pathBehavior.setFrameTime(startTime, duration);
+				pathBehavior.setInterpolator( interpolator || new CAAT.Interpolator().createExponentialOutInterpolator(1, false) );
+
+			return pathBehavior
+		},
+
 		/**
 		 * Reroutes touch events as mouse events
 		 */

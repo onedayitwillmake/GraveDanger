@@ -73,11 +73,11 @@
 				return __CONPOUND_IMAGES[imageName];
 
 			var imageRef = GRAVEDANGER.director.getImage(imageName);
-			this.conpoundImage = new CAAT.CompoundImage().initialize(imageRef, 8, 1);
+			this.compoundImage = new CAAT.CompoundImage().initialize(imageRef, 8, 1);
 
 			// Store for next
-			__CONPOUND_IMAGES[imageName]  = this.conpoundImage;
-			return this.conpoundImage;
+			__CONPOUND_IMAGES[imageName]  = this.compoundImage;
+			return this.compoundImage;
 		},
 
 		dealloc: function(aGravityBehavior)

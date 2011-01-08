@@ -9,6 +9,7 @@
  	SimpleDispatcher is an event dispatching utility made for games, as such the focus is on performance.
  	Many objects may listen for the same event (a string)
  	An object may only have one eventListener (a callback) for a given event
+ 	(For example, if a tree has many apples, it only creates one 'onAppleFell' listener, not one per apple)
 
  Basic Usage:
 

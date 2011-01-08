@@ -14,11 +14,15 @@
 	};
 
 	GRAVEDANGER.Circle.prototype = {
-		/**
-		 * 'Class' properties
-		 */
+///// 'Class' properties
 		NEXT_UUID: 0,
+
 		GROUPS: __colorGroups,
+		EVENTS: {
+			ON_CIRCLE_DROP		: 'onCircleDrop',
+			ON_CIRCLE_COMPLETE	: 'onCircleComplete'
+		},
+
 		// The CSS Colors for each of the color groups
 		GROUP_COLOR_VALUES: (function() { 		// Can't access own prototype by this pointyet so have to use local version
 			var obj = {};
@@ -45,15 +49,13 @@
 		   return ++GRAVEDANGER.Circle.prototype.NEXT_UUID;
 		},
 
-		/**
-		 * Instance properties
-		 */
+///// Instance properties
 		uuid			: 0,
 		actor			: null,
 		packedCircle	: null,
 		color			: 0,		// A color based on GRAVEDANGER.Circle.prototype.GROUPS - not an actual color value
 		colorRGB		: '',		// String representing the hex value of this color type
-		conpoundImage	: null,
+		compoundImage	: null,
 		radius			: 0,
 		state			: 0,
 		defaultScale	: 1,
@@ -84,26 +86,23 @@
 			if(this.packedCircle.position.y > GRAVEDANGER.director.height-40 && this.state === __STATES.ACTIVE)
 			{
 				this.animateIntoAbyss();
-				/*
-				this.packedCircle.position.x = GRAVEDANGER.UTILS.randomFloat(0, GRAVEDANGER.director.width);
-				this.packedCircle.position.y = -this.actor.height*2;
-				 */
 			} else {
 				this.packedCircle.position.y += this.fallSpeed;
-				// Position actor where packed circle is
 			}
 
+			// When animating out - force the packedCircle to where the actor is - otherwise the reverse occurs
 			if(this.state === __STATES.ANIMATING_OUT) {
 //				this.actor.alpha = Math.random();
 				this.packedCircle.position.y = this.actor.y;
 				return;
 			}
 
+			// Position the actor to where the circle is located
 			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
 			this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
 		},
 
-		// TODO: Violating DRY - this is dupped in Debris.js
+		// TODO: Violating DRY - this is duped in Debris.js
 		animateIntoAbyss: function()
 		{
 			this.state = GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT;
@@ -134,49 +133,14 @@
 				scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false));
 			this.actor.addBehavior(scaleBehavior);
 
-			    return;
-			// Hide at first
-//			 	rectangleActor.scaleX = rectangleActor.scaleY = 0;
-			// when scale Behavior finishes, start rotation Behavior.
+			// Fire event when behavior is complete
 			var that = this;
-			var randFloat = GRAVEDANGER.UTILS.randomFloat;
-			var randInt = GRAVEDANGER.UTILS.randomInt;
-
-			// TODO: Hack - storing pointer to scaleBehavior inside grav behavior
-			gravityBehavior.path = path;
-			gravityBehavior.ownerActor = this.actor;
-			gravityBehavior.scaleBehavior = scaleBehavior;
 			gravityBehavior.addListener( {
 				behaviorExpired : function(behavior, time, actor)
 				{
-					console.log('yo!')
-					return;
-					var centerX = behavior.ownerActor.x + behavior.ownerActor.width * 0.5,
-						centerY = behavior.ownerActor.y + behavior.ownerActor.height * 0.5 + 75 + Math.random() * 50;
-
-					var startX = randFloat(centerX-55, centerX+55),
-						startY = randFloat(centerY-40, centerY+10);
-					var startScale = randFloat(1, 1.5);
-
-					var startTime = time;// + randFloat(0, 50),
-						endTime = 200 + randFloat(200, 600);
-
-					// Reset
-					behavior.path.setInitialPosition(startX, startY);
-					behavior.path.setFinalPosition(startX, startY + randFloat(50, 100) );
-					behavior.scaleBehavior.startScaleX = behavior.scaleBehavior.startScaleY = startScale;
-
-
-					// Set rect to initial values
-					actor.scaleX = actor.scaleY = startScale;
-					actor.x = startX;
-					actor.y = startY;
-
-					// Restart the behaviors
-					behavior.scaleBehavior.setFrameTime(startTime, endTime);
-					behavior.setFrameTime(startTime, endTime );
-
-			}});
+					GRAVEDANGER.SimpleDispatcher.dispatch(GRAVEDANGER.Circle.prototype.EVENTS.ON_CIRCLE_COMPLETE, actor.delegate);
+				}
+			});
 		},
 
 		animateIntoIsland:function(island, startTime, duration, isFinal)
@@ -189,32 +153,30 @@
 			var centerX = island.actor.x+60,
 				centerY = island.actor.y+115;
 
-			console.log(centerX, centerY);
 			// Scale up, then to tiny before animating path
 			var scaleBy = 2;
 			var popDelay = 61;
 			GRAVEDANGER.CAATHelper.animateScale(this.actor, startTime, popDelay, this.actor.scaleX, this.actor.scaleX+scaleBy);
 			GRAVEDANGER.CAATHelper.animateScale(this.actor, startTime+popDelay, duration, this.actor.scaleX+scaleBy, 0.01);
 
-			var path = new CAAT.LinearPath();
-			path.setInitialPosition(this.actor.x, this.actor.y);
-			path.setFinalPosition(GRAVEDANGER.UTILS.randomFloat(centerX-10, centerX+10), centerY);
+			var pathBehavior = GRAVEDANGER.CAATHelper.animateABPath(this.actor,
+					startTime+popDelay, duration,
+					this.actor.x, this.actor.y,
+					GRAVEDANGER.UTILS.randomFloat(centerX-10, centerX+10), centerY);
 
-			 // setup up a path traverser for the path.
-			var gravityBehavior = new CAAT.PathBehavior();
-				gravityBehavior.setPath( path );
-				gravityBehavior.setFrameTime(startTime+popDelay, duration);
-				gravityBehavior.setInterpolator(new CAAT.Interpolator().createExponentialOutInterpolator(1, false));
-			this.actor.addBehavior( gravityBehavior );
+			this.actor.addBehavior( pathBehavior );
 
-			gravityBehavior.addListener( {
+			// Dispatch event when complete
+			pathBehavior.addListener( {
 				behaviorExpired : function(behavior, time, actor)
 				{
+					// The last one makes the island stop absorbing.
+					// TODO: A bit hacky?
 					if(isFinal) {
 						island.isAbsorbing = false;
-						console.log('A')
 					}
 
+					GRAVEDANGER.SimpleDispatcher.dispatch(GRAVEDANGER.Circle.prototype.EVENTS.ON_CIRCLE_COMPLETE, actor.delegate);
 				}
 			});
 		},
@@ -231,18 +193,23 @@
 			c.position.y -= v.y;
 		},
 
-/**
- * Accessors
- */
+ ///// Accessors
 		setRadius: function(aRadius)
 		{
 			this.radius = aRadius;
 			return this;
 		},
 
-		setLocation: function(x,y)
+		setLocation: function(x,y, movePackedCircle)
 		{
 			this.actor.setLocation(x,y);
+
+			if(movePackedCircle)
+			{
+				this.packedCircle.position.x=this.actor.x+this.actor.width*0.5;
+				this.packedCircle.position.y=this.actor.y+this.actor.height*0.5;
+			}
+
 			return this;
 		},
 
@@ -282,8 +249,8 @@
 			}
 
 			// Store for next lookup
-			this.conpoundImage = __CONPOUND_IMAGES[imageName];
-			return this.conpoundImage;
+			this.compoundImage = __CONPOUND_IMAGES[imageName];
+			return this.compoundImage;
 		},
 
 		setImage: function(anImage) {
@@ -306,7 +273,7 @@
 			if(this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE)
 				return this;
 
-			var totalImages = this.conpoundImage.cols * this.conpoundImage.rows,
+			var totalImages = this.compoundImage.cols * this.compoundImage.rows,
 				index = GRAVEDANGER.UTILS.randomInt(0, totalImages-1);
 
 			this.actor.spriteIndex = index;
@@ -323,8 +290,8 @@
 			}
 
 			// Move CSS background image
-			var sx0= Math.floor(anIndex % this.conpoundImage.cols) * this.conpoundImage.singleWidth;
-			var sy0= Math.floor(anIndex / this.conpoundImage.rows) * this.conpoundImage.singleHeight;
+			var sx0= Math.floor(anIndex % this.compoundImage.cols) * this.compoundImage.singleWidth;
+			var sy0= Math.floor(anIndex / this.compoundImage.rows) * this.compoundImage.singleHeight;
 
 			this.actor.domElement.style['background-position-x'] = sx0 + "px";
 			this.actor.domElement.style['background-position-y'] = sy0 + "px";
@@ -355,6 +322,12 @@
 		{
 			this.fallSpeed = aFallSpeed;
 			return this;
+		},
+
+		setCollisionMaskAndGroup: function(cMask, cGroup)
+		{
+			this.packedCircle.collisionMask =cMask;
+	      	this.packedCircle.collisionGroup = cGroup;
 		},
 
 		/**
