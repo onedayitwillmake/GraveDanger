@@ -67,6 +67,7 @@
 			if(!this.head) {
 				this.addHead(aCircle);
 				aCircle.actor.scaleX = aCircle.actor.scaleY = 1;
+				aCircle.packedCircle.collisionGroup = GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS;
 			} else {
 				aCircle.actor.alpha = 0.75;
 				aCircle.packedCircle.collisionGroup = 0;

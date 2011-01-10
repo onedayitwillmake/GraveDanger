@@ -7,6 +7,7 @@
 			BLUE: 1 << 2
 		};
 	var __STATES = null; // Non tripple nested pointer to GRAVEDANGER.Circle.prototype.STATES
+	var NEXTIMAGE = 0;
 	GRAVEDANGER.Circle = function() {
 		this.uuid = GRAVEDANGER.Circle.prototype.getNextUUID();
 	    this.state = GRAVEDANGER.Circle.prototype.STATES.UNUSED;
@@ -23,6 +24,11 @@
 			ON_CIRCLE_COMPLETE	: 'onCircleComplete'
 		},
 
+		COLLISION_GROUPS: {
+			HEADS: 1 << 0,
+			ISLANDS: 1 << 1
+		},
+
 		// The CSS Colors for each of the color groups
 		GROUP_COLOR_VALUES: (function() { 		// Can't access own prototype by this pointyet so have to use local version
 			var obj = {};
@@ -33,10 +39,10 @@
 		})(),
 
 		STATES: {
-			ACTIVE: 1 << 0,
-			ANIMATING_OUT: 1 << 1,
-			ANIMATING_IN: 1 << 2,
-			UNUSED: 1 << 3
+			ACTIVE			: 1 << 0,
+			ANIMATING_OUT	: 1 << 1,
+			ANIMATING_IN	: 1 << 2,
+			UNUSED			: 1 << 3
 		},
 
 		// DEV
@@ -60,6 +66,7 @@
 		state			: 0,
 		defaultScale	: 1,
 		fallSpeed		: 0,
+		timeoutStore	: null,		// Store reference to next timeout
 
 		create: function()
 		{
@@ -74,8 +81,8 @@
 			this.packedCircle = new CAAT.modules.CircleManager.PackedCircle()
 				.setDelegate(this.actor)
 				.setRadius(this.radius)
-				.setCollisionMask(1)	// packedCircle instance - will collide against this group
-				.setCollisionGroup(1); // packedCircle instance - is in this group
+				.setCollisionMask(0)	// packedCircle instance - will collide against this group
+				.setCollisionGroup(0); // packedCircle instance - is in this group
 
 			this.actor.mouseEnabled = false;
 			return this;
@@ -107,6 +114,7 @@
 		{
 			this.state = GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT;
 			this.packedCircle.collisionGroup = 0;
+
 			// path
 			var center = GRAVEDANGER.director.width*0.5;
 			var path = new CAAT.LinearPath();
@@ -143,28 +151,38 @@
 			});
 		},
 
-		animateIntoIsland:function(island, startTime, duration, isFinal)
+		animateIntoIsland:function(island, startTime, duration, index, isFinal, offsetPosition)
 		{
-			// TODO: VIOLATING DRY, create tweenTo in CAATHelper
+			var that = this;
+
+			// Change the image to the skull in a sec
+			clearTimeout(this.timeoutStore);
+			this.timeoutStore = setTimeout(function() {
+				that.setSpriteIndex(12);
+			}, index*70);
+
+			// Change state, and ignore collisions
 			this.state = GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT;
 			this.packedCircle.collisionGroup = 0;
 			this.packedCircle.collisionMask = 0;
 
-			var centerX = island.actor.x+60,
-				centerY = island.actor.y+115;
+			// Island center
+			var center = island.getOpeningPosition();
 
 			// Scale up, then to tiny before animating path
-			var scaleBy = 2;
+			var scaleBy = 1.1;
 			var popDelay = 61;
+
+			// scale to large size
 			GRAVEDANGER.CAATHelper.animateScale(this.actor, startTime, popDelay, this.actor.scaleX, this.actor.scaleX+scaleBy);
+
+			// scale to tiny size
 			GRAVEDANGER.CAATHelper.animateScale(this.actor, startTime+popDelay, duration, this.actor.scaleX+scaleBy, 0.01);
 
 			var pathBehavior = GRAVEDANGER.CAATHelper.animateABPath(this.actor,
 					startTime+popDelay, duration,
 					this.actor.x, this.actor.y,
-					GRAVEDANGER.UTILS.randomFloat(centerX-10, centerX+10), centerY);
-
-			this.actor.addBehavior( pathBehavior );
+					GRAVEDANGER.UTILS.randomFloat(center.x-10, center.x+10), center.y);
 
 			// Dispatch event when complete
 			pathBehavior.addListener( {
@@ -179,6 +197,8 @@
 					GRAVEDANGER.SimpleDispatcher.dispatch(GRAVEDANGER.Circle.prototype.EVENTS.ON_CIRCLE_COMPLETE, actor.delegate);
 				}
 			});
+
+			this.actor.addBehavior( pathBehavior );
 		},
 
 		chaseTarget: function(aTarget, speed)
@@ -235,6 +255,11 @@
 			return this;
 		},
 
+		getColor: function()
+		{
+			return this.color;
+		},
+
 		getImage: function()
 		{
 			var imageName = "heads" + this.color,
@@ -244,7 +269,7 @@
 			// Reuse one already made
 			if(!__CONPOUND_IMAGES[imageName])  {
 				imageRef = GRAVEDANGER.director.getImage(imageName);
-				aCompoundImage = new CAAT.CompoundImage().initialize(imageRef, 3, 4);
+				aCompoundImage = new CAAT.CompoundImage().initialize(imageRef, 4, 4);
 				__CONPOUND_IMAGES[imageName]  = aCompoundImage;
 			}
 
@@ -273,9 +298,9 @@
 			if(this.actorType === GRAVEDANGER.Circle.prototype.ACTOR_TYPES.CANVAS_SHAPE)
 				return this;
 
-			var totalImages = this.compoundImage.cols * this.compoundImage.rows,
+			// bottom row is empty
+			var totalImages = 12,		//this.compoundImage.cols * this.compoundImage.rows,
 				index = GRAVEDANGER.UTILS.randomInt(0, totalImages-1);
-
 			this.actor.spriteIndex = index;
 
 			return this;
@@ -326,8 +351,10 @@
 
 		setCollisionMaskAndGroup: function(cMask, cGroup)
 		{
-			this.packedCircle.collisionMask =cMask;
+			this.packedCircle.collisionMask = cMask;
 	      	this.packedCircle.collisionGroup = cGroup;
+
+			return this;
 		},
 
 		/**

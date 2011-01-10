@@ -161,6 +161,24 @@
 			return anActor;
 		},
 
+
+		createTextfield: function( CSSFontStyleString, cssFillStyleString, defaultText )
+		{
+			var directorRef = GRAVEDANGER.CAATHelper.getDirector();
+			var aTextfield= new CAAT.TextActor();
+			aTextfield.setFont(CSSFontStyleString);
+			aTextfield.setText(defaultText);
+			aTextfield.calcTextSize( directorRef );
+			aTextfield.setSize( aTextfield.textWidth, aTextfield.textHeight );
+			aTextfield.create();
+			aTextfield.textAlign = "center";
+			aTextfield.textBaseline = "top";
+			aTextfield.fillStyle = cssFillStyleString;
+			aTextfield.setScaleAnchored(1,1, CAAT.Actor.prototype.ANCHOR_RIGHT);
+			return aTextfield;
+		},
+
+
 /**
  * ACCESSORS
  */

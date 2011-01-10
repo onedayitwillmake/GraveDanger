@@ -36,8 +36,13 @@
 		actor: null,
 		actorType: null, // Not used but will be set by CAATHelper.createSpriteActor
 		timeMask: null,
-		scoreField: null,
 		easingSpeed: 0.3,
+		scoreField: null,
+		scoreFieldTextTarget: 0,
+		scoreFieldText: '',
+
+		levelField: null,
+		levelFieldText: '',
 
 		/**
 		 * Creates the timeGauge and the scoreField
@@ -46,7 +51,8 @@
 			this.actor = GRAVEDANGER.CAATHelper.createSpriteActor(this);
 			this.timeMask = GRAVEDANGER.CAATHelper.createSpriteActor(this);
 			this.timeMask.setScaleAnchored(1, 1, CAAT.Actor.prototype.ANCHOR_RIGHT);
-			this.scoreField = this.createScoreText();
+			this.scoreField = GRAVEDANGER.CAATHelper.createTextfield("17px Impact", "rgba(255,255,255,1.0)", "00000000");
+			this.levelField = GRAVEDANGER.CAATHelper.createTextfield("13px Impact", "rgba(255,255,255,1.0)", "99");
 			return this;
 		},
 
@@ -65,26 +71,7 @@
 			return this.compoundImage;
 		},
 
-
-		createScoreText: function()
-		{
-			var directorRef = GRAVEDANGER.CAATHelper.getDirector();
-			var aTextfield= new CAAT.TextActor();
-			aTextfield.setFont("17px Impact");
-			aTextfield.setText("00000000");
-			aTextfield.calcTextSize( directorRef );
-			aTextfield.setSize( aTextfield.textWidth, aTextfield.textHeight );
-			aTextfield.create();
-			aTextfield.textAlign="right";
-			aTextfield.textBaseline="top";
-			aTextfield.fillStyle="rgba(255,255,255,1.0)"
-			aTextfield.setScaleAnchored(1,1, CAAT.Actor.prototype.ANCHOR_RIGHT);
-			return aTextfield;
-		},
-
-/**
- * ACCESORS
- */
+ ///// ACCESORS
 		setLocation: function(x, y) {
 			this.actor.x = x;
 			this.actor.y = y;
@@ -112,6 +99,43 @@
 			this.timeMask.setScaleAnchored(easedScale, 1, CAAT.Actor.prototype.ANCHOR_RIGHT)
 		},
 
+		updateScoreAndLevel: function(aScore, aLevel)
+		{
+			this.scoreFieldText -= (this.scoreFieldText-aScore) * 0.1;
+			this.scoreFieldText = Math.ceil(this.scoreFieldText);
+
+			if(aScore !== this.scoreFieldText) {
+				this.scoreField.setText( this.padNumber(this.scoreFieldText+1, 7) );
+			}
+
+
+			if(aLevel !== this.levelField)
+			{
+				this.levelField.setText(aLevel);
+				this.levelFieldText = aLevel;
+			}
+		},
+
+		padNumber: function(actualValue, numberOfDigits)
+		{
+			//leadingZeros
+			var scoreString = '';
+			numberOfDigits = Math.pow(10, numberOfDigits); // 4 becomes 0000
+
+			// Loop through each tens place until it's less than 10
+			while(numberOfDigits >= 10)
+			{
+				if(actualValue < numberOfDigits)
+					scoreString = "0"+scoreString;
+
+				numberOfDigits/=10; //4000 becomes 400
+			}
+
+			scoreString += actualValue;
+			return scoreString;
+
+		},
+
 		getActor: function() {
 			return this.actor;
 		},
@@ -122,6 +146,10 @@
 
 		getScorefield: function() {
 			return this.scoreField;
+		},
+
+		getLevelField: function() {
+			return this.levelField;
 		}
 	}
 })();

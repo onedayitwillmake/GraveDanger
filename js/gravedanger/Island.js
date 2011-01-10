@@ -3,6 +3,7 @@
 	GRAVEDANGER.Island = function() {
 		GRAVEDANGER.Island.superclass.constructor.call(this);
 		this.debris = [];
+		this.openingPosition = new CAAT.Point();
 		return this;
 	};
 
@@ -22,6 +23,7 @@
 		floatRadius		: 30,		// Vertical range from initial position
 		debris			: null,		// An array of debris pieces
 		isAbsorbing		: false,	// Absorbing means it's in the middle of an animation while zombie-heads go into it
+		openingPosition	: new CAAT.Point(),
 
 		/**
 		 * Called by the game each loop
@@ -74,6 +76,11 @@
 			}
 		},
 
+		canAbsorbColor: function(aColor)
+		{
+			return aColor === this.color;
+		},
+
 
 		getImage: function()
 		{
@@ -84,6 +91,7 @@
 			// Reuse one already made
 			if(!__CONPOUND_IMAGES[imageName])  {
 				imageRef = GRAVEDANGER.director.getImage(imageName);
+//				console.log("ImageRef", imageRef)
 				aCompoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
 				__CONPOUND_IMAGES[imageName]  = aCompoundImage;
 			}
@@ -91,6 +99,13 @@
 			// Store for next lookup
 			this.compoundImage = __CONPOUND_IMAGES[imageName];
 			return this.compoundImage;
+		},
+
+		getOpeningPosition: function()
+		{
+			this.openingPosition.x = this.actor.x + 60;
+			this.openingPosition.y = this.actor.y + 115;
+			return this.openingPosition;
 		},
 
 		setLocation: function(x, y)

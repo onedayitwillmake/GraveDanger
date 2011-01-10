@@ -22,8 +22,10 @@
 
 		// Current game info
 		activeIslands		: null,
+		colorMonster		: null,
 		timeLeft			: 0,
 		score				: 0,
+		level				: 0,
 
 		// Current timing info
 		gameTick			: 0,			// Zero based tick
@@ -38,6 +40,7 @@
 		// CURRENT GAME
 		timeLeftStart		: 45 * 1000,
 		timeLeftDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
+
 		// Statistics kept while playing
 		stats				: {
 			dropsAttempts	: 0,
@@ -60,6 +63,7 @@
 			this.initCircles();
 			this.initMouseEvents();
 			this.initIslands();
+			this.initColorMonster();
 			this.initHud();
 			this.initFinal();
 		},
@@ -159,15 +163,15 @@
 			{
 				// Size
 				var aRadius = 18;
+
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = this.circlePool.getObject()
 					.setRadius(aRadius)
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create()
 					.setLocation(this.director.width*0.5, -100)
-//					.setVisible(false)
 					.setDefaultScale(GRAVEDANGER.Config.DEFAULT_SCALE + GRAVEDANGER.UTILS.randomFloat(-0.1, 0.1) );
-
+//					.setVisible(false)
 
 				// Add to the collision simulation
 				this.packedCircleManager.addCircle( circle.getPackedCircle() );
@@ -198,13 +202,16 @@
 
 			var totalIslands = 2;
 			var padding = 150;
-			for(var i = 0; i < totalIslands; i++) {
+			for(var i = 0; i < totalIslands; i++)
+			{
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var island = new GRAVEDANGER.Island()
 					.setRadius(115)
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create()
-					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175);
+					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175)
+					.setCollisionMaskAndGroup(GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS,
+						GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS);
 
 				this.packedCircleManager.addCircle( island.getPackedCircle() );
 				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( island.getCAATActor() );
@@ -213,6 +220,20 @@
 				island.createDebrisPieces();
 				this.activeIslands.setObjectForKey(island, island.uuid)
 			}
+		},
+
+		initColorMonster: function ()
+		{
+			var radius = 115;
+			this.colorMonster = new GRAVEDANGER.ColorMonster()
+			.setRadius(radius)
+			.create()
+			.setLocation(this.director.width/2, this.director.height - radius/2);
+
+			this.packedCircleManager.addCircle( this.colorMonster.getPackedCircle() );
+		   	GRAVEDANGER.CAATHelper.currentSceneLayers[1].addChild( this.colorMonster.getCAATActor() );
+
+			this.colorMonster.showForDuration(1000);
 		},
 
 		/**
@@ -260,7 +281,12 @@
 			// Place and add the score
 			var scoreField = this.hud.getScorefield();
 			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( scoreField );
-			scoreField.setLocation(gameDimensions.width - scoreField.textWidth - 30, buffer-6);
+			scoreField.setLocation(gameDimensions.width - scoreField.textWidth - 32, buffer-6);
+
+			// Place and add the score
+			var levelField = this.hud.getLevelField();
+			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( levelField );
+			levelField.setLocation(63, 53);
 		},
 
 		/**
@@ -284,6 +310,7 @@
 			this.gameClock = 0; // Our game clock is relative
 			this.gameTick = 0;
 			this.score = 0;
+			this.level = 0;
 			this.timeLeft = this.timeLeftStart;
 
 			// framerate
@@ -302,6 +329,13 @@
 		 */
 		onCollision: function(ci, cj, v)
 		{
+			// Check if one of them is the color monster
+			var colorMonsterCircle = this.colorMonster.returnSelfIfInSet(ci, cj);
+			if(colorMonsterCircle) {
+				colorMonsterCircle.delegate.delegate.animateIntoIsland(this.colorMonster, this.director.time, 300, 1, false);
+			}
+
+
 			if(!this.currentChain)
 				return;
 
@@ -339,7 +373,10 @@
 			} else if (this.timeLeft < 0) {
 //				this.onTimeExpired();
 			}
+
+
 			this.hud.setTimeGaugeScale(this.timeLeft/this.timeLeftStart);
+			this.hud.updateScoreAndLevel(this.score, this.level);
 
 			// Handle current chain
 			if(this.currentChain) {
@@ -389,25 +426,26 @@
 
 		dropHead: function()
 		{
+			// heads and islands combined collision group
+			var collisionGroup = GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS | GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS;
+
 			// Too soon to release
 			if(this.gameTick % GRAVEDANGER.Config.DROP_EVERY != 0)
 				return;
 
-//			this.totalHeads = this.totalHeads || 0;
-//			this.totalHeads++;
-
-//			if(this.totalHeads > 25 ) return;
 			var head = this.circlePool.getObject();
 
 			if(!head) return;
 
-			var fallspeed = (head.defaultScale/GRAVEDANGER.Config.DEFAULT_SCALE) * this.currentFallspeed;
+			var fallspeed = ( head.defaultScale/GRAVEDANGER.Config.DEFAULT_SCALE ) * this.currentFallspeed;
 
-			head.setLocation( Math.random() * this.director.width, -head.radius*3, true)
+			head.setLocation( Math.random() * this.director.width, -head.radius*2, true)
 				.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
 				.setToRandomSpriteInSheet()
 				.setFallSpeed( fallspeed + GRAVEDANGER.UTILS.randomFloat(-this.currentFallspeedRange, this.currentFallspeedRange) )
-				.setCollisionMaskAndGroup(1, 1);
+					// Set collision mask to heads and island, and collision group to heads
+				.setCollisionMaskAndGroup(GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS | GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS,
+					GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS);
 
 
 			// Animate in
@@ -426,7 +464,6 @@
 		 */
 		onCircleComplete: function (eventName, circle)
 		{
-			console.log('YO', circle.uuid);
 			this.circlePool.setObject(circle);
 		},
 
@@ -514,7 +551,8 @@
 			},this);
 
 			// Match was found
-			if(ownerIsland) {
+			if(ownerIsland && ownerIsland.canAbsorbColor(this.currentChain.color) )
+			{
 				this.onDropMade(ownerIsland)
 			}
 
@@ -538,7 +576,7 @@
 				var duration = 300,//+(i*30),
 					delay= 100*i;
 
-				aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i === linkCount-1);
+				aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i, i === linkCount-1);
 			}
 
 
@@ -550,6 +588,7 @@
 
 			// Increase difficulty
 			if(this.stats.dropsMade % GRAVEDANGER.Config.LEVEL_UP_EVERY == 0) {
+				this.level++;
 				this.currentFallspeed += GRAVEDANGER.Config.SPEED_INCREASE;
 			}
 		},
