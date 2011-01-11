@@ -56,7 +56,7 @@
 			this.scoreField = GRAVEDANGER.CAATHelper.createTextfield("17px Impact", "rgba(255,255,255,1.0)", "00000000");
 			this.levelField = GRAVEDANGER.CAATHelper.createTextfield("13px Impact", "rgba(255,255,255,1.0)", "99");
 
-			this.statusFieldText = GRAVEDANGER.CAATHelper.createTextfield("13px Impact", "rgba(255,255,255,1.0)", "99");
+			this.statusFieldText = GRAVEDANGER.CAATHelper.createTextfield("17px Impact", "rgba(255,255,255,1.0)", "");
 			return this;
 		},
 
@@ -156,8 +156,24 @@
 			return this.levelField;
 		},
 
-		getStatusText: function() {
-			return this.levelField;
+		getStatusText: function()
+		{
+			return this.statusFieldText;
+		},
+
+		popStatusText: function(textToDisplay, scale, time)
+		{
+			this.statusFieldText.alpha = 1;
+			this.statusFieldText.setText(textToDisplay);
+			var that = this;
+			var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.statusFieldText, GRAVEDANGER.CAATHelper.currentScene.time, time, 1, scale, new CAAT.Interpolator().createBounceOutInterpolator(true) );
+			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
+			scaleBehavior.addListener( {
+				behaviorExpired : function(behavior, time, actor)
+				{
+					actor.alpha = 0;
+				}
+			});
 		}
 	}
 })();

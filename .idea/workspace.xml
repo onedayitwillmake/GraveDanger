@@ -18,19 +18,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="Refactored 'super functions' into smaller more managable bits">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/images/game/island_blue.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/images/game/island_green.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/images/game/island_red.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/game/colormonster.png" afterPath="$PROJECT_DIR$/images/game/colormonster.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/images/game/logo.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Circle.js" afterPath="$PROJECT_DIR$/js/gravedanger/Circle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/ColorMonster.js" afterPath="$PROJECT_DIR$/js/gravedanger/ColorMonster.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Config.js" afterPath="$PROJECT_DIR$/js/gravedanger/Config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Island.js" afterPath="$PROJECT_DIR$/js/gravedanger/Island.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" afterPath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" afterPath="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
     </list>
     <ignored path="CAAT.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -89,91 +82,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="behaviour.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/behaviour/behaviour.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="484" column="56" selection-start="18110" selection-end="18158" vertical-scroll-proportion="-10.884615">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="interpolator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/path/interpolator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="24" selection-start="115" selection-end="117" vertical-scroll-proportion="-2.8846154">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Circle.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="253" column="45" selection-start="7968" selection-end="7968" vertical-scroll-proportion="0.0">
+            <state line="117" column="37" selection-start="3458" selection-end="3458" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CAATHelper.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/gravedanger/CAATHelper.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="8" selection-start="3737" selection-end="3737" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Config.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/gravedanger/Config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="25" selection-start="253" selection-end="253" vertical-scroll-proportion="0.3075995">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Island.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="68" selection-start="5226" selection-end="5226" vertical-scroll-proportion="-12.769231">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="86" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ColorMonster.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/gravedanger/ColorMonster.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="0" selection-start="2189" selection-end="2189" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Debris.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/Debris.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="9" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PackedCircleScene.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PackedCircleScene.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="225" column="90" selection-start="6472" selection-end="6472" vertical-scroll-proportion="0.0">
+            <state line="589" column="21" selection-start="17853" selection-end="17863" vertical-scroll-proportion="0.13875598">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HudController.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/gravedanger/hud/HudController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="163" column="8" selection-start="4091" selection-end="4091" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -198,17 +128,17 @@
         <option value="$PROJECT_DIR$/js/lib/caatsrc/path/interpolator.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Chain.js" />
         <option value="$PROJECT_DIR$/js/lib/caatsrc/model/director.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" />
         <option value="$PROJECT_DIR$/js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/Circle.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Island.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/ColorMonster.js" />
-        <option value="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/gravedanger/Config.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/Circle.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" />
+        <option value="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" />
       </list>
     </option>
   </component>
@@ -581,13 +511,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="193" column="43" selection-start="4901" selection-end="4901" vertical-scroll-proportion="0.96437055">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/model/actor.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1018" column="17" selection-start="33329" selection-end="33335" vertical-scroll-proportion="-10.884615">
@@ -602,37 +525,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/path/interpolator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="24" selection-start="115" selection-end="117" vertical-scroll-proportion="-2.8846154">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/caat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="343" selection-start="66109" selection-end="66109" vertical-scroll-proportion="0.38786766">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/behaviour/behaviour.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="484" column="56" selection-start="18110" selection-end="18158" vertical-scroll-proportion="-10.884615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/hud/HudController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="21" selection-start="4036" selection-end="4036" vertical-scroll-proportion="0.8233216">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/CAATHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="8" selection-start="3737" selection-end="3737" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -644,51 +539,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="86" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="253" column="45" selection-start="7968" selection-end="7968" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/Island.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="68" selection-start="5226" selection-end="5226" vertical-scroll-proportion="-12.769231">
+        <state line="143" column="68" selection-start="5226" selection-end="5226" vertical-scroll-proportion="0.40686274">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="56" selection-start="3460" selection-end="3460" vertical-scroll-proportion="0.908313">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/caat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="145" column="247" selection-start="73986" selection-end="73986" vertical-scroll-proportion="0.6912114">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/effects/Debris.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="9" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0">
+        <state line="3" column="9" selection-start="50" selection-end="50" vertical-scroll-proportion="0.052204177">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/ColorMonster.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="0" selection-start="2189" selection-end="2189" vertical-scroll-proportion="0.0">
+        <state line="81" column="15" selection-start="2215" selection-end="2754" vertical-scroll-proportion="0.6809745">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
+    <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="90" selection-start="6472" selection-end="6472" vertical-scroll-proportion="0.0">
+        <state line="46" column="86" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.496">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/caatsrc/path/interpolator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="277" column="8" selection-start="8941" selection-end="8941" vertical-scroll-proportion="0.3257143">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/Config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="25" selection-start="253" selection-end="253" vertical-scroll-proportion="0.3075995">
+        <state line="5" column="89" selection-start="59" selection-end="59" vertical-scroll-proportion="0.088339224">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/CAATHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="8" selection-start="201" selection-end="201" vertical-scroll-proportion="0.17142858">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/Circle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="37" selection-start="3458" selection-end="3458" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/hud/HudController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="163" column="8" selection-start="4091" selection-end="4091" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="589" column="21" selection-start="17853" selection-end="17863" vertical-scroll-proportion="0.13875598">
           <folding />
         </state>
       </provider>

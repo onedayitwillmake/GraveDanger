@@ -188,6 +188,8 @@
 
 			// Listen for circle complete -
 			GRAVEDANGER.SimpleDispatcher.addListener(GRAVEDANGER.Circle.prototype.EVENTS.ON_CIRCLE_COMPLETE, this.onCircleComplete, this)
+			// Listen for circle complete -
+			GRAVEDANGER.SimpleDispatcher.addListener(GRAVEDANGER.Circle.prototype.EVENTS.ON_CIRCLE_INTOABYSS, this.onCircleIntoAbyss, this);
 		},
 
 		/**
@@ -291,6 +293,12 @@
 			var levelField = this.hud.getLevelField();
 			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( levelField );
 			levelField.setLocation(63, 53);
+
+
+			// Place and add the score
+			var statusField = this.hud.getStatusText();
+			GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( statusField );
+			statusField.setLocation(325, 40);
 		},
 
 		/**
@@ -337,6 +345,7 @@
 			var collidedCircle = this.colorMonster.returnCollidedCircle(ci, cj);
 			if(collidedCircle)
 			{
+				this.hud.popStatusText("YUM YUM!!", 2, 200);
 				var colorMonsterActor = this.colorMonster.getCAATActor();
 				var bumpScale = 1.2;
 				var bumpTime = 100;
@@ -388,6 +397,7 @@
 				this.timeLeft = this.timeLeftStart;
 			} else if (this.timeLeft < 0) {
 //				this.onTimeExpired();
+				return;
 			}
 
 
@@ -485,6 +495,12 @@
 			this.circlePool.setObject(circle);
 		},
 
+		onCircleIntoAbyss: function (eventName, circle)
+		{
+			this.timeLeft -= 5;
+			this.hud.popStatusText("AW OH!", 1, 100);
+		},
+
 ///// User Interaction
 		/**
 		 * MouseMove function. Ignored if MouseDown did not set this.isDragging to true
@@ -580,6 +596,8 @@
 
 		onDropMade: function(ownerIsland)
 		{
+			this.hud.popStatusText("GREAT!");
+
 			// Increase game statistics
 			this.stats.dropsMade++;
 

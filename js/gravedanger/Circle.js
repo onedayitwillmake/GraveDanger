@@ -21,7 +21,8 @@
 		GROUPS: __colorGroups,
 		EVENTS: {
 			ON_CIRCLE_DROP		: 'onCircleDrop',
-			ON_CIRCLE_COMPLETE	: 'onCircleComplete'
+			ON_CIRCLE_COMPLETE	: 'onCircleComplete',
+			ON_CIRCLE_INTOABYSS	: 'ONCIRCLEABYSS'
 		},
 
 		COLLISION_GROUPS: {
@@ -113,6 +114,9 @@
 		// TODO: Violating DRY - this is duped in Debris.js
 		animateIntoAbyss: function()
 		{
+			//popStatusText: function(textToDisplay)
+			GRAVEDANGER.SimpleDispatcher.dispatch(GRAVEDANGER.Circle.prototype.EVENTS.ON_CIRCLE_INTOABYSS, this);
+
 			this.state = GRAVEDANGER.Circle.prototype.STATES.ANIMATING_OUT;
 			this.packedCircle.collisionGroup = 0;
 
