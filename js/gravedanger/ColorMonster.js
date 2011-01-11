@@ -45,6 +45,8 @@
 		{
 			aDuration = 8000;
 
+			this.actor.emptyBehaviorList();
+
 			this.isActive = true;
 			this.setCollisionVars();
 

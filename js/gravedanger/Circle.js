@@ -42,9 +42,9 @@
 		STATES: {
 			ACTIVE			: 1 << 0,
 			ANIMATING_OUT	: 1 << 1,
-			ANIMATING_INTO_COLORMONSTER : 1 << 2,
 			ANIMATING_IN	: 1 << 3,
-			UNUSED			: 1 << 4
+			IS_PART_OF_CHAIN: 1 << 4,
+			UNUSED			: 1 << 5
 		},
 
 		// DEV
@@ -101,7 +101,6 @@
 
 			// When animating out - force the packedCircle to where the actor is - otherwise the reverse occurs
 			if(this.state === __STATES.ANIMATING_OUT) {
-//				this.actor.alpha = Math.random();
 				this.packedCircle.position.y = this.actor.y;
 				return;
 			}

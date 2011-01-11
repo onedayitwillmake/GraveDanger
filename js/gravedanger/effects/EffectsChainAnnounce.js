@@ -36,7 +36,7 @@
 			var scaleBehavior = new CAAT.ScaleBehavior();
 			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_CENTER;
 			actor.scaleX = actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = 0;  // Fall from the 'sky' !
-			scaleBehavior.endScaleX = scaleBehavior.endScaleY = 0.75;
+			scaleBehavior.endScaleX = scaleBehavior.endScaleY = 1.0;
 			scaleBehavior.setFrameTime( 0, 500);
 			scaleBehavior.setCycle(false);
 			scaleBehavior.setInterpolator( new CAAT.Interpolator().createExponentialOutInterpolator(2, false));
