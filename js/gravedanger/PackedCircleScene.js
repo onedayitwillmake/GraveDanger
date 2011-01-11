@@ -51,7 +51,7 @@
 
 		// Difficulty progression
 		currentMaxHeads			: 25,
-		currentFallspeed		: 2.0,
+		currentFallspeed		: 1.0,
 		currentFallspeedRange	: 0,
 
 		init: function(director)
@@ -207,11 +207,15 @@
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var island = new GRAVEDANGER.Island()
 					.setRadius(115)
+					.setSide(i)
 					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
 					.create()
 					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175)
 					.setCollisionMaskAndGroup(GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS,
 						GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS);
+
+
+
 
 				this.packedCircleManager.addCircle( island.getPackedCircle() );
 				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( island.getCAATActor() );
@@ -228,12 +232,12 @@
 			this.colorMonster = new GRAVEDANGER.ColorMonster()
 			.setRadius(radius)
 			.create()
-			.setLocation(this.director.width/2, this.director.height - radius/2);
+			.setLocation(this.director.width/2, this.director.height);
 
 			this.packedCircleManager.addCircle( this.colorMonster.getPackedCircle() );
-		   	GRAVEDANGER.CAATHelper.currentSceneLayers[1].addChild( this.colorMonster.getCAATActor() );
+		   	GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( this.colorMonster.getCAATActor() );
 
-			this.colorMonster.showForDuration(1000);
+//			this.colorMonster.showForDuration(1000);
 		},
 
 		/**
@@ -330,9 +334,21 @@
 		onCollision: function(ci, cj, v)
 		{
 			// Check if one of them is the color monster
-			var colorMonsterCircle = this.colorMonster.returnSelfIfInSet(ci, cj);
-			if(colorMonsterCircle) {
-				colorMonsterCircle.delegate.delegate.animateIntoIsland(this.colorMonster, this.director.time, 300, 1, false);
+			var collidedCircle = this.colorMonster.returnCollidedCircle(ci, cj);
+			if(collidedCircle)
+			{
+				var colorMonsterActor = this.colorMonster.getCAATActor();
+				var bumpScale = 1.2;
+				var bumpTime = 100;
+
+				// Create the 2 behaviors, scale up then down
+				var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(colorMonsterActor, this.scene.time, bumpTime, 1.0, bumpScale, new CAAT.Interpolator().createPennerEaseInQuad());
+				scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
+				scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(colorMonsterActor, this.scene.time+bumpTime, bumpTime, bumpScale, 1.0, new CAAT.Interpolator().createPennerEaseOutQuad());
+				scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
+
+				// animate the head
+				collidedCircle.delegate.delegate.animateIntoIsland(this.colorMonster, this.director.time, 200, 0, false);
 			}
 
 
@@ -454,6 +470,8 @@
 
 			GRAVEDANGER.CAATHelper.animateInUsingAlpha(head.getCAATActor(),this.scene.time, 1000, 0, 1.0,
 					new CAAT.Interpolator().createPennerEaseInQuad());
+
+
 		},
 
 		/**
@@ -577,6 +595,7 @@
 					delay= 100*i;
 
 				aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i, i === linkCount-1);
+				this.colorMonster.showForDuration(6000);
 			}
 
 

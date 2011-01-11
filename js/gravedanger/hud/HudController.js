@@ -44,6 +44,8 @@
 		levelField: null,
 		levelFieldText: '',
 
+		statusFieldText: null,
+
 		/**
 		 * Creates the timeGauge and the scoreField
 		 */
@@ -53,6 +55,8 @@
 			this.timeMask.setScaleAnchored(1, 1, CAAT.Actor.prototype.ANCHOR_RIGHT);
 			this.scoreField = GRAVEDANGER.CAATHelper.createTextfield("17px Impact", "rgba(255,255,255,1.0)", "00000000");
 			this.levelField = GRAVEDANGER.CAATHelper.createTextfield("13px Impact", "rgba(255,255,255,1.0)", "99");
+
+			this.statusFieldText = GRAVEDANGER.CAATHelper.createTextfield("13px Impact", "rgba(255,255,255,1.0)", "99");
 			return this;
 		},
 
@@ -149,6 +153,10 @@
 		},
 
 		getLevelField: function() {
+			return this.levelField;
+		},
+
+		getStatusText: function() {
 			return this.levelField;
 		}
 	}

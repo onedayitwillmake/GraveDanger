@@ -22,12 +22,14 @@
 	extend( GRAVEDANGER.ColorMonster, GRAVEDANGER.Island,
 	{
 		isActive: false, // True when visible
+		pathBehavior: null,
+		side: 0,
 
 		create: function(aRadius)
 		{
 			this.setColor( GRAVEDANGER.Circle.prototype.GROUPS.RED ); // Doesn't matter what this is set to, as long as its set to something
 			GRAVEDANGER.ColorMonster.superclass.create.call(this, aRadius);
-			this.actor.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
+//			this.actor.anchor = CAAT.Actor.prototype.;
 			this.setCollisionVars();
 			return this;
 		},
@@ -42,36 +44,44 @@
 		showForDuration: function(aDuration)
 		{
 			aDuration = 8000;
+
 			this.isActive = true;
 			this.setCollisionVars();
 
 			// Scale into view
-			var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time+31, 250, 0, 1, new CAAT.Interpolator().createBackOutInterpolator(false) );
+			var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time+31, 550, 0, 1, new CAAT.Interpolator().createBackOutInterpolator(false) );
+			scaleBehavior.anchor= CAAT.Actor.prototype.ANCHOR_BOTTOM;
 			// Animate to the back and fourth across the screen
 			var path = new CAAT.LinearPath();
-			path.setInitialPosition(-this.radius, GRAVEDANGER.director.height-this.radius);
-			path.setFinalPosition(GRAVEDANGER.director.width-this.radius, GRAVEDANGER.director.height-this.radius);
+			path.setInitialPosition(-this.radius, GRAVEDANGER.director.height-this.actor.height);
+			path.setFinalPosition(GRAVEDANGER.director.width-this.radius, GRAVEDANGER.director.height-this.actor.height);
 
 			 // setup up a path traverser for the path.
 			var pathBehavior = new CAAT.PathBehavior();
 				pathBehavior.setPath( path );
 				pathBehavior.setInterpolator(  new CAAT.Interpolator().createExponentialInOutInterpolator(2, true) );
-				pathBehavior.setFrameTime( GRAVEDANGER.CAATHelper.currentScene.time, aDuration/2 );
-				pathBehavior.cycleBehavior = true;
+				pathBehavior.setFrameTime( GRAVEDANGER.CAATHelper.currentScene.time, aDuration );
+				pathBehavior.cycleBehavior = false;
 
 			this.actor.addBehavior( pathBehavior );
 
 			var that = this;
-		   	scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time+aDuration, 250, 1, 0, new CAAT.Interpolator().createBackOutInterpolator(false) );
-			// Dispatch event when complete
+		   	scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time+aDuration, 550, 1, 0, new CAAT.Interpolator().createPennerEaseOutQuad() );
+			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
 			scaleBehavior.addListener( {
+				behaviorApplied: function(behavior, time, actor)
+				{
+					that.setCollisionMaskAndGroup(0, 0);
+				},
+
 				behaviorExpired : function(behavior, time, actor)
 				{
 					that.setCollisionMaskAndGroup(0, 0);
 					actor.removeBehaviour(pathBehavior);
 				}
 			});
-			return pathBehavior
+
+			this.pathBehavior = pathBehavior;
 		},
 
 
@@ -118,10 +128,10 @@
 			return this.compoundImage;
 		},
 
-		returnSelfIfInSet: function(circleA, circleB)
+		returnCollidedCircle: function(circleA, circleB)
 		{
-			if(!this.isActive)
-				return null;
+//			if(!this.isActive)
+//				return null;
 
 			//
 			if(circleA === this.packedCircle)
@@ -134,9 +144,19 @@
 
 		getOpeningPosition: function()
 		{
-			this.openingPosition.x = this.actor.x + 60;
-			this.openingPosition.y = this.actor.y;
+			//this.actor.x, normalizedTime, startX);
+			var positionInFuture = this.pathBehavior.positionOnTime(GRAVEDANGER.CAATHelper.currentScene.time+350);
+
+			this.openingPosition.x = positionInFuture.x+this.actor.width*0.4;
+			this.openingPosition.y = positionInFuture.y+80;
 			return this.openingPosition;
+		},
+
+		getPackedCircle: function()
+		{
+			var packedCircle = GRAVEDANGER.ColorMonster.superclass.getPackedCircle.call(this);
+			packedCircle.setRadius(this.radius*0.8);
+			return packedCircle;
 		},
 
 		dealloc: function()

@@ -4,6 +4,7 @@
 		GRAVEDANGER.Island.superclass.constructor.call(this);
 		this.debris = [];
 		this.openingPosition = new CAAT.Point();
+		this.leaveTimer = GRAVEDANGER.Config.ISLAND_EXPIRE_TIME_MIN + Math.random() * GRAVEDANGER.Config.ISLAND_EXPIRE_TIME_RANGE;
 		return this;
 	};
 
@@ -12,9 +13,9 @@
 		DEBRIS_COLORS:  (function()
 		{
 			var obj = {};
-			obj[GRAVEDANGER.Circle.prototype.GROUPS.RED] = new CAAT.Color.RGB(62,210,255);
-			obj[GRAVEDANGER.Circle.prototype.GROUPS.GREEN] = new CAAT.Color.RGB(255,0,128);
-			obj[GRAVEDANGER.Circle.prototype.GROUPS.BLUE] = new CAAT.Color.RGB(255,239,153);
+			obj[GRAVEDANGER.Circle.prototype.GROUPS.RED] = new CAAT.Color.RGB(255,0,128);
+			obj[GRAVEDANGER.Circle.prototype.GROUPS.GREEN] = new CAAT.Color.RGB(255,217,86);
+			obj[GRAVEDANGER.Circle.prototype.GROUPS.BLUE] = new CAAT.Color.RGB(51,102,255);
 			return obj;
 		})(),
 
@@ -25,6 +26,9 @@
 		isAbsorbing		: false,	// Absorbing means it's in the middle of an animation while zombie-heads go into it
 		openingPosition	: new CAAT.Point(),
 
+
+		leaveTimer		: GRAVEDANGER.Config.ISLAND_EXPIRE_TIME,
+
 		/**
 		 * Called by the game each loop
 		 * @param {Number} gameTick		A zero based value incrimented everyframe by the GameScene
@@ -33,6 +37,9 @@
 		 */
 		onTick: function(gameTick, gameClock, speedFactor)
 		{
+			if(this.leaveTimer<0)
+				return;
+
 			if(!this.isAbsorbing)
 			{
 				this.sineOffset += 0.02 + Math.random() * 0.01;
@@ -46,6 +53,70 @@
 			// this.positionActor
 			this.actor.x = this.packedCircle.position.x-this.actor.width*0.5;
 			this.actor.y = this.packedCircle.position.y-this.actor.height*0.5;
+
+			this.leaveTimer--;
+
+			if(this.leaveTimer < 0 ) {
+				this.leave();
+			}
+		},
+
+		leave: function()
+		{
+			this.setCollisionMaskAndGroup(0, 0);
+
+			var aDuration = 750;
+			var path = new CAAT.LinearPath();
+			path.setInitialPosition(this.actor.x, this.actor.y);
+			path.setFinalPosition(this.actor.x, GRAVEDANGER.director.height+this.actor.height);
+
+			 // setup up a path traverser for the path.
+			var pathBehavior = new CAAT.PathBehavior();
+				pathBehavior.setPath( path );
+				pathBehavior.setInterpolator(  new CAAT.Interpolator().createPennerEaseInOutQuad());
+				pathBehavior.setFrameTime( GRAVEDANGER.CAATHelper.currentScene.time, aDuration );
+				pathBehavior.cycleBehavior = false;
+
+			this.actor.addBehavior( pathBehavior );
+
+			var that = this;
+		   	var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time, aDuration, 1, 0, new CAAT.Interpolator().createPennerEaseInQuad() );
+			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
+
+//			Dispatch event when complete
+			pathBehavior.addListener( {
+				behaviorExpired : function(behavior, time, actor)
+				{
+					actor.removeBehaviour(pathBehavior);
+					that.reset();
+//
+				}
+			});
+		},
+
+		reset: function( )
+		{
+			var allColors = [GRAVEDANGER.Circle.prototype.GROUPS.RED, GRAVEDANGER.Circle.prototype.GROUPS.BLUE, GRAVEDANGER.Circle.prototype.GROUPS.GREEN];
+			this.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) );
+
+			var aDuration = 300;
+
+			this.leaveTimer = GRAVEDANGER.Config.ISLAND_EXPIRE_TIME_MIN + Math.random() * GRAVEDANGER.Config.ISLAND_EXPIRE_TIME_RANGE;
+			this.setCollisionMaskAndGroup(GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS, GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS);
+
+			var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time, aDuration, 0, 1, new CAAT.Interpolator().createPennerEaseOutQuad() );
+			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
+			var path = new CAAT.LinearPath();
+			path.setInitialPosition(this.actor.x, this.actor.y);
+			path.setFinalPosition(this.targetLocation.x, this.targetLocation.y);
+
+			 // setup up a path traverser for the path.
+			var pathBehavior = new CAAT.PathBehavior();
+				pathBehavior.setPath( path );
+				pathBehavior.setInterpolator(  new CAAT.Interpolator().createPennerEaseInOutQuad());
+				pathBehavior.setFrameTime( GRAVEDANGER.CAATHelper.currentScene.time, aDuration );
+				pathBehavior.cycleBehavior = false;
+//			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_TOP;
 		},
 
 		create: function(aRadius)
@@ -84,7 +155,7 @@
 
 		getImage: function()
 		{
-			var imageName = "island" + this.color,
+			var imageName = "island" + this.color + this.side,
 				imageRef,
 				aCompoundImage;
 
@@ -101,6 +172,8 @@
 			return this.compoundImage;
 		},
 
+
+
 		getOpeningPosition: function()
 		{
 			this.openingPosition.x = this.actor.x + 60;
@@ -113,6 +186,12 @@
 			GRAVEDANGER.Island.superclass.setLocation.call(this, x, y);
 			this.targetLocation = new CAAT.Point(x,y);
 
+			return this;
+		},
+
+		setSide: function(aSide)
+		{
+			this.side = aSide;
 			return this;
 		},
 

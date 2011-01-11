@@ -44,9 +44,14 @@
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "heads_yellow.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "heads_blue.png"});
 		// ISLANDS
-		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "island_red.png"});
-		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "island_green.png"});
-		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "island_blue.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED + '0', url: base + "island_red_0.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN + '0', url: base + "island_yellow_0.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE + '0', url: base + "island_blue_0.png"});
+		//right
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED + '1', url: base + "island_red_1.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN + '1', url: base + "island_yellow_1.png"});
+		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE + '1', url: base + "island_blue_1.png"});
+
 		// Chains
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "chain_blue.png"});
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "chain_blue.png"});

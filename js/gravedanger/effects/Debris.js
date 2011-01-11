@@ -23,7 +23,7 @@
 				var gravityBehavior = new CAAT.PathBehavior();
 					gravityBehavior.setPath( path );
 					gravityBehavior.setFrameTime(startTime, startTime);
-					gravityBehavior.setInterpolator( new CAAT.Interpolator().createExponentialOutInterpolator(1, false) );
+					gravityBehavior.setInterpolator( new CAAT.Interpolator().createPennerEaseInQuad());
 				rectangleActor.addBehavior( gravityBehavior );
 
 				// scale to zero as falling

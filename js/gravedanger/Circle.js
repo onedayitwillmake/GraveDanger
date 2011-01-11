@@ -41,8 +41,9 @@
 		STATES: {
 			ACTIVE			: 1 << 0,
 			ANIMATING_OUT	: 1 << 1,
-			ANIMATING_IN	: 1 << 2,
-			UNUSED			: 1 << 3
+			ANIMATING_INTO_COLORMONSTER : 1 << 2,
+			ANIMATING_IN	: 1 << 3,
+			UNUSED			: 1 << 4
 		},
 
 		// DEV
@@ -250,7 +251,7 @@
 					this.actor = GRAVEDANGER.CAATHelper.createCSSActor(this, this.getImage().singleWidth, this.getImage().singleHeight);
 				}
 			} else { // Actor already exist - call get image on our selves to return our correct color
-				this.setImage(this.getImage);
+				this.setImage(this.getImage());
 			}
 			return this;
 		},
