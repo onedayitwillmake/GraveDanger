@@ -40,6 +40,7 @@
 		// CURRENT GAME
 		timeLeftStart		: 45 * 1000,
 		timeLeftDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
+		timeLeftPenalty		: 5 * 1000,			// How much to subtract each time a head falls through
 
 		// Statistics kept while playing
 		stats				: {
@@ -66,6 +67,9 @@
 			this.initColorMonster();
 			this.initHud();
 			this.initFinal();
+			this.initGuiControls();
+
+
 		},
 
 		/**
@@ -312,6 +316,19 @@
 			this.packedCircleManager.setCallback(this.onCollision, this);
 		},
 
+		initGuiControls: function()
+		{
+			var gui = new GUI();
+			document.body.appendChild( gui.domElement );
+
+			gui.add(this, 'currentFallspeed', 1.0, 10);
+			gui.add(this, 'timeLeftDepleteRate', this.timeLeftDepleteRate, 2);
+			gui.add(this, 'timeLeftPenalty', this.timeLeftPenalty * 0.1, this.timeLeftPenalty * 2);
+			gui.add(this, "timeLeft").listen();
+			gui.show();
+			//timeLeftPenalty
+		},
+
 		/**
 		 * Final prep-work and start the game loop
 		 */
@@ -497,7 +514,7 @@
 
 		onCircleIntoAbyss: function (eventName, circle)
 		{
-			this.timeLeft -= 5;
+			this.timeLeft -= this.timeLeftPenalty;
 			this.hud.popStatusText("AW OH!", 1, 100);
 		},
 
