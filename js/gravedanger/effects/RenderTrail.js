@@ -13,7 +13,7 @@
 
 	extend(GRAVEDANGER.EffectsRenderTrail, CAAT.Actor, {
 		dep: 0,
-		trailLength: 20,
+		trailLength: 25,
 		dotArray: null,
 		colorRGBAString: null,
 
@@ -86,7 +86,7 @@
 
 				prevPoint = point;
 
-				ctx.lineWidth = i / 1.6;
+				ctx.lineWidth = i / 1.5;
 				ctx.strokeStyle = this.colorRGBAString;
 				ctx.stroke();
 

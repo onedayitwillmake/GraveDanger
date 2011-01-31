@@ -542,7 +542,7 @@
 			// Store old one to compare if new
 			var newDraggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
 
-			console.log('NewDraggedCircle', mouseX, mouseY,  this.packedCircleManager.allCircles[0].position.y, newDraggedCircle)
+
 			// Nothing to see here
 			if(!newDraggedCircle)
 				return;
@@ -613,7 +613,9 @@
 					delay= 100*i;
 
 				aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i, i === linkCount-1);
-				this.colorMonster.showForDuration(6000);
+
+				if(linkCount > 1)
+					this.colorMonster.showForDuration(6000);
 			}
 
 
@@ -634,7 +636,8 @@
 		 * Called whenever a valid link is created, animates the circle to bring attention to it
 		 * @param {GRAVEDANGER.Circle} aCircle A circle instance
 		 */
-		onLinkAdded: function(aCircle) {
+		onLinkAdded: function(aCircle)
+		{
 			var duration = 200,
 				scaleBy = 3;
 

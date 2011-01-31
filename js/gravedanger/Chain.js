@@ -37,25 +37,9 @@
 		},
 
 		/**
-		 * Called when addLink is successful and no 'head' exist
+		 * Adds a link to the chain, if no links exist this function will also call addHead
 		 * @param {GRAVEDANGER.Circle} aCircle
 		 */
-		addHead: function(aCircle)
-		{
-		 	this.head = aCircle;
-			this.color = aCircle.color;
-
-			this.head.actor.parent.setZOrder(this.head.actor, Number.MAX_VALUE);
-
-			// Createa render trail actor and add it
-			this.effectsRenderTrail = new GRAVEDANGER.EffectsRenderTrail()
-					.create(this.head.colorRGB);
-			GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(this.effectsRenderTrail)        ;
-
-			// TODO: HACK - Should not be modifying scenes time from within Chain
-//			GRAVEDANGER.CAATHelper.currentScene.time -= 500;
-		},
-
 		addLink: function(aCircle)
 		{
 			var alreadyHasHeadLink = false;
@@ -73,13 +57,8 @@
 				aCircle.packedCircle.collisionGroup = 0;
 			}
 
-//			console.log(this.head.uuid, aCircle.uuid);
-
-			// Set to ignore collisions
-//			aCircle.actor.alpha = 0.75;
-
-//			aCircle.packedCircle.isFixed = true;
-
+			// Prevent from falling into abyss
+			aCircle.setState(GRAVEDANGER.Circle.prototype.STATES.IS_PART_OF_CHAIN);
 
 			// Create "2xChain!" fanfare
 			var chainAnnounceActor = new GRAVEDANGER.EffectsChainAnnounce()
@@ -89,6 +68,24 @@
 
 			this.ch = chainAnnounceActor;
 			return aCircle;
+		},
+
+		/**
+		 * Called when addLink is successful and no 'head' exist
+		 * @param {GRAVEDANGER.Circle} aCircle
+		 */
+		addHead: function(aCircle)
+		{
+		 	this.head = aCircle;
+			this.color = aCircle.color;
+
+			// Place above everything
+			this.head.actor.parent.setZOrder(this.head.actor, Number.MAX_VALUE);
+
+			// Create a render trail actor and add it
+			this.effectsRenderTrail = new GRAVEDANGER.EffectsRenderTrail()
+					.create(this.head.colorRGB);
+			GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(this.effectsRenderTrail);
 		},
 
 		chaseTarget: function(aTarget)
