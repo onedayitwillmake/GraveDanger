@@ -4,6 +4,7 @@
       <w>deltatime</w>
       <w>fallspeed</w>
       <w>gravedanger</w>
+      <w>uncompiled</w>
     </words>
   </dictionary>
 </component>

@@ -43,15 +43,14 @@
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "heads_red.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "heads_yellow.png"});
 		imagesToLoad.push({id: "heads" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE, url: base + "heads_blue.png"});
-		// ISLANDS
+		// ISLANDS (left)
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED + '0', url: base + "island_red_0.png"});
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN + '0', url: base + "island_yellow_0.png"});
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE + '0', url: base + "island_blue_0.png"});
-		//right
+		//ISLANDS (right)
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.RED + '1', url: base + "island_red_1.png"});
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN + '1', url: base + "island_yellow_1.png"});
 		imagesToLoad.push({id: "island" + GRAVEDANGER.Circle.prototype.GROUPS.BLUE + '1', url: base + "island_blue_1.png"});
-
 		// Chains
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.RED, url: base + "chain_blue.png"});
 		imagesToLoad.push({id: "chain" + GRAVEDANGER.Circle.prototype.GROUPS.GREEN, url: base + "chain_blue.png"});
@@ -59,18 +58,21 @@
 		// HUD
 		imagesToLoad.push({id: "hud", url: base + "hud/hud.png"});
 		imagesToLoad.push({id: "hud_timeleftMasker", url: base + "hud/timeleft_masker.png"});
-		// Misc
+		// Miscellaneous objects
 		imagesToLoad.push({id: "gameBackground", url: base + "gamebackground.png"});
 		imagesToLoad.push({id: "colorMonster", url: base + "colormonster.png"});
 
+		// Store
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
+
 		// Fired when images have been preloaded
 		var that = this;
 		GRAVEDANGER.CAATHelper.imagePreloader.loadImages(imagesToLoad,
 			function(counter, images)
 			{
+				// Still need to load more images
 				if(counter != images.length)
-					return; // Wait until last load
+					return;
 
 				// Images ready!
 				onCAATReady();
@@ -83,19 +85,8 @@
 		var gameWidth = 320*2,
 			gameHeight = 356*2;
 
-		// Don't use CANVAS if iOS
-		var useCanvas = !GRAVEDANGER.CAATHelper.getIsIOS();
-
-		// Override above if query string provided
-		if( window.QueryStringManager.getValue('useCanvas') === 'false')
-			useCanvas = false;
-
-		// Store the final result
-		GRAVEDANGER.CAATHelper.setUseCanvas( useCanvas );
-
-		if(window.QueryStringManager.getValue('useCanvas')) {
-			console.log("UseCanvas:", useCanvas)
-		}
+		// Dont use canvas if we're on iOS or useCanvas=false has been explicitly set
+		GRAVEDANGER.CAATHelper.setUseCanvas( !GRAVEDANGER.CAATHelper.getIsIOS() || window.QueryStringManager.getValue('useCanvas') === 'false' );
 
 		// Pointer to container
 		var container = document.getElementById('gameArea');
@@ -108,7 +99,7 @@
 		GRAVEDANGER.CAATHelper.setDirector( director );
 
 		// If we aren't using canvas, i believe CAAT is still needs one, so create a canvas that is 1 pixel in size
-		if(useCanvas) {
+		if( GRAVEDANGER.CAATHelper.getUseCanvas() ) {
 			director.initialize(gameWidth, gameHeight);
 			// Add it to the document
 			container.appendChild( director.canvas );

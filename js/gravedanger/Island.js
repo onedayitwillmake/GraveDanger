@@ -116,7 +116,11 @@
 				pathBehavior.setInterpolator(  new CAAT.Interpolator().createPennerEaseInOutQuad());
 				pathBehavior.setFrameTime( GRAVEDANGER.CAATHelper.currentScene.time, aDuration );
 				pathBehavior.cycleBehavior = false;
-//			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_TOP;
+
+			// Change debris color
+			for(var i = 0; i < this.debris.length; i++) {
+				this.debris[i].setColor( this.getColor() );
+			}
 		},
 
 		create: function(aRadius)
@@ -133,17 +137,16 @@
 		 */
 		createDebrisPieces: function()
 		{
+
 			// only show debris on canvas
 			if( !GRAVEDANGER.CAATHelper.getUseCanvas() )
 				return;
 
-			var rgbColor = GRAVEDANGER.Island.prototype.DEBRIS_COLORS[this.color],
-				colorRGBAString = rgbColor.toRGBAString(0.9);
-			for(var i = 0; i < 3; i++)
+			for(var i = 0; i < 1; i++)
 			{
-				var rectangleDebris = GRAVEDANGER.EffectsDebris.create(this.actor, colorRGBAString);
+				var rectangleDebris = GRAVEDANGER.EffectsDebris.create(this.actor, this.color);
 				this.debris.push(rectangleDebris);
-				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild(rectangleDebris);
+				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( rectangleDebris.getActor() );
 			}
 		},
 
@@ -162,7 +165,6 @@
 			// Reuse one already made
 			if(!__CONPOUND_IMAGES[imageName])  {
 				imageRef = GRAVEDANGER.director.getImage(imageName);
-//				console.log("ImageRef", imageRef)
 				aCompoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1);
 				__CONPOUND_IMAGES[imageName]  = aCompoundImage;
 			}
