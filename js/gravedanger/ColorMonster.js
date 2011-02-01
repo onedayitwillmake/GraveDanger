@@ -68,7 +68,7 @@
 			this.actor.addBehavior( pathBehavior );
 
 			var that = this;
-		   	scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time+aDuration, 550, 1, 0, new CAAT.Interpolator().createPennerEaseOutQuad() );
+		   	scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(this.actor, GRAVEDANGER.CAATHelper.currentScene.time+aDuration, 250, 1, 0, new CAAT.Interpolator().createLinearInterpolator( false, false ) );
 			scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
 			scaleBehavior.addListener( {
 				behaviorApplied: function(behavior, time, actor)
@@ -79,7 +79,6 @@
 				behaviorExpired : function(behavior, time, actor)
 				{
 					that.setCollisionMaskAndGroup(0, 0);
-					actor.removeBehaviour(pathBehavior);
 				}
 			});
 

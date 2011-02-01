@@ -9,7 +9,7 @@
 	GRAVEDANGER.PackedCircleScene.prototype =
 	{
 // Meta info
-		targetDelta			: 31, // Determined by framerate 16 = 60fps
+		targetDelta			: 30, // Determined by framerate 16 = 60fps
 
 		// CAAT Info
 		packedCircleManager	: null,
@@ -68,8 +68,6 @@
 			this.initHud();
 			this.initFinal();
 			this.initGuiControls();
-
-
 		},
 
 		/**
@@ -211,17 +209,14 @@
 			for(var i = 0; i < totalIslands; i++)
 			{
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
-				var island = new GRAVEDANGER.Island()
-					.setRadius(115)
-					.setSide(i)
-					.setColor( GRAVEDANGER.UTILS.randomFromArray( allColors ) )
-					.create()
-					.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175)
-					.setCollisionMaskAndGroup(GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS,
+				var island = new GRAVEDANGER.Island();
+				island.setRadius(115);
+				island.setSide(i);
+				island.setColor( island.getUnusedColor() );
+				island.create();
+				island.setLocation( padding + ((this.director.width - (padding*2)) * i) , this.director.height - 175);
+				island.setCollisionMaskAndGroup(GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS,
 						GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS);
-
-
-
 
 				this.packedCircleManager.addCircle( island.getPackedCircle() );
 				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( island.getCAATActor() );
@@ -318,15 +313,18 @@
 
 		initGuiControls: function()
 		{
-			var gui = new GUI();
-			document.body.appendChild( gui.domElement );
+			if(window.QueryStringManager.getValue('showControls') !== 'true')
+				return;
 
-			gui.add(this, 'currentFallspeed', 1.0, 10);
-			gui.add(this, 'timeLeftDepleteRate', this.timeLeftDepleteRate, 2);
-			gui.add(this, 'timeLeftPenalty', this.timeLeftPenalty * 0.1, this.timeLeftPenalty * 2);
+			// Create and set
+			var gui = new GUI();
+			GRAVEDANGER.CAATHelper.setControls(gui);
+
+			// Add a few properties
+			gui.add(this, 'currentFallspeed', 1.0, 10).listen();
+			gui.add(this, 'timeLeftDepleteRate', this.timeLeftDepleteRate, 2).listen();
 			gui.add(this, "timeLeft").listen();
 			gui.show();
-			//timeLeftPenalty
 		},
 
 		/**
@@ -368,9 +366,9 @@
 				var bumpTime = 100;
 
 				// Create the 2 behaviors, scale up then down
-				var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(colorMonsterActor, this.scene.time, bumpTime, 1.0, bumpScale, new CAAT.Interpolator().createPennerEaseInQuad());
+				var scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(colorMonsterActor, this.scene.time, bumpTime, 1.0, bumpScale, new CAAT.Interpolator().createLinearInterpolator(false, false));
 				scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
-				scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(colorMonsterActor, this.scene.time+bumpTime, bumpTime, bumpScale, 1.0, new CAAT.Interpolator().createPennerEaseOutQuad());
+				scaleBehavior = GRAVEDANGER.CAATHelper.animateScale(colorMonsterActor, this.scene.time+bumpTime, bumpTime, bumpScale, 1.0, new CAAT.Interpolator().createLinearInterpolator(false, false));
 				scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
 
 				// animate the head
@@ -402,24 +400,27 @@
 		 * @param director
 		 * @param delta
 		 */
-		loop: function(director, delta)
+		loop: function(director)
 		{
-
 			this.gameTick++;
 			this.updateGameClock();
 
 			// HUD
 			this.timeLeft -= this.lastFrameDelta;
-			if(this.timeLeft > this.timeLeftStart) {
-				this.timeLeft = this.timeLeftStart;
-			} else if (this.timeLeft < 0) {
+			// WRAP > 1.0
+//			if(this.timeLeft > this.timeLeftStart) {
+//				this.timeLeft = this.timeLeftStart;
+//			}
+
+			this.hud.setTimeGaugeScale(this.timeLeft/this.timeLeftStart);
+			this.hud.updateScoreAndLevel(this.score, this.level);
+
+			// TIME IS UP!
+			if (this.timeLeft < 0) {
 //				this.onTimeExpired();
 				return;
 			}
 
-
-			this.hud.setTimeGaugeScale(this.timeLeft/this.timeLeftStart);
-			this.hud.updateScoreAndLevel(this.score, this.level);
 
 			// Handle current chain
 			if(this.currentChain) {
@@ -493,10 +494,10 @@
 
 			// Animate in
 			GRAVEDANGER.CAATHelper.animateScale(head.getCAATActor(), this.scene.time, 500, 2.0, head.defaultScale,
-					new CAAT.Interpolator().createPennerEaseOutQuad());
+					new CAAT.Interpolator().createLinearInterpolator(false, false));
 
 			GRAVEDANGER.CAATHelper.animateInUsingAlpha(head.getCAATActor(),this.scene.time, 1000, 0, 1.0,
-					new CAAT.Interpolator().createPennerEaseInQuad());
+					new CAAT.Interpolator().createLinearInterpolator(false, false));
 
 
 		},
@@ -557,7 +558,7 @@
 			this.mousePosition.set(mouseX, mouseY);
 
 			// Store old one to compare if new
-			var newDraggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 0);
+			var newDraggedCircle = this.packedCircleManager.getCircleAt(mouseX, mouseY, 25);
 
 
 			// Nothing to see here

@@ -14,7 +14,7 @@
 		containerDiv: null,
 		useCanvas: false,
 
-		showControls: false,
+		guiDATControls: null,
 
 		/**
 		 * Adds a CAAT.ScaleBehavior to the entity, used on animate in
@@ -275,7 +275,7 @@
 		 */
 		setUseCanvas: function(aValue)
 		{
-			this.useCanvas = aValue;
+			this.useCanvas = true;
 		},
 
 		/**
@@ -283,18 +283,19 @@
 		 */
 		getUseCanvas: function()
 		{
+			return true;
 			return this.useCanvas;
 		},
 
-		// TODO: Documentation
-		setShowControls: function(aValue)
+		setControls: function(controls)
 		{
-			this.useCanvas = aValue;
+			this.guiDATControls = controls;
+			document.body.appendChild( this.guiDATControls.domElement );
 		},
 
-		getShowControls: function()
+		getControls: function()
 		{
-			return this.showControls;
+			return this.guiDATControls;
 		},
 
 

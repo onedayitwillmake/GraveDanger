@@ -90,7 +90,7 @@
 
 		chaseTarget: function(aTarget)
 		{
-			var speed = 0.45,
+			var speed = 0.65,
 				radius = 50;
 
 			var len = this.linksArray.length,

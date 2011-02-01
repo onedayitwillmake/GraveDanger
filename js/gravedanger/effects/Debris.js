@@ -29,7 +29,7 @@
 			var gravityBehavior = new CAAT.PathBehavior();
 				gravityBehavior.setPath( path );
 				gravityBehavior.setFrameTime(startTime, startTime);
-				gravityBehavior.setInterpolator( new CAAT.Interpolator().createPennerEaseInQuad());
+				gravityBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false, false));
 			this.actor.addBehavior( gravityBehavior );
 
 			// scale to zero as falling
@@ -37,7 +37,7 @@
 				this.actor.scaleX = this.actor.scaleY = scaleBehavior.startScaleX = scaleBehavior.startScaleY = startScale;  // Fall from the 'sky' !
 				scaleBehavior.endScaleX = scaleBehavior.endScaleY = endScale;
 				scaleBehavior.setFrameTime( startTime, endTime );
-				scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false));
+				scaleBehavior.setInterpolator( new CAAT.Interpolator().createLinearInterpolator(false, false));
 			this.actor.addBehavior(scaleBehavior);
 
 
@@ -115,7 +115,6 @@
 				colorRGBAString = rgbColor.toRGBAString(0.9);
 
 			this.actor.setFillStyle(colorRGBAString);
-			console.log(this.color)
 		}
 	 }
 })();

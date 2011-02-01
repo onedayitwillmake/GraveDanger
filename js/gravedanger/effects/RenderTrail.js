@@ -75,10 +75,7 @@
 				if(prevPoint) // All except the first one
 				{
 					ctx.moveTo(prevPoint.x, prevPoint.y);
-//					if( window.QueryStringManager.getValue('curveStyle') === 'line' )
 						ctx.lineTo(point.x, point.y);
-//					else
-//						ctx.quadraticCurveTo(prevObj.x, prevObj.y,point.x, point.y);
 				} else {
 					ctx.moveTo(prevObj.x, prevObj.y);
 					ctx.lineTo(point.x, point.y);

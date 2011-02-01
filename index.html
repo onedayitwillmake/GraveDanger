@@ -24,30 +24,37 @@
 	<script src="js/lib/SortedLookupTable.js"></script>
 
 
+
 	<!--CAAT-->
-	<script src="js/lib/caat.js"></script>
+	<!--<script src="js/lib/caat.js"></script>-->
 	<!-- CAAT Uncompiled (for debugging) -->
-	<!--<script src="js/lib/caatsrc/CAAT.js"></script>-->
-	<!--<script src="js/lib/caatsrc/core/class.js"></script>-->
-	<!--<script src="js/lib/caatsrc/core/browserdetect.js"></script>-->
-	<!--<script src="js/lib/caatsrc/model/actor.js"></script>-->
-	<!--<script src="js/lib/caatsrc/model/conpoundimage.js"></script>-->
-	<!--<script src="js/lib/caatsrc/model/imagepreloader.js"></script>-->
-	<!--<script src="js/lib/caatsrc/model/director.js"></script>-->
-	<!--<script src="js/lib/caatsrc/model/mouseevent.js"></script>-->
-	<!--<script src="js/lib/caatsrc/model/scene.js"></script>-->
-	<!--<script src="js/lib/caatsrc/math/affinetransform2D.js"></script>-->
-	<!--<script src="js/lib/caatsrc/math/point.js"></script>-->
-	<!--<script src="js/lib/caatsrc/math/rectangle.js"></script>-->
-	<!--<script src="js/lib/caatsrc/math/bezier.js"></script>-->
-	<!--<script src="js/lib/caatsrc/path/path.js"></script>-->
-	<!--<script src="js/lib/caatsrc/path/pathactor.js"></script>-->
-	<!--<script src="js/lib/caatsrc/behaviour/behaviour.js"></script>-->
-	<!--<script src="js/lib/caatsrc/path/interpolator.js"></script>-->
-	<!--<script src="js/lib/caatsrc/path/interpolatoractor.js"></script>-->
-	<!--<script src="js/lib/caatsrc/modules/CircleManager/PackedCircle.js"></script>-->
-	<!--<script src="js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js"></script>-->
-	<!--<script src="js/lib/caatsrc/math/color.js"></script>-->
+	<script src="js/lib/caatsrc/CAAT.js"></script>
+	<script src="js/lib/caatsrc/core/browserdetect.js"></script>
+	<script src="js/lib/caatsrc/core/class.js"></script>
+	<script src="js/lib/caatsrc/behaviour/behaviour.js"></script>
+	<script src="js/lib/caatsrc/math/affinetransform2D.js"></script>
+	<script src="js/lib/caatsrc/math/bezier.js"></script>
+	<script src="js/lib/caatsrc/math/color.js"></script>
+	<script src="js/lib/caatsrc/math/point.js"></script>
+	<script src="js/lib/caatsrc/math/rectangle.js"></script>
+	<script src="js/lib/caatsrc/model/actor.js"></script>
+	<script src="js/lib/caatsrc/model/audio.js"></script>
+	<script src="js/lib/caatsrc/model/conpoundimage.js"></script>
+	<script src="js/lib/caatsrc/model/director.js"></script>
+	<script src="js/lib/caatsrc/model/extraActor.js"></script>
+	<script src="js/lib/caatsrc/model/imagepreloader.js"></script>
+	<script src="js/lib/caatsrc/model/mouseevent.js"></script>
+	<script src="js/lib/caatsrc/model/scene.js"></script>
+	<script src="js/lib/caatsrc/modules/modules.js"></script>
+	<script src="js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js"></script>
+	<script src="js/lib/caatsrc/modules/CircleManager/PackedCircle.js"></script>
+	<script src="js/lib/caatsrc/modules/LocalStorage/LocalStorage.js"></script>
+	<script src="js/lib/caatsrc/path/interpolator.js"></script>
+	<script src="js/lib/caatsrc/path/interpolatoractor.js"></script>
+	<script src="js/lib/caatsrc/path/path.js"></script>
+	<script src="js/lib/caatsrc/path/pathactor.js"></script>
+	<script src="js/lib/caatsrc/texture/plasma.js"></script>
+	<script src="js/lib/caatsrc/math/color.js"></script>
 
 	<!-- GRAVEDANGER INTERNAL DEPENDENCIES -->
 	<script src="js/gravedanger/namespace.js"></script>
@@ -72,6 +79,24 @@
 	<div id="container">
 		<div id="gameArea"></div>
 	</div>
-<a href="https://github.com/onedayitwillmake/GraveDanger"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://onedayitwillmake.com/CirclePackJS/images/fork.png" alt="Fork me on GitHub" /></a>
+	<div id="info">
+		<div id="infoArea">"HELLO"</div>
+	</div>
+
+<!--<a href="https://github.com/onedayitwillmake/GraveDanger">-->
+	<!--<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://onedayitwillmake.com/CirclePackJS/images/fork.png" alt="Fork me on GitHub" />-->
+<!--</a>-->
+
+<!-- Google Analytics-->
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-1249241-6']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
 </body>
 </html>

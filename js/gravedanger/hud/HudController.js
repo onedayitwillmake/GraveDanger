@@ -36,7 +36,7 @@
 		actor: null,
 		actorType: null, // Not used but will be set by CAATHelper.createSpriteActor
 		timeMask: null,
-		easingSpeed: 0.3,
+		easingSpeed: 0.8,
 		scoreField: null,
 		scoreFieldTextTarget: 0,
 		scoreFieldText: '',
@@ -90,7 +90,7 @@
 		setTimeGaugeScale: function(aNormalizedScale) {
 
 			if(aNormalizedScale > 1.0) aNormalizedScale = 0.99999;
-			// Since we're right aligned lets invert the number
+			// Since we're right aligned, invert the number
 			aNormalizedScale = 1.0 - aNormalizedScale;
 
 			// Cap

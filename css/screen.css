@@ -20,9 +20,14 @@ body
 	 margin-right: auto ;
 }
 
-.actor {
+#infoArea {
+	overflow: hidden;
+	background-color:#000000;
+	margin-left: auto ;
+	margin-right: auto ;
+}
 
-	/*background-image: url("../images/circle-9.png");*/
+.actor {
 	width: 75px;
 	height: 75px;
 	position: absolute;
