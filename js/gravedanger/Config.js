@@ -20,7 +20,7 @@
 		DEFAULT_SCALE: 0.6,
 
 		// How often (in ticks) to drop a head
-		DROP_EVERY: 25,
+		DROP_EVERY: 10,
 
 		// Increase speed by this much each level
 		SPEED_INCREASE: 1,

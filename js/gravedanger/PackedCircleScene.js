@@ -52,7 +52,7 @@
 
 		// Difficulty progression
 		currentMaxHeads			: 25,
-		currentFallspeed		: 1.0,
+		currentFallspeed		: 3.0,
 		currentFallspeedRange	: 0,
 
 		init: function(director)
@@ -324,8 +324,38 @@
 			gui.add(this, 'currentFallspeed', 1.0, 10).listen();
 			gui.add(this, 'timeLeftDepleteRate', this.timeLeftDepleteRate, 2).listen();
 			gui.add(this, "timeLeft").listen();
+			gui.add(this, "explode").name("Explode!");
 			gui.show();
 		},
+
+		explode: function() {
+			var circleList = this.packedCircleManager.allCircles,
+				len = circleList.length;
+			while(len--)
+			{
+				var packedCircle = circleList[len];
+
+				var head = packedCircle.delegate.delegate;
+				if(head.radius > 20)
+					continue;
+
+				if(packedCircle.position.y < 20)
+					continue;
+
+				// Animate in
+				var animationTime = Math.random() * 400 + 600;
+				var startTime = this.scene.time + Math.random() * 1500;
+			GRAVEDANGER.CAATHelper.animateScale(head.getCAATActor(), startTime, animationTime, head.actor.scaleX, head.defaultScale*10,
+					new CAAT.Interpolator().createExponentialInOutInterpolator(3, false));
+
+			GRAVEDANGER.CAATHelper.animateInUsingAlpha(head.getCAATActor(),startTime+animationTime, animationTime*0.1, 1, 0.0,
+					new CAAT.Interpolator().createExponentialInInterpolator(2, false));
+
+//				circle.onTick(this.gameTick, this.gameClock, this.speedFactor);
+			}
+		},
+
+
 
 		/**
 		 * Final prep-work and start the game loop
@@ -360,7 +390,7 @@
 			var collidedCircle = this.colorMonster.returnCollidedCircle(ci, cj);
 			if(collidedCircle)
 			{
-				this.hud.popStatusText("YUM YUM!!", 2, 200);
+//				this.hud.popStatusText("YUM YUM!!", 2, 200);
 				var colorMonsterActor = this.colorMonster.getCAATActor();
 				var bumpScale = 1.2;
 				var bumpTime = 100;
@@ -483,7 +513,7 @@
 
 			var fallspeed = ( head.defaultScale/GRAVEDANGER.Config.DEFAULT_SCALE ) * this.currentFallspeed;
 
-			head.setLocation( Math.random() * this.director.width, -head.radius*2, true)
+			head.setLocation( Math.random() * this.director.width, -100, true)
 				.setState( GRAVEDANGER.Circle.prototype.STATES.ACTIVE )
 				.setToRandomSpriteInSheet()
 				.setFallSpeed( fallspeed + GRAVEDANGER.UTILS.randomFloat(-this.currentFallspeedRange, this.currentFallspeedRange) )
@@ -493,10 +523,10 @@
 
 
 			// Animate in
-			GRAVEDANGER.CAATHelper.animateScale(head.getCAATActor(), this.scene.time, 500, 2.0, head.defaultScale,
-					new CAAT.Interpolator().createLinearInterpolator(false, false));
+			GRAVEDANGER.CAATHelper.animateScale(head.getCAATActor(), this.scene.time, 500, 3.0, head.defaultScale,
+					new CAAT.Interpolator().createExponentialInInterpolator(2, false));
 
-			GRAVEDANGER.CAATHelper.animateInUsingAlpha(head.getCAATActor(),this.scene.time, 1000, 0, 1.0,
+			GRAVEDANGER.CAATHelper.animateInUsingAlpha(head.getCAATActor(),this.scene.time+400, 100, 0, 1.0,
 					new CAAT.Interpolator().createLinearInterpolator(false, false));
 
 
