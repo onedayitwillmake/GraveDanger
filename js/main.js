@@ -8,9 +8,9 @@
 		// Always be a good neighbor, remove event listeners, even when superflous
 		window.removeEventListener('load', onDocumentReady, false);
 
-		initConsoleRouter();
+//		initConsoleRouter();
 
-		initStats();
+//		initStats();
 		preloadImages();
 	}
 
@@ -82,14 +82,14 @@
 	function onCAATReady()
 	{
 		// Game size - focus on iphone
-		var gameWidth = 320*2,
-			gameHeight = 356*2;
+		var gameWidth = 600,
+			gameHeight = 750;
 
 		// Dont use canvas if we're on iOS or useCanvas=false has been explicitly set
 		GRAVEDANGER.CAATHelper.setUseCanvas( !GRAVEDANGER.CAATHelper.getIsIOS() || window.QueryStringManager.getValue('useCanvas') === 'false' );
 
 		// Pointer to container
-		var container = document.getElementById('gameArea');
+		var container = document.getElementById('gameContainer');
 
 		// Initialize CAAT
 		GRAVEDANGER.CAATHelper.setContainerDiv(container);	//	Store reference to container div, used when creating events within a scenes

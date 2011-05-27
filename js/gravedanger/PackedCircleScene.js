@@ -67,7 +67,7 @@
 			this.initColorMonster();
 			this.initHud();
 			this.initFinal();
-			this.initGuiControls();
+//			this.initGuiControls();
 
 
 		},
@@ -93,7 +93,7 @@
 
 			// Add to the director
 			this.scene.mouseEnabled = false;
-			this.scene.fillStyle = "#000000";
+			this.scene.fillStyle = "#101010";
 			this.director.addScene(this.scene);
 		},
 
@@ -120,6 +120,7 @@
 		 */
 		initBackground: function()
 		{
+			return;
 			var imageRef = GRAVEDANGER.director.getImage("gameBackground"),
 				compoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1),
 				backgroundActor = null;
