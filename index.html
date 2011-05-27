@@ -1,22 +1,26 @@
 <!doctype html>
-<html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
 	<title>GraveDanger</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/style.css?v=2">
+	<link rel="stylesheet" href="css/screen.css?v=2">
 
-	<!-- No Cache -->
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="expires" content="-1">
-
-	<!-- IPHONE WEB APP META/LINK TAGS -->
-	<meta name="apple-mobile-web-app-capable" content="yes"/>
-	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-	<meta name="viewport" content="height=device-height, width=device-width, initial-scale = 1.0, minimum-scale=1.0, maximum-scale=1.0 user-scalable=no"/>
-	<!--<link rel="apple-touch-icon" href="./images/apple-touch-icon.png"/> -->
-
-	<!--Stylesheet-->
-	<!--<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Geo">-->
-	<link rel="stylesheet" type="text/css" href="css/screen.css" />
-
+	<script src="js/libs/modernizr-1.7.min.js"></script>
+	
 	<!-- JS-DEPENDENCIES -->
 	<script src="js/lib/QueryStringManager.js"></script>
 	<script src="js/lib/Stats.js"></script>
@@ -24,37 +28,30 @@
 	<script src="js/lib/SortedLookupTable.js"></script>
 
 
-
 	<!--CAAT-->
-	<!--<script src="js/lib/caat.js"></script>-->
+	<script src="js/lib/caat.js"></script>
 	<!-- CAAT Uncompiled (for debugging) -->
-	<script src="js/lib/caatsrc/CAAT.js"></script>
-	<script src="js/lib/caatsrc/core/browserdetect.js"></script>
-	<script src="js/lib/caatsrc/core/class.js"></script>
-	<script src="js/lib/caatsrc/behaviour/behaviour.js"></script>
-	<script src="js/lib/caatsrc/math/affinetransform2D.js"></script>
-	<script src="js/lib/caatsrc/math/bezier.js"></script>
-	<script src="js/lib/caatsrc/math/color.js"></script>
-	<script src="js/lib/caatsrc/math/point.js"></script>
-	<script src="js/lib/caatsrc/math/rectangle.js"></script>
-	<script src="js/lib/caatsrc/model/actor.js"></script>
-	<script src="js/lib/caatsrc/model/audio.js"></script>
-	<script src="js/lib/caatsrc/model/conpoundimage.js"></script>
-	<script src="js/lib/caatsrc/model/director.js"></script>
-	<script src="js/lib/caatsrc/model/extraActor.js"></script>
-	<script src="js/lib/caatsrc/model/imagepreloader.js"></script>
-	<script src="js/lib/caatsrc/model/mouseevent.js"></script>
-	<script src="js/lib/caatsrc/model/scene.js"></script>
-	<script src="js/lib/caatsrc/modules/modules.js"></script>
-	<script src="js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js"></script>
-	<script src="js/lib/caatsrc/modules/CircleManager/PackedCircle.js"></script>
-	<script src="js/lib/caatsrc/modules/LocalStorage/LocalStorage.js"></script>
-	<script src="js/lib/caatsrc/path/interpolator.js"></script>
-	<script src="js/lib/caatsrc/path/interpolatoractor.js"></script>
-	<script src="js/lib/caatsrc/path/path.js"></script>
-	<script src="js/lib/caatsrc/path/pathactor.js"></script>
-	<script src="js/lib/caatsrc/texture/plasma.js"></script>
-	<script src="js/lib/caatsrc/math/color.js"></script>
+	<!--<script src="js/lib/caatsrc/CAAT.js"></script>-->
+	<!--<script src="js/lib/caatsrc/core/class.js"></script>-->
+	<!--<script src="js/lib/caatsrc/core/browserdetect.js"></script>-->
+	<!--<script src="js/lib/caatsrc/model/actor.js"></script>-->
+	<!--<script src="js/lib/caatsrc/model/conpoundimage.js"></script>-->
+	<!--<script src="js/lib/caatsrc/model/imagepreloader.js"></script>-->
+	<!--<script src="js/lib/caatsrc/model/director.js"></script>-->
+	<!--<script src="js/lib/caatsrc/model/mouseevent.js"></script>-->
+	<!--<script src="js/lib/caatsrc/model/scene.js"></script>-->
+	<!--<script src="js/lib/caatsrc/math/affinetransform2D.js"></script>-->
+	<!--<script src="js/lib/caatsrc/math/point.js"></script>-->
+	<!--<script src="js/lib/caatsrc/math/rectangle.js"></script>-->
+	<!--<script src="js/lib/caatsrc/math/bezier.js"></script>-->
+	<!--<script src="js/lib/caatsrc/path/path.js"></script>-->
+	<!--<script src="js/lib/caatsrc/path/pathactor.js"></script>-->
+	<!--<script src="js/lib/caatsrc/behaviour/behaviour.js"></script>-->
+	<!--<script src="js/lib/caatsrc/path/interpolator.js"></script>-->
+	<!--<script src="js/lib/caatsrc/path/interpolatoractor.js"></script>-->
+	<!--<script src="js/lib/caatsrc/modules/CircleManager/PackedCircle.js"></script>-->
+	<!--<script src="js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js"></script>-->
+	<!--<script src="js/lib/caatsrc/math/color.js"></script>-->
 
 	<!-- GRAVEDANGER INTERNAL DEPENDENCIES -->
 	<script src="js/gravedanger/namespace.js"></script>
@@ -76,27 +73,61 @@
 	<script src="js/main.js"></script>
 </head>
 <body>
-	<div id="container">
-		<div id="gameArea"></div>
+	<header>
+		<h1 class="insettext">
+			GRAVE DANGER
+		</h1>
+	</header>
+	<div id='gameContainer'>
 	</div>
-	<div id="info">
-		<div id="infoArea">"HELLO"</div>
+	<div id="content">
+		<h2 class="insettext">ABOUT GRAVE DANGER</h2>
+		<div class="infoContainer">
+			<div class="info"><h3>How To Play:</h3></div>
+			<div class="detail">
+				<ul>
+				<li>Create a chain of same colored heads, and drop them onto the corresponding island.</li>
+				<li>As you progress, the speed and amount of heads which fall will increase until it reaches lightspeed.</li>
+				<li>The clock is always ticking down, so make matches as fast as you can - a larger chain gains you back more time</li>
+				<li>If you make a chain greater than 2x, the color monster appears and he will eat any type of head.</li>
+					</ul>
+				</div>
+		</div>
+
+		<div class="infoContainer">
+			<div class="info"><h3>Info:</h3></div>
+			<div class="detail">GraveDanger is an action puzzle game based on chaining color groups together to race against the clock.
+Created by two friends in about one month, for the Mozilla 2011 Game-On competition.</div>
+		</div>
+		<div class="infoContainer">
+			<div class="info"><h3>Merchandise:</h3></div>
+			<div class="detail"><span class="badgeCallout">Buttons</span>, <span class="badgeCallout">Badges</span>, <span class="badgeCallout">Pins</span>
+				Whatever you call them these days.                                                                                                         t
+				<div style="padding:5px; margin-left:-50px"><a href="http://youandneru.com/blog/?p=385"><img src="images/page/bitwolfbadges_thumb.png"></a></div>These will come with the Magic Death and Death Mental T-shirts for a <span class="badgeCallout">limited time only.</span></div>
+		</div>
+		<div class="infoContainer">
+			<div class="info"><h3>Credits:</h3></div>
+			<div class="detail">Jon Ocasio (Art) - <a href="http://youandneru.com">http://youandneru.com</a>
+				<br>Mario Gonzalez (Programming) - <a href="http://onedayitwillmake.com">http://onedayitwillmake.com</a>
+			</div>
+		</div>
 	</div>
 
-<!--<a href="https://github.com/onedayitwillmake/GraveDanger">-->
-	<!--<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://onedayitwillmake.com/CirclePackJS/images/fork.png" alt="Fork me on GitHub" />-->
-<!--</a>-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.5.1.js"%3E%3C/script%3E'))</script>
 
-<!-- Google Analytics-->
-<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-1249241-6']);
-	_gaq.push(['_trackPageview']);
-	(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-</script>
+	<script src="js/script.js"></script>
+
+	<!--[if lt IE 7 ]>
+	<script src="js/libs/dd_belatedpng.js"></script>
+	<script> DD_belatedPNG.fix('img, .png_bg');</script>
+	<![endif]-->
+
+	<script>
+		var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']]; // Change UA-XXXXX-X to be your site's ID
+		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
+		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g,s)}(document,'script'));
+	</script>
 </body>
 </html>

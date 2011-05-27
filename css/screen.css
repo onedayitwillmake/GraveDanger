@@ -1,42 +1,94 @@
-body
-{
-	margin-top: 0px;
-	margin-left: 0px;
-	margin-bottom: 0px;
-	margin-right: 0px;
-	margin: 0px;
-	background-color:#000000;
-	background-image: url("../images/page/neruseemlesstilegrey.jpg");
-}
-#container {
-	margin-top:15px;
-	text-align:center;
-}
-#gameArea {
-	overflow: hidden;
-	/*-webkit-border-radius: 3px;*/
-	background-color:#111111;
-	 margin-left: auto ;
-	 margin-right: auto ;
+body {
+	background: #151515 url('../images/page/background.png') no-repeat fixed 50% 0;
+	text-align: center;
+	font: normal 14px/24px "Proxima Nova Condensed Regular", "Proxima Nova Condensed", Helvetica, Arial, sans-serif;
+	color: #9f9f9f;
 }
 
-#infoArea {
-	overflow: hidden;
-	background-color:#000000;
-	margin-left: auto ;
-	margin-right: auto ;
+header {
+	padding-top: 25px;
+	height: 100px;
 }
+h1 {
+	font-size: 48px;
+}
+h2 {
+	font-size: 32px;
+}
+h3 {
+	font-size: 24px;
+}
+.insettext {
+  color: #111111;
+  text-shadow: 1px 1px 0px #333333;
+  font-weight: bold;
+}
+#gameContainer {
+	box-shadow: 0px 0px 20px 0px #222;
+	margin: auto;
+	margin-top: -45px;
+}
+
+#content {
+	background: #151515 url('../images/page/divider.png') repeat-x;
+	margin:	0 auto;
+	margin-top: 50px;
+	padding-top: 60px;
+}
+#content .insettext {
+	color: #050505;
+	text-shadow: 1px 1px 0px #151515;
+	font-weight: bold;
+}
+
+.infoContainer {
+	background: #151515;
+	width: 700px;
+	margin: 0 auto;
+	padding-top: 25px;
+		clear:left;
+}
+.info {
+	/*background-color: #87cefa;*/
+	width: 200px;
+	height: 175px;
+	margin-left: -10px;
+	float:left;
+	clear:left;
+}
+.detail {
+	/*background-color: #00FF00;*/
+	width: 650px;
+	height: auto;
+	text-align: left;
+}
+.badgeCallout {
+	font-size: 14px;
+	font-weight:bold;
+	color: #FFFFFF;
+	background-color: #AA00AA;
+}
+
+
+/*#gameArea {*/
+	/*overflow: hidden; -webkit-border-radius: 3px;*/
+	/*background-color: #111111;*/
+	/*margin-left: auto;*/
+	/*margin-right: auto;*/
+/*}*/
 
 .actor {
-	width: 75px;
-	height: 75px;
-	position: absolute;
-	left: 0;
-	top: 0;
-	-webkit-transition: transform3d 0s linear;
-	/*-webkit-transition-property:-webkit-transform;*/
-	/*-webkit-transition-timing-function:linear;*/
-	/*-webkit-transition-duration:0;*/
-	/*-webkit-transform:translate3d(0,0,0);*/
-	/*border: 1px solid #eee;*/
+
+/*background-image: url("../images/circle-9.png");*/
+/*width: 75px;*/
+/*height: 75px;*/
+/*position: absolute;*/
+/*left: 0;*/
+/*top: 0;*/
+/*-webkit-transition: transform3d 0s linear;*/
+/*-webkit-transition-property:-webkit-transform;*/
+/*-webkit-transition-timing-function:linear;*/
+/*-webkit-transition-duration:0;*/
+/*-webkit-transform:translate3d(0,0,0);*/
+/*border: 1px solid #eee;*/
 }
