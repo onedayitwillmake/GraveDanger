@@ -40,7 +40,6 @@
 		// CURRENT GAME
 		timeLeftStart		: 45 * 1000,
 		timeLeftDepleteRate : 0.001,		// How fast the anchor will decrease, gets faster as game progresses
-		timeLeftPenalty		: 5 * 1000,			// How much to subtract each time a head falls through
 
 		// Statistics kept while playing
 		stats				: {
@@ -67,9 +66,6 @@
 			this.initColorMonster();
 			this.initHud();
 			this.initFinal();
-//			this.initGuiControls();
-
-
 		},
 
 		/**
@@ -93,7 +89,7 @@
 
 			// Add to the director
 			this.scene.mouseEnabled = false;
-			this.scene.fillStyle = "#101010";
+			this.scene.fillStyle = "#000000";
 			this.director.addScene(this.scene);
 		},
 
@@ -120,7 +116,6 @@
 		 */
 		initBackground: function()
 		{
-			return;
 			var imageRef = GRAVEDANGER.director.getImage("gameBackground"),
 				compoundImage = new CAAT.CompoundImage().initialize(imageRef, 1, 1),
 				backgroundActor = null;
@@ -261,14 +256,17 @@
 			// listen for the mouse
 			GRAVEDANGER.CAATHelper.getContainerDiv().addEventListener("mousemove", function(e) {
 				that.mouseMove(e);
+				e.preventDefault();
 			}, true);
 
 			GRAVEDANGER.CAATHelper.getContainerDiv().addEventListener("mousedown", function(e) {
 				that.mouseDown(e);
+				e.preventDefault();
 			}, true);
 
 			window.addEventListener("mouseup", function(e) {
 				that.mouseUp(e);
+				e.preventDefault();
 			}, true);
 		},
 
@@ -315,19 +313,6 @@
 			// Force all packedCircles to move to the position of their delegates
 			this.packedCircleManager.forceCirclesToMatchDelegatePositions();
 			this.packedCircleManager.setCallback(this.onCollision, this);
-		},
-
-		initGuiControls: function()
-		{
-			var gui = new GUI();
-			document.body.appendChild( gui.domElement );
-
-			gui.add(this, 'currentFallspeed', 1.0, 10);
-			gui.add(this, 'timeLeftDepleteRate', this.timeLeftDepleteRate, 2);
-			gui.add(this, 'timeLeftPenalty', this.timeLeftPenalty * 0.1, this.timeLeftPenalty * 2);
-			gui.add(this, "timeLeft").listen();
-			gui.show();
-			//timeLeftPenalty
 		},
 
 		/**
@@ -515,7 +500,7 @@
 
 		onCircleIntoAbyss: function (eventName, circle)
 		{
-			this.timeLeft -= this.timeLeftPenalty;
+			this.timeLeft -= 5;
 			this.hud.popStatusText("AW OH!", 1, 100);
 		},
 
