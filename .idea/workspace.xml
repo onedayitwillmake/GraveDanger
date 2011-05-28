@@ -18,15 +18,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c078bf2-7fc6-449f-8fad-e008d82d22e0" name="Default" comment="Refactored 'super functions' into smaller more managable bits">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/gravedanger/PackedCircleScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/GameScene.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" afterPath="$PROJECT_DIR$/js/gravedanger/CAATHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Circle.js" afterPath="$PROJECT_DIR$/js/gravedanger/Circle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/ColorMonster.js" afterPath="$PROJECT_DIR$/js/gravedanger/ColorMonster.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Config.js" afterPath="$PROJECT_DIR$/js/gravedanger/Config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/Island.js" afterPath="$PROJECT_DIR$/js/gravedanger/Island.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" afterPath="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/build.sh" afterPath="$PROJECT_DIR$/build/build.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/gravedanger/GameScene.js" afterPath="$PROJECT_DIR$/js/gravedanger/GameScene.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/SimpleDispatcher.js" afterPath="$PROJECT_DIR$/js/lib/SimpleDispatcher.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
     </list>
     <ignored path="CAAT.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -94,10 +89,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameScene.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GameScene.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/gravedanger/GameScene.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="33" selection-start="110" selection-end="139" vertical-scroll-proportion="0.13921113">
+            <state line="8" column="25" selection-start="106" selection-end="115" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/build/build.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="40" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -180,7 +184,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/lib/caatsrc/modules/CircleManager/PackedCircleManager.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/hud/HudController.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Chain.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/EffectsChainAnnounce.js" />
@@ -196,6 +199,7 @@
         <option value="$PROJECT_DIR$/js/gravedanger/Config.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/effects/Debris.js" />
         <option value="$PROJECT_DIR$/js/gravedanger/Island.js" />
+        <option value="$PROJECT_DIR$/build/build.sh" />
       </list>
     </option>
   </component>
@@ -569,16 +573,16 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28816676" sideWeight="0.42477876" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15818584" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17477876" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2918455" sideWeight="0.17920354" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24831392" sideWeight="0.8119469" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24831392" sideWeight="0.82522124" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14048673" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964602" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17477876" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -627,13 +631,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="69" selection-start="3199" selection-end="3199" vertical-scroll-proportion="0.9657143">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="109" column="0" selection-start="4031" selection-end="4046" vertical-scroll-proportion="0.36571428">
@@ -732,7 +729,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/gravedanger/GameScene.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="33" selection-start="110" selection-end="139" vertical-scroll-proportion="0.13921113">
+        <state line="8" column="25" selection-start="106" selection-end="115" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="40" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>

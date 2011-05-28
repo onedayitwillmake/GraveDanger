@@ -1,12 +1,12 @@
 /**
- * PackedCircleScene
+ * GameScene
  */
 (function() {
-	GRAVEDANGER.PackedCircleScene = function() {
+	GRAVEDANGER.GameScene = function() {
 		return this;
 	};
 
-	GRAVEDANGER.PackedCircleScene.prototype =
+	GRAVEDANGER.GameScene.prototype =
 	{
 // Meta info
 		targetDelta			: 31, // Determined by framerate 16 = 60fps

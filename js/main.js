@@ -113,12 +113,12 @@
 
 		GRAVEDANGER.CAATHelper.initTouchEventRouter();		//	Map touch events to mouse events
 
-		// Create the packedCircleScene
-		var packedCircleScene = new GRAVEDANGER.PackedCircleScene();
-		packedCircleScene.init();
+		// Create the GameScene
+		var GameScene = new GRAVEDANGER.GameScene();
+		GameScene.init();
 
 		// Start it up
-		packedCircleScene.start();
+		GameScene.start();
 	}
 
 	/**

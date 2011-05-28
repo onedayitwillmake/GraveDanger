@@ -21,9 +21,9 @@
 	},
 
 	onWarWereDeclared: function(event, data) {
- 		console.log("(PackedCircleScene)::onWarWereDeclared - ThisObject:", this);  // Outputs object that called function above
- 		console.log("(PackedCircleScene)::onWarWereDeclared - Event:", event);		// Outputs 'warWereDeclared'
- 		console.log("(PackedCircleScene)::onWarWereDeclared - Data:", data.circle); // Outputs reference to the circle that fired the event
+ 		console.log("(GameScene)::onWarWereDeclared - ThisObject:", this);  // Outputs object that called function above
+ 		console.log("(GameScene)::onWarWereDeclared - Event:", event);		// Outputs 'warWereDeclared'
+ 		console.log("(GameScene)::onWarWereDeclared - Data:", data.circle); // Outputs reference to the circle that fired the event
 	},
 
 ////////////////////////////////////////////////////////////////////////////////
