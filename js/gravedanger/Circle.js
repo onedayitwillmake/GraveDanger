@@ -245,11 +245,9 @@
 			if(this.actor == null)
 			{
 				// CREATE THE ACTOR SPRITE
-				if( GRAVEDANGER.CAATHelper.getUseCanvas() )
-				{
+				if( GRAVEDANGER.CAATHelper.getUseCanvas() ) {
+					this.actor = GRAVEDANGER.CAATHelper.createShapeActor(this, CAAT.ShapeActor.prototype.SHAPE_CIRCLE, this.colorRGB.toRGBAString(1.0), this.radius*2);
 					this.actor = GRAVEDANGER.CAATHelper.createSpriteActor(this);
-//					DEV - Debug
-//					this.actor = GRAVEDANGER.CAATHelper.createShapeActor(this, CAAT.ShapeActor.prototype.SHAPE_CIRCLE, this.colorRGB.toRGBAString(1.0), this.radius*2);
 				} else {
 					this.actor = GRAVEDANGER.CAATHelper.createCSSActor(this, this.getImage().singleWidth, this.getImage().singleHeight);
 				}

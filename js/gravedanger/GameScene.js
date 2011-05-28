@@ -50,7 +50,7 @@
 		},
 
 		// Difficulty progression
-		currentMaxHeads			: 25,
+		currentMaxHeads			: 5,
 		currentFallspeed		: 1.0,
 		currentFallspeedRange	: 0,
 
@@ -58,7 +58,7 @@
 		{
 			this.initDirector(director);
 			this.initLayers();
-			this.initBackground();
+//			this.initBackground();
 			this.initObjectPools();
 			this.initCircles();
 			this.initMouseEvents();
@@ -89,7 +89,7 @@
 
 			// Add to the director
 			this.scene.mouseEnabled = false;
-			this.scene.fillStyle = "#000000";
+			this.scene.fillStyle = "#101010";
 			this.director.addScene(this.scene);
 		},
 
@@ -162,7 +162,7 @@
 			for(var i = 0; i < total; i++)
 			{
 				// Size
-				var aRadius = 18;
+				var aRadius = 24;
 
 				// Create the circle, that holds our 'CAAT' actor, and 'PackedCircle'
 				var circle = this.circlePool.getObject()
@@ -222,8 +222,10 @@
 				this.packedCircleManager.addCircle( island.getPackedCircle() );
 				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( island.getCAATActor() );
 
+
 				// The debris must be added after the island is in the scene
 				island.createDebrisPieces();
+//				GRAVEDANGER.CAATHelper.currentSceneLayers[2].addChild( island.getMeter() );
 				this.activeIslands.setObjectForKey(island, island.uuid)
 			}
 		},

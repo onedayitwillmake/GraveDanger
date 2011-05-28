@@ -135,7 +135,8 @@
 		 */
 		createShapeActor: function(aController, aShapeType, aColorString, aSize)
 		{
-		  var anActor = new CAAT.ShapeActor().create()
+		  var anActor = new CAAT.ShapeActor()
+				.create()
 				.setShape( aShapeType )
 				.setSize(aSize, aSize); // Size is in diameters
 

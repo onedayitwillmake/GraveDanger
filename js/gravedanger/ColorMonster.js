@@ -43,7 +43,7 @@
 
 		showForDuration: function(aDuration)
 		{
-			aDuration = 8000;
+			aDuration = 5000;
 
 			this.actor.emptyBehaviorList();
 
@@ -55,8 +55,8 @@
 			scaleBehavior.anchor= CAAT.Actor.prototype.ANCHOR_BOTTOM;
 			// Animate to the back and fourth across the screen
 			var path = new CAAT.LinearPath();
-			path.setInitialPosition(-this.radius, GRAVEDANGER.director.height-this.actor.height);
-			path.setFinalPosition(GRAVEDANGER.director.width-this.radius, GRAVEDANGER.director.height-this.actor.height);
+			path.setInitialPosition(GRAVEDANGER.director.width/2-150, GRAVEDANGER.director.height-this.actor.height);
+			path.setFinalPosition(GRAVEDANGER.director.width/2-130, GRAVEDANGER.director.height-this.actor.height);
 
 			 // setup up a path traverser for the path.
 			var pathBehavior = new CAAT.PathBehavior();
@@ -156,7 +156,7 @@
 		getPackedCircle: function()
 		{
 			var packedCircle = GRAVEDANGER.ColorMonster.superclass.getPackedCircle.call(this);
-			packedCircle.setRadius(this.radius*0.8);
+			packedCircle.setRadius(this.radius*0.9);
 			return packedCircle;
 		},
 

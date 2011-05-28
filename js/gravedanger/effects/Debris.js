@@ -1,6 +1,10 @@
 (function() {
-	 GRAVEDANGER.EffectsDebris = {
+	 GRAVEDANGER.EffectsDebris = function() {
+		 this.delegate = null;
+		 this.actor = null;
+	 };
 
+	GRAVEDANGER.EffectsDebris.prototype = {
 		delegate: null,
 		actor: null,
 		color: 0x00000,

@@ -1,6 +1,7 @@
 (function() {
 	var __COMPOUND_IMAGES = {};
 	var __ACTIVE_COLORS = 0;
+	var __DEBRIS_ID = 0;
 
 	GRAVEDANGER.Island = function() {
 		GRAVEDANGER.Island.superclass.constructor.call(this);
@@ -106,7 +107,6 @@
 		 */
 		reset: function()
 		{
-			console.log('RESET!')
 			this.setColor( this.getUnusedColor() );
 
 			var aDuration = 300;
@@ -126,23 +126,33 @@
 				pathBehavior.setFrameTime( GRAVEDANGER.CAATHelper.currentScene.time, aDuration );
 				pathBehavior.cycleBehavior = false;
 
+
 			// Change debris color
-			for(var i = 0; i < this.debris.length; i++) {
-				this.debris[i].setColor( this.getColor() );
-			}
+
 		},
 
 		/**
 		 * @inheritDoc
 		 */
-		create: function(aRadius)
-		{
+		create: function(aRadius) {
 			GRAVEDANGER.Island.superclass.create.call(this, aRadius);
+
+
+			var anActor = new CAAT.ShapeActor()
+				.create()
+				.setShape( CAAT.ShapeActor.SHAPE_CIRCLE )
+				.setSize(100, 100);
+
+			anActor.setFillStyle("#FF0000");
+			this.meter = anActor;
+
 
 			this.packedCircle.isFixed = true;
 			this.sineOffset = Math.random() * Math.PI * 2;
 			return this;
 		},
+
+
 
 		/**
 		 * Creates the debris that falls off the island
@@ -153,9 +163,9 @@
 			if( !GRAVEDANGER.CAATHelper.getUseCanvas() )
 				return;
 
-			for(var i = 0; i < 1; i++)
+			for(var i = 0; i < 8; i++)
 			{
-				var rectangleDebris = GRAVEDANGER.EffectsDebris.create(this.actor, this.color);
+				var rectangleDebris =  new GRAVEDANGER.EffectsDebris().create(this.actor, this.color);
 				this.debris.push(rectangleDebris);
 				GRAVEDANGER.CAATHelper.currentSceneLayers[0].addChild( rectangleDebris.getActor() );
 			}
@@ -237,6 +247,11 @@
 			}
 
 			__ACTIVE_COLORS |= aColor;
+
+			for(var i = 0; i < this.debris.length; i++) {
+				this.debris[i].setColor( aColor );
+			}
+
 			return GRAVEDANGER.Island.superclass.setColor.call(this, aColor);
 		},
 
@@ -254,6 +269,9 @@
 			} while( attempts < 10 && possibleColor == (__ACTIVE_COLORS & possibleColor) );
 
 			return possibleColor;
+		},
+		getMeter: function() {
+			return this.meter;
 		},
 
 		/**
