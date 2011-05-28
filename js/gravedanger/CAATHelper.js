@@ -191,10 +191,6 @@
 		 */
 		setScene: function(aScene)
 		{
-			if(this.currentSceneLayers != null) {
-				console.error("(CAATHelper) Layers is not null!");
-			}
-
 			this.currentSceneLayers = [];
 			this.currentScene = aScene;
 		},
@@ -205,7 +201,7 @@
 		 */
 		getScene: function()
 		{
-			return this.scene;
+			return this.currentScene;
 		},
 
 		/**

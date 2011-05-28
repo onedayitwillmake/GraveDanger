@@ -3,15 +3,31 @@
  */
 (function ()
 {
+	var startScreen = null;
+	var gameScreen = null;
+
 	function onDocumentReady()
 	{
-		// Always be a good neighbor, remove event listeners, even when superflous
 		window.removeEventListener('load', onDocumentReady, false);
 
+		initRequestAnimationFrame();
 //		initConsoleRouter();
-
 //		initStats();
 		preloadImages();
+	}
+
+	function initRequestAnimationFrame() {
+		if ( !window.requestAnimationFrame ) {
+			window.requestAnimationFrame = ( function() {
+				return window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame ||
+				window.oRequestAnimationFrame ||
+				window.msRequestAnimationFrame ||
+				function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+					window.setTimeout( callback, 1000 / 60 );
+				};
+			} )();
+		}
 	}
 
 	/**
@@ -61,6 +77,15 @@
 		// Miscellaneous objects
 		imagesToLoad.push({id: "gameBackground", url: base + "gamebackground.png"});
 		imagesToLoad.push({id: "colorMonster", url: base + "colormonster.png"});
+
+		// Startscreen
+		base = "./images/startscreen/";
+		imagesToLoad.push({id: "titlescreenExample", url: base + "titlescreen.png"});
+		imagesToLoad.push({id: "titlescreenGrave", url: base + "titlescreen_grave.png"});
+		imagesToLoad.push({id: "titlescreenDanger", url: base + "titlescreen_danger.png"});
+		imagesToLoad.push({id: "titlescreenIsland", url: base + "titlescreen_island.png"});
+		imagesToLoad.push({id: "titlescreenStart", url: base + "titlescreen_start.png"});
+		imagesToLoad.push({id: "titlescreenBackground", url: base + "titlescreenbackground.png"});
 
 		// Store
 		GRAVEDANGER.CAATHelper.imagePreloader = new CAAT.ImagePreloader();
@@ -112,13 +137,37 @@
 		CAAT.GlobalDisableEvents();
 
 		GRAVEDANGER.CAATHelper.initTouchEventRouter();		//	Map touch events to mouse events
+		showStartScreen();
+	}
 
+
+	function showStartScreen() {
+		startScreen = new GRAVEDANGER.StartScreen();
+		startScreen.init();
+		startScreen.start();
+		GRAVEDANGER.CAATHelper.getDirector().setScene( GRAVEDANGER.CAATHelper.getDirector().getNumScenes() - 1 );
+
+		GRAVEDANGER.CAATHelper.getContainerDiv().addEventListener("mousedown", onStartScreenMouseDown, false)
+	}
+
+	function onStartScreenMouseDown(e){
+		startScreen.dealloc();
+		GRAVEDANGER.CAATHelper.getDirector().emptyScenes();
+		GRAVEDANGER.CAATHelper.setScene( null );
+		GRAVEDANGER.CAATHelper.getContainerDiv().removeEventListener("mousedown", onStartScreenMouseDown);
+
+		showGameScreen();
+	}
+
+	function showGameScreen() {
 		// Create the GameScene
-		var GameScene = new GRAVEDANGER.GameScene();
-		GameScene.init();
+		gameScreen = new GRAVEDANGER.GameScene();
+		gameScreen.init();
 
 		// Start it up
-		GameScene.start();
+		gameScreen.start();
+
+		GRAVEDANGER.CAATHelper.getDirector().setScene( GRAVEDANGER.CAATHelper.getDirector().getNumScenes() - 1 );
 	}
 
 	/**

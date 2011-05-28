@@ -14,7 +14,7 @@
 			this.delegate = ownerActor;
 			this.actor = new CAAT.ShapeActor().create()
 					.setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE )
-					.setLocation( this.x + Math.random() * this.width, this.y)
+					.setLocation( -10, -100)
 					.setSize(6,6);
 			this.setColor( aColor );
 
@@ -62,7 +62,7 @@
 					var centerX = behavior.ownerActor.x + behavior.ownerActor.width * 0.5,
 						centerY = behavior.ownerActor.y + behavior.ownerActor.height * 0.5 + 75 + Math.random() * 50;
 
-					var startX = randFloat(centerX-55, centerX+55),
+					var startX = randFloat(centerX-behavior.ownerActor.width*0.45, centerX+behavior.ownerActor.width*0.45),
 						startY = randFloat(centerY-40, centerY+10);
 					var startScale = randFloat(1, 1.5);
 
