@@ -50,7 +50,7 @@
 		},
 
 		// Difficulty progression
-		currentMaxHeads			: 5,
+		currentMaxHeads			: 1,
 		currentFallspeed		: 1.0,
 		currentFallspeedRange	: 0,
 
@@ -315,6 +315,10 @@
 			// Force all packedCircles to move to the position of their delegates
 			this.packedCircleManager.forceCirclesToMatchDelegatePositions();
 			this.packedCircleManager.setCallback(this.onCollision, this);
+
+			for(var i = 0; i < 5; ++i) {
+				this.dropHead(true);
+			}
 		},
 
 		/**
@@ -362,7 +366,7 @@
 				scaleBehavior.anchor = CAAT.Actor.prototype.ANCHOR_BOTTOM;
 
 				// animate the head
-				collidedCircle.delegate.delegate.animateIntoIsland(this.colorMonster, this.director.time, 200, 0, false);
+				collidedCircle.delegate.delegate.animateIntoIsland(this.colorMonster, this.scene.time, 200, 0, false);
 			}
 
 
@@ -427,7 +431,7 @@
 			}
 
 			// Add new heads
-			this.dropHead();
+			this.dropHead( false );
 		},
 
 		/**
@@ -455,13 +459,12 @@
 
 		},
 
-		dropHead: function()
-		{
+		dropHead: function( force ) {
 			// heads and islands combined collision group
 			var collisionGroup = GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS | GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS;
 
 			// Too soon to release
-			if(this.gameTick % GRAVEDANGER.Config.DROP_EVERY != 0)
+			if(!force || this.gameTick % GRAVEDANGER.Config.DROP_EVERY != 0)
 				return;
 
 			var head = this.circlePool.getObject();
@@ -495,13 +498,11 @@
 		 * 	It has animated into the island
 		 * @param aCircle
 		 */
-		onCircleComplete: function (eventName, circle)
-		{
+		onCircleComplete: function (eventName, circle) {
 			this.circlePool.setObject(circle);
 		},
 
-		onCircleIntoAbyss: function (eventName, circle)
-		{
+		onCircleIntoAbyss: function (eventName, circle) {
 			this.timeLeft -= 5;
 			this.hud.popStatusText("AW OH!", 1, 100);
 		},
@@ -617,7 +618,7 @@
 				var duration = 300,//+(i*30),
 					delay= 100*i;
 
-				aCircle.animateIntoIsland(ownerIsland, this.director.time+delay, duration, i, i === linkCount-1);
+				aCircle.animateIntoIsland(ownerIsland, this.scene.time+delay, duration, i, i === linkCount-1);
 
 				if(linkCount > 1)
 					this.colorMonster.showForDuration(6000);
@@ -647,8 +648,8 @@
 				scaleBy = 3;
 
 			// Scale up
-			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.director.time, duration, aCircle.defaultScale, aCircle.defaultScale*scaleBy);
-			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.director.time+duration, duration, aCircle.defaultScale*scaleBy, aCircle.defaultScale);
+			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.scene.time, duration, aCircle.defaultScale, aCircle.defaultScale*scaleBy);
+			GRAVEDANGER.CAATHelper.animateScale(aCircle.actor, this.scene.time+duration, duration, aCircle.defaultScale*scaleBy, aCircle.defaultScale);
 		},
 
 /////	Memory Management

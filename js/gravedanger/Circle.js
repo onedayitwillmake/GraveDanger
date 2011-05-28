@@ -125,7 +125,7 @@
 			path.setInitialPosition(this.actor.x, this.actor.y);
 			path.setFinalPosition(GRAVEDANGER.UTILS.randomFloat(center-100, center+100), this.actor.y + GRAVEDANGER.UTILS.randomFloat(50, 80));
 
-			var startTime = GRAVEDANGER.director.time,
+			var startTime = GRAVEDANGER.CAATHelper.getScene().time,
 				endTime = 500 + Math.random() * 100;
 			var startScale = this.actor.scaleX,
 				endScale = 0;

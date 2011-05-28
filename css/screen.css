@@ -69,6 +69,23 @@ h3 {
 	background-color: #AA00AA;
 }
 
+.notableCallout {
+	font-size: 14px;
+	color: #999999;
+	background-color: #43372f;
+}
+
+.logos {
+	display:inline-block;
+	padding-right: 12px;
+	text-align:center;
+	margin-top:33px;
+	margin-bottom:106px;
+}
+
+.logos img {
+
+}
 
 /*#gameArea {*/
 	/*overflow: hidden; -webkit-border-radius: 3px;*/

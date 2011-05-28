@@ -154,7 +154,7 @@
 		startScreen.dealloc();
 		GRAVEDANGER.CAATHelper.getDirector().emptyScenes();
 		GRAVEDANGER.CAATHelper.setScene( null );
-		GRAVEDANGER.CAATHelper.getContainerDiv().removeEventListener("mousedown", onStartScreenMouseDown);
+		GRAVEDANGER.CAATHelper.getContainerDiv().removeEventListener("mousedown", onStartScreenMouseDown, false);
 
 		showGameScreen();
 	}
