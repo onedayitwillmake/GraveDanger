@@ -3,8 +3,10 @@
  */
 (function ()
 {
+	var preloadScreen = null;
 	var startScreen = null;
 	var gameScreen = null;
+
 
 	function onDocumentReady()
 	{
@@ -13,7 +15,10 @@
 		initRequestAnimationFrame();
 //		initConsoleRouter();
 //		initStats();
+
 		preloadImages();
+		onCAATReady();
+		showPreloadScreen();
 	}
 
 	function initRequestAnimationFrame() {
@@ -95,12 +100,13 @@
 		GRAVEDANGER.CAATHelper.imagePreloader.loadImages(imagesToLoad,
 			function(counter, images)
 			{
+				preloadScreen.preloadAmount = counter / images.length;
 				// Still need to load more images
 				if(counter != images.length)
 					return;
 
 				// Images ready!
-				onCAATReady();
+				showStartScreen();
 			});
 	}
 
@@ -137,9 +143,16 @@
 		CAAT.GlobalDisableEvents();
 
 		GRAVEDANGER.CAATHelper.initTouchEventRouter();		//	Map touch events to mouse events
-		showStartScreen();
+
 	}
 
+
+	function showPreloadScreen() {
+		preloadScreen = new GRAVEDANGER.PreloadScreen();
+		preloadScreen.init();
+		preloadScreen.start();
+		GRAVEDANGER.CAATHelper.getDirector().setScene( GRAVEDANGER.CAATHelper.getDirector().getNumScenes() - 1 );
+	}
 
 	function showStartScreen() {
 		startScreen = new GRAVEDANGER.StartScreen();
