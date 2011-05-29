@@ -99,6 +99,9 @@
 				var rectangleDebris =  new GRAVEDANGER.EffectsDebris().create(island, 2);
 				GRAVEDANGER.CAATHelper.getScene().addChild( rectangleDebris.getActor() );
 			}
+
+
+
 		},
 
 		createImageSprite: function( imageName ) {

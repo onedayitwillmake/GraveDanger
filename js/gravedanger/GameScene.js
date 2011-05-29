@@ -50,7 +50,7 @@
 		},
 
 		// Difficulty progression
-		currentMaxHeads			: 1,
+		currentMaxHeads			: 100,
 		currentFallspeed		: 1.0,
 		currentFallspeedRange	: 0,
 
@@ -464,7 +464,7 @@
 			var collisionGroup = GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.HEADS | GRAVEDANGER.Circle.prototype.COLLISION_GROUPS.ISLANDS;
 
 			// Too soon to release
-			if(!force || this.gameTick % GRAVEDANGER.Config.DROP_EVERY != 0)
+			if(!force && this.gameTick % GRAVEDANGER.Config.DROP_EVERY != 0)
 				return;
 
 			var head = this.circlePool.getObject();
